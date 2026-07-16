@@ -1,0 +1,30 @@
+source("settings.R")
+source("eqocean.R")
+
+seed <- 514
+set.seed(seed)
+
+tmax <- 32
+
+qi <- rnorm(imax)
+df <- numeric(imax) # tlm has not forcing
+eta <- numeric(imax)
+epsh <- 0
+
+q <- matrix(0, imax, tmax)
+q[, 1] <- qi
+for (i in 2:tmax) {
+  q[, i] <- forward(q[, i - 1], df, sgm, gma0, tau)
+}
+
+lhs <- sum(q[, tmax] * q[, tmax])
+print(paste("LHS:", lhs))
+p <- q[, tmax]
+for (i in (tmax - 1):1) {
+  p <- adjoint(p, q[, i + 1], eta, sgm, gma0, epsh, tau)
+}
+rhs <- sum(qi * p)
+print(paste("RHS:", rhs))
+print(paste("LHS - RHS:", lhs - rhs))
+
+ 
