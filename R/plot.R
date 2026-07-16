@@ -1,6 +1,6 @@
 plot_waves <- function(x, q0, q2, q4, f, i) {
-  qr <- range(c(q0, q2, q4, h, f))
   h <- calc_h(q0, q2, q4)
+  qr <- range(c(q0, q2, q4, h, f))
   plot(x, q0, type = "l", ylim = c(qr[1], qr[2]), col = "blue",
        main = paste("step", i),
        xlab = "phase", ylab = "amplitude", xaxt = "n")
@@ -13,5 +13,18 @@ plot_waves <- function(x, q0, q2, q4, f, i) {
   lines(x, f, col = "purple")
   legend("topright", c("q0", "q2", "q4", "h", "f"), lty = 1,
          col = c("blue", "red", "orange", "black", "purple"))
+}
+
+plot_waves_row <- function(x, q0, q2, q4, f, i, dx = 0.5) {
+  h <- calc_h(q0, q2, q4)
+  ymat <- cbind(q0, q2, q4, h, f)
+  ylim <- range(ymat)
+  plot.new()
+  plot.window(c(0, 10 * pi + dx * 4), ylim)
+  for (i in 1:ncol(ymat)) {
+    lines(x, ymat[, i])
+    segments(x[1], 0, x[imax], 0)
+    x <- x + 2 * pi + dx
+  }
 }
 
