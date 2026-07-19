@@ -1,0 +1,69 @@
+source("settings.R")
+source("eqocean.R")
+
+run_forward <- function(q0, q2, q4, f, tmax) {
+  q0_hist <- matrix(0, imax, tmax)
+  q2_hist <- matrix(0, imax, tmax)
+  q4_hist <- matrix(0, imax, tmax)
+  f_hist <- matrix(0, imax, tmax)
+  q0_hist[, 1] <- q0
+  q2_hist[, 1] <- q2
+  q4_hist[, 1] <- q4
+  f_hist[, 1] <- f 
+  for (n in 2:tmax) {
+    q0 <- forward(q0, d0 * f, sgm, gma0, tau)
+    q2 <- forward(q2, d2 * f, sgm, gma2, tau)
+    q4 <- forward(q4, d4 * f, sgm, gma4, tau)
+    f <- forward(f, 0, 0, gmaf, tau)
+    q0_hist[, n] <- q0
+    q2_hist[, n] <- q2
+    q4_hist[, n] <- q4
+    f_hist[, n] <- f 
+  }
+  list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f_hist)
+}
+
+run_adjoint <- function(dh) {
+  p0 <- numeric(imax)
+  p2 <- numeric(imax)
+  p4 <- numeric(imax)
+  for (n in (tmax - 1):1) {
+    p0 <- adjoint(p0, dh[, n], sgm, gma0, eps0, tau)
+    p2 <- adjoint(p2, dh[, n], sgm, gma2, eps2, tau)
+    p4 <- adjoint(p4, dh[, n], sgm, gma4, eps4, tau)
+  }
+  list(p0 = p0, p2 = p2, p4 = p4)
+}
+
+run_ensemble <- function(xf, xe, f, nt) {
+  q0m <- xf[1:imax]
+  q2m <- xf[1:imax + imax]
+  q4m <- xf[1:imax + 2 * imax]
+  q0_hist <- matrix(0, imax, nt)
+  q2_hist <- matrix(0, imax, nt)
+  q4_hist <- matrix(0, imax, nt)
+  f_hist <- matrix(0, imax, nt)
+  for (mem in 1:nmem) {
+    q0 <- q0m + xe[1:imax, mem]
+    q2 <- q2m + xe[1:imax + imax, mem]
+    q4 <- q4m + xe[1:imax + 2 * imax, mem]
+    state <- run_forward(q0, q2, q4, f, nt)
+    xe[, mem] <- c(state$q0[, nt], state$q2[, nt], state$q4[, nt])
+    q0_hist <- q0_hist + state$q0
+    q2_hist <- q2_hist + state$q2
+    q4_hist <- q4_hist + state$q4
+    f_hist <- f_hist + state$f
+  }
+  xm <- rowMeans(xe)
+  xe <- xe - xm
+  mstate <- list(q0 = q0_hist / nmem, q2 = q2_hist / nmem, q4 = q4_hist / nmem,
+                 f = f_hist / nmem)
+  f <- mstate$f[, nt]
+  list(xf = xm, xe = xe, f = f, state = mstate)
+}
+
+calc_cost <- function(dh, df) 0.5 * sum(dh^2 + df^2)
+
+print_diag <- function(epoch, cost, gnorm, message = "") {
+  cat(sprintf("epoch: %d, cost=%f gnorm=%e %s\n", ep, cost, gnorm, message))
+}

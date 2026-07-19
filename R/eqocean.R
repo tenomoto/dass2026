@@ -9,11 +9,11 @@ forward <- function(q, df, sgm, gma, tau) {
        tau * df) / (1 + sgm * tau)
 }
 
-adjoint <- function(p, h, eta, sgm, gma, epsh, tau) {
+adjoint <- function(p, dh, sgm, gma, eps, tau) {
   n <- length(p)
   (p - 0.5 * gma * (p[cshift(n, -1)] - p[cshift(n, 1)]) +
        0.5 * gma^2 * (p[cshift(n, -1)] - 2 * p + p[cshift(n, 1)]) +
-       epsh * (eta - h)
+       eps * dh
   ) / (1 + sgm * tau)
 }
 

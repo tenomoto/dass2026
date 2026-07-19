@@ -1,3 +1,6 @@
+seed <- 514
+set.seed(seed)
+
 d0 <- 1
 d2 <- 0.5
 d4 <- 0.125
@@ -6,6 +9,7 @@ tau <- 1
 sgm <- 0.05
 dx <- 1
 imax <- 75
+tmax <- 33
 x <- 2 * pi / imax * (1:imax - 1)
 k0 <- 1
 k2 <- 3
