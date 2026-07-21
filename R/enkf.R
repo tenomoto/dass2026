@@ -25,7 +25,7 @@ hmat <- matrix(c(rep(1, imax), numeric(imax * (imax - 1)),
 nmem <- 10
 
 s_mod <- 0.01
-s_ens <- 0.1
+s_ens <- 0.01
 #q0 <- cos(k0 * x) + rnorm(imax, 0, s_mod)
 #q2 <- cos(k2 * x) + rnorm(imax, 0, s_mod)
 #q4 <- cos(k4 * x) + rnorm(imax, 0, s_mod)
@@ -83,4 +83,5 @@ for (k in 1:ntobs) {
 }
 state <- list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f_hist)
 #saveRDS(state, "analysis_enkf.rds")
+print_mse(state, true_state)
 plot_waves(x, state)

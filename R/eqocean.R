@@ -12,13 +12,9 @@ forward <- function(q, df, sgm, gma, tau) {
 adjoint <- function(p, dh, sgm, gma, eps, tau) {
   n <- length(p)
   (p - 0.5 * gma * (p[cshift(n, -1)] - p[cshift(n, 1)]) +
-       0.5 * gma^2 * (p[cshift(n, -1)] - 2 * p + p[cshift(n, 1)]) +
+       0.5 * gma^2 * (p[cshift(n, -1)] - 2 * p + p[cshift(n, 1)]) -
        eps * dh
   ) / (1 + sgm * tau)
 }
 
 calc_h <- function(q0, q2, q4) q0 + q2 - q4
-
-retrieve <- function(tdp, phi, fflg) {
-  ifelse(fflg == 1, -tdp - phi, 0)
-}

@@ -1,38 +1,56 @@
 source("settings.R")
 source("eqocean.R")
 
-run_forward <- function(q0, q2, q4, f, tmax) {
+run_forward <- function(q0, q2, q4, fin, tmax) {
   q0_hist <- matrix(0, imax, tmax)
   q2_hist <- matrix(0, imax, tmax)
   q4_hist <- matrix(0, imax, tmax)
-  f_hist <- matrix(0, imax, tmax)
   q0_hist[, 1] <- q0
   q2_hist[, 1] <- q2
   q4_hist[, 1] <- q4
-  f_hist[, 1] <- f 
+  if (is.vector(fin)) {
+    f_hist <- matrix(0, imax, tmax)
+    f_hist[, 1] <- fin
+    f <- fin
+  }
   for (n in 2:tmax) {
+    if (is.vector(fin)) {
+      f <- forward(f, 0, 0, gmaf, tau)
+    } else {
+      f <- fin[, n]
+    }
     q0 <- forward(q0, d0 * f, sgm, gma0, tau)
     q2 <- forward(q2, d2 * f, sgm, gma2, tau)
     q4 <- forward(q4, d4 * f, sgm, gma4, tau)
-    f <- forward(f, 0, 0, gmaf, tau)
     q0_hist[, n] <- q0
     q2_hist[, n] <- q2
     q4_hist[, n] <- q4
-    f_hist[, n] <- f 
+    if (is.vector(fin)) f_hist[, n] <- f 
+  }
+  if (is.matrix(fin)) {
+    f_hist <- fin
   }
   list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f_hist)
 }
 
-run_adjoint <- function(dh) {
+run_adjoint <- function(dh, ds = NULL) {
   p0 <- numeric(imax)
   p2 <- numeric(imax)
   p4 <- numeric(imax)
-  for (n in (tmax - 1):1) {
+  ps <- matrix(0, imax, tmax)
+  if (!is.null(ds)) ps[, tmax] <- ds[, tmax]
+  for (n in tmax:1) {
     p0 <- adjoint(p0, dh[, n], sgm, gma0, eps0, tau)
     p2 <- adjoint(p2, dh[, n], sgm, gma2, eps2, tau)
     p4 <- adjoint(p4, dh[, n], sgm, gma4, eps4, tau)
+    if (!is.null(ds))  ps[, n] <- tau * (d0 * p0 + d2 * p2 + d4 * p4) + ds[, n]
   }
-  list(p0 = p0, p2 = p2, p4 = p4)
+  if (is.null(ds)) {
+    list(p0 = p0, p2 = p2, p4 = p4)
+  } else {
+    ps[, 1] <- ds[, 1]
+    list(p0 = p0, p2 = p2, p4 = p4, ps = ps)
+  }
 }
 
 run_ensemble <- function(xf, xe, f, nt) {
@@ -62,8 +80,14 @@ run_ensemble <- function(xf, xe, f, nt) {
   list(xf = xm, xe = xe, f = f, state = mstate)
 }
 
-calc_cost <- function(dh, df) 0.5 * sum(dh^2 + df^2)
+calc_cost <- function(dh, ds, sh = 1, ss = 1) 0.5 * (sum(dh^2) / sh^2 + sum(ds^2) / ss^2)
 
 print_diag <- function(epoch, cost, gnorm, message = "") {
   cat(sprintf("epoch: %d, cost=%f gnorm=%e %s\n", ep, cost, gnorm, message))
+}
+
+print_mse <- function(state, tstate) {
+  ha <- calc_h(state$q0[,tmax], state$q2[, tmax], state$q4[, tmax])
+  ht <- calc_h(tstate$q0[,tmax], tstate$q2[, tmax], tstate$q4[, tmax])
+  cat(sprintf("MSE = %e\n", sum((ha - ht)^2)))
 }

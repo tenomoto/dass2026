@@ -18,8 +18,8 @@ hobs <- htrue[, tobs] + matrix(rnorm(imax * ntobs, 0, sobs), imax, ntobs)
 
 niter <- 1000
 ftol <- 1e-5
-ctol <- 1e-8
-gtol <- 1e-8
+ctol <- 1e-5
+gtol <- 1e-5
 
 smod <- 0.01
 #q0 <- cos(k0 * x) + rnorm(imax, 0, smod)
@@ -40,7 +40,7 @@ for (ep in 1:niter) {
   state <- run_forward(q0, q2, q4, f, tmax)
   h <- calc_h(state$q0, state$q2, state$q4)
   dh[, !tobs] <- 0
-  dh[, tobs] <- h[, tobs] - hobs
+  dh[, tobs] <- hobs - h[, tobs]
   adj <- run_adjoint(dh)
   cost <- calc_cost(dh, 0)
   xf <- c(q0, q2, q4)
@@ -61,5 +61,6 @@ for (ep in 1:niter) {
   ognorm <- gnorm
 }
 state <- run_forward(q0, q2, q4, f, tmax)
+print_mse(state, true_state)
 #saveRDS(state, "analysis_var.rds")
 plot_waves(x, state)
