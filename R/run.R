@@ -27,7 +27,7 @@ run_adjoint <- function(dh) {
   p0 <- numeric(imax)
   p2 <- numeric(imax)
   p4 <- numeric(imax)
-  for (n in (tmax - 1):1) {
+  for (n in tmax:1) {
     p0 <- adjoint(p0, dh[, n], sgm, gma0, eps0, tau)
     p2 <- adjoint(p2, dh[, n], sgm, gma2, eps2, tau)
     p4 <- adjoint(p4, dh[, n], sgm, gma4, eps4, tau)
@@ -36,6 +36,11 @@ run_adjoint <- function(dh) {
 }
 
 run_ensemble <- function(xf, xe, f, nt) {
+  # input:
+  #  xf: ensemble mean
+  #  xe: ensemble perturbation
+  #  f : forcing
+  #  nt: number of steps
   q0m <- xf[1:imax]
   q2m <- xf[1:imax + imax]
   q4m <- xf[1:imax + 2 * imax]
@@ -43,6 +48,9 @@ run_ensemble <- function(xf, xe, f, nt) {
   q2_hist <- matrix(0, imax, nt)
   q4_hist <- matrix(0, imax, nt)
   f_hist <- matrix(0, imax, nt)
+  q0s_hist <- matrix(0, imax, nt)
+  q2s_hist <- matrix(0, imax, nt)
+  q4s_hist <- matrix(0, imax, nt)
   for (mem in 1:nmem) {
     q0 <- q0m + xe[1:imax, mem]
     q2 <- q2m + xe[1:imax + imax, mem]
@@ -53,11 +61,21 @@ run_ensemble <- function(xf, xe, f, nt) {
     q2_hist <- q2_hist + state$q2
     q4_hist <- q4_hist + state$q4
     f_hist <- f_hist + state$f
+    q0s_hist <- q0s_hist + state$q0^2
+    q2s_hist <- q2s_hist + state$q2^2
+    q4s_hist <- q4s_hist + state$q4^2
   }
   xm <- rowMeans(xe)
   xe <- xe - xm
-  mstate <- list(q0 = q0_hist / nmem, q2 = q2_hist / nmem, q4 = q4_hist / nmem,
-                 f = f_hist / nmem)
+  q0_hist <- q0_hist / nmem
+  q2_hist <- q2_hist / nmem
+  q4_hist <- q4_hist / nmem
+  q0s_hist <- (q0s_hist/nmem) - q0_hist^2
+  q2s_hist <- (q2s_hist/nmem) - q2_hist^2
+  q4s_hist <- (q4s_hist/nmem) - q4_hist^2
+  mstate <- list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist,
+                 f = f_hist / nmem,
+                 q0s = sqrt(q0s_hist), q2s = sqrt(q2s_hist), q4s = sqrt(q4s_hist))
   f <- mstate$f[, nt]
   list(xf = xm, xe = xe, f = f, state = mstate)
 }

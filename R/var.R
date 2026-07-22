@@ -29,6 +29,9 @@ q0 <- sin(k0 * x)
 q2 <- sin(k2 * x)
 q4 <- sin(k4 * x)
 f <- 0.1 * cos(kf * x)
+
+guess_state <- run_forward(q0, q2, q4, f, tmax)
+
 lr <- 0.1
 ocost <- 1e8
 ognorm <- 1
@@ -62,4 +65,8 @@ for (ep in 1:niter) {
 }
 state <- run_forward(q0, q2, q4, f, tmax)
 #saveRDS(state, "analysis_var.rds")
+print(par("mfcol"))
+plot_rmse(state, true_state, guess_state)
 plot_waves(x, state)
+plot_waves_with_truth(x, state, true_state)
+plot_diff(x, state, true_state)
