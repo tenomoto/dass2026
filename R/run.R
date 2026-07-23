@@ -34,21 +34,19 @@ run_forward <- function(q0, q2, q4, fin, tmax) {
 }
 
 run_adjoint <- function(dh, ds = NULL) {
-  p0 <- numeric(imax)
+  p0 <- numeric(imax) # tmax + 1
   p2 <- numeric(imax)
   p4 <- numeric(imax)
-  ps <- matrix(0, imax, tmax)
-  if (!is.null(ds)) ps[, tmax] <- ds[, tmax]
+  if (!is.null(ds)) ps <- matrix(0, imax, tmax)
   for (n in tmax:1) {
     p0 <- adjoint(p0, dh[, n], sgm, gma0, eps0, tau)
     p2 <- adjoint(p2, dh[, n], sgm, gma2, eps2, tau)
     p4 <- adjoint(p4, dh[, n], sgm, gma4, eps4, tau)
-    if (!is.null(ds))  ps[, n] <- tau * (d0 * p0 + d2 * p2 + d4 * p4) + ds[, n]
+    if (!is.null(ds) & n > 1)  ps[, n] <- tau * (d0 * p0 + d2 * p2 + d4 * p4) + ds[, n]
   }
   if (is.null(ds)) {
     list(p0 = p0, p2 = p2, p4 = p4)
   } else {
-    ps[, 1] <- ds[, 1]
     list(p0 = p0, p2 = p2, p4 = p4, ps = ps)
   }
 }

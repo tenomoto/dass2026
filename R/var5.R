@@ -10,18 +10,18 @@ f <- 0.1 * cos(kf * x)
 
 true_state <- run_forward(q0, q2, q4, f, tmax)
 
-#tobs <- c(1, 16, 32) + 1
-tobs <- 1:tmax
-ntobs <- length(tobs)
+#thobs <- c(1, 16, 32) + 1
+thobs <- 1:tmax
+nthobs <- length(thobs)
 sobs <- 0
 htrue <- calc_h(true_state$q0, true_state$q2, true_state$q4)
-hobs <- htrue[, tobs] + matrix(rnorm(imax * ntobs, 0, sobs), imax, ntobs)
+hobs <- htrue[, thobs] + matrix(rnorm(imax * nthobs, 0, sobs), imax, nthobs)
 
-tstr <- c(1, 32) + 1
-tstr <- 2:tmax
-#ntstr <- length(tstr)
+tfobs <- c(1, 32) + 1
+#tfobs <- 2:tmax
+ntfobs <- length(tfobs)
 sstr <- 0.01
-fobs <- true_state$f[, tstr] + matrix(rnorm(imax * ntstr, 0, sstr), imax, ntstr)
+fobs <- true_state$f[, tfobs] + matrix(rnorm(imax * ntfobs, 0, sstr), imax, ntfobs)
 
 niter <- 10000
 ftol <- 1e-5
@@ -53,10 +53,10 @@ for (ep in 1:niter) {
   state <- run_forward(q0, q2, q4, fa, tmax)
   h <- calc_h(state$q0, state$q2, state$q4)
   fa <- state$f
-  dh[, !tobs] <- 0
-  dh[, tobs] <- hobs - h[, tobs]
-  ds[, !tstr] <- 0
-  ds[, tstr] <- fobs - state$f[, tstr]
+  dh[, !thobs] <- 0
+  dh[, thobs] <- hobs - h[, thobs]
+  ds[, !tfobs] <- 0
+  ds[, tfobs] <- fobs - state$f[, tfobs]
   adj <- run_adjoint(dh, ds)
   cost <- calc_cost(dh, ds, sh, ss)
   xf <- c(q0, q2, q4, fa)
@@ -74,7 +74,6 @@ for (ep in 1:niter) {
   q2 <- xa[1:imax + imax]
   q4 <- xa[1:imax + 2 * imax]
   fa <- matrix(xa[(3 * imax + 1):length(xa)], imax, tmax)
-  f <- fa[, 1]
   dcost <- abs(cost - ocost)
   if ((ep - 1) %% 10 == 0) print_diag(ep, cost, gnorm)
   if (cost < ftol) {print_diag(ep, cost, gnorm, "stopping due to ftol"); break}
@@ -86,7 +85,7 @@ for (ep in 1:niter) {
   dold <- d
   xold <- xf
 }
-state <- run_forward(q0, q2, q4, f, tmax)
+state <- run_forward(q0, q2, q4, fa, tmax)
 print_mse(state, true_state)
 #saveRDS(state, "analysis_var5.rds")
-plot_waves(x, state)
+plot_waves(x, state, true_state)
