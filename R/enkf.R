@@ -107,8 +107,8 @@ for (k in 1:ntobs) {
 state <- list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f_hist
              ,q0s = q0s_hist, q2s = q2s_hist, q4s = q4s_hist)
 #saveRDS(state, "analysis_enkf.rds")
-print("q0s" %in% names(state))
 plot_rmse(state, true_state, guess_state)
+#print_mse(state, true_state)
 plot_waves(x, state)
 plot_waves_with_truth(x, state, true_state)
 plot_diff(x, state, true_state)
