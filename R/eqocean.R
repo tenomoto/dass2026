@@ -5,14 +5,14 @@ cshift <- function(n, k) {
 forward <- function(q, df, sgm, gma, tau) {
   n <- length(q)
   (q - 0.5 * gma * (q[cshift(n, 1)] - q[cshift(n, -1)]) +
-    　 0.5 * gma^2 *(q[cshift(n, 1)] - 2 * q + q[cshift(n, -1)]) +
+       0.5 * gma^2 *(q[cshift(n, 1)] - 2 * q + q[cshift(n, -1)]) +
        tau * df) / (1 + sgm * tau)
 }
 
 adjoint <- function(p, dh, sgm, gma, eps, tau) {
   n <- length(p)
   (p - 0.5 * gma * (p[cshift(n, -1)] - p[cshift(n, 1)]) +
-       0.5 * gma^2 * (p[cshift(n, -1)] - 2 * p + p[cshift(n, 1)]) -
+       0.5 * gma^2 * (p[cshift(n, -1)] - 2 * p + p[cshift(n, 1)]) +
        eps * dh
   ) / (1 + sgm * tau)
 }

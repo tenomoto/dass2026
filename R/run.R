@@ -42,7 +42,7 @@ run_adjoint <- function(dh, ds = NULL) {
     p0 <- adjoint(p0, dh[, n], sgm, gma0, eps0, tau)
     p2 <- adjoint(p2, dh[, n], sgm, gma2, eps2, tau)
     p4 <- adjoint(p4, dh[, n], sgm, gma4, eps4, tau)
-    if (!is.null(ds) & n > 1)  ps[, n] <- tau * (d0 * p0 + d2 * p2 + d4 * p4) + ds[, n]
+    if (!is.null(ds) & n > 1)  ps[, n] <- -tau * (d0 * p0 + d2 * p2 + d4 * p4) - ds[, n]
   }
   if (is.null(ds)) {
     list(p0 = p0, p2 = p2, p4 = p4)

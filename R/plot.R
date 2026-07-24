@@ -27,6 +27,7 @@ print_varnames <- function(x, dx = 0.5, ffact = 10) {
 }
 
 plot_waves_row <- function(x, q0, q2, q4, f, n, dx = 0.5, ffact = 10, add = FALSE, ...) {
+  imax <- length(x)
   h <- calc_h(q0, q2, q4)
   ymat <- cbind(q0, q2, q4, h, ffact * f)
   ylim <- range(ymat)

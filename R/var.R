@@ -12,7 +12,7 @@ true_state <- run_forward(q0, q2, q4, f, tmax)
 
 tobs <- c(0, 16, 32) + 1
 ntobs <- length(tobs)
-sobs <- 0.01
+sobs <- 0
 htrue <- calc_h(true_state$q0, true_state$q2, true_state$q4)
 hobs <- htrue[, tobs] + matrix(rnorm(imax * ntobs, 0, sobs), imax, ntobs)
 
@@ -22,9 +22,6 @@ ctol <- 1e-15
 gtol <- 1e-15
 
 smod <- 0.01
-#q0 <- cos(k0 * x) + rnorm(imax, 0, smod)
-#q2 <- cos(k2 * x) + rnorm(imax, 0, smod)
-#q4 <- cos(k4 * x) + rnorm(imax, 0, smod)
 q0 <- sin(k0 * x)
 q2 <- sin(k2 * x)
 q4 <- sin(k4 * x)
@@ -42,12 +39,12 @@ dh <- matrix(0, imax, tmax)
 for (ep in 1:niter) {
   state <- run_forward(q0, q2, q4, f, tmax)
   h <- calc_h(state$q0, state$q2, state$q4)
-  dh[, !tobs] <- 0
+  dh[, -tobs] <- 0
   dh[, tobs] <- hobs - h[, tobs]
   adj <- run_adjoint(dh)
   cost <- calc_cost(dh, 0)
   xf <- c(q0, q2, q4)
-  g <- c(adj$p0, adj$p2, adj$p4)
+  g <- -c(adj$p0, adj$p2, adj$p4)
   gnorm <- sum(g^2)
   bta <- gnorm / ognorm
   d <- -g + fcg * bta * d

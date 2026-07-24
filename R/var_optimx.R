@@ -19,9 +19,6 @@ htrue <- calc_h(true_state$q0, true_state$q2, true_state$q4)
 hobs <- htrue[, tobs] + matrix(rnorm(imax * ntobs, 0, sobs), imax, ntobs)
 
 smod <- 0.01
-#q0 <- cos(k0 * x) + rnorm(imax, 0, smod)
-#q2 <- cos(k2 * x) + rnorm(imax, 0, smod)
-#q4 <- cos(k4 * x) + rnorm(imax, 0, smod)
 q0 <- sin(k0 * x)
 q2 <- sin(k2 * x)
 q4 <- sin(k4 * x)
@@ -48,7 +45,7 @@ gr <- function(par, f, tmax, hobs, tobs) {
   dh <- matrix(0, imax, tmax)
   dh[, tobs] <- hobs - h[, tobs]
   adj <- run_adjoint(dh)
-  c(adj$p0, adj$p2, adj$p4)
+  -c(adj$p0, adj$p2, adj$p4)
 }
 
 par <- c(q0, q2, q4)
@@ -61,5 +58,6 @@ q0 <- res$par[1:imax]
 q2 <- res$par[1:imax + imax]
 q4 <- res$par[1:imax + 2 * imax]
 state <- run_forward(q0, q2, q4, f, tmax)
+print_mse(state, true_state)
 #saveRDS(state, "analysis_var.rds")
 plot_waves(x, state, true_state)
