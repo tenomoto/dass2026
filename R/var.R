@@ -27,7 +27,7 @@ q2 <- sin(k2 * x)
 q4 <- sin(k4 * x)
 f <- 0.1 * cos(kf * x)
 
-guess_state <- run_forward(q0, q2, q4, f, tmax)
+#guess_state <- run_forward(q0, q2, q4, f, tmax)
 
 lr <- 0.1
 ocost <- 1e8

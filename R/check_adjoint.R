@@ -14,8 +14,8 @@ eps <- 0
 
 q <- matrix(0, imax, tmax)
 q[, 1] <- qi
-for (i in 2:tmax) {
-  q[, i] <- forward(q[, i - 1], df, sgm, gma0, tau)
+for (n in 2:tmax) {
+  q[, n] <- forward(q[, n - 1], df, sgm, gma0, tau)
 }
 
 lhs <- sum(q[, tmax] * q[, tmax])

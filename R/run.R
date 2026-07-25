@@ -99,7 +99,7 @@ run_ensemble <- function(xf, xe, f, nt) {
 calc_cost <- function(dh, ds, sh = 1, ss = 1) 0.5 * (sum(dh^2) / sh^2 + sum(ds^2) / ss^2)
 
 print_diag <- function(epoch, cost, gnorm, message = "") {
-  cat(sprintf("epoch: %d, cost=%f gnorm=%e %s\n", ep, cost, gnorm, message))
+  cat(sprintf("epoch: %d, cost=%f gnorm=%e %s\n", epoch, cost, gnorm, message))
 }
 
 print_mse <- function(state, tstate) {
