@@ -6,7 +6,8 @@ source("plot.R")
 q0 <- cos(k0 * x)
 q2 <- cos(k2 * x)
 q4 <- cos(k4 * x)
-f <- 0.1 * cos(kf * x)
+f <- matrix(0, imax, tmax)
+f[, 1] <- 0.1 * cos(kf * x)
 
 true_state <- run_forward(q0, q2, q4, f, tmax)
 
@@ -25,7 +26,8 @@ smod <- 0.01
 q0 <- sin(k0 * x)
 q2 <- sin(k2 * x)
 q4 <- sin(k4 * x)
-f <- 0.1 * cos(kf * x)
+f[, ] <- 0
+f[, 1] <- 0.1 * cos(kf * x)
 
 #guess_state <- run_forward(q0, q2, q4, f, tmax)
 
@@ -53,7 +55,7 @@ for (ep in 1:niter) {
   q2 <- xa[1:imax + imax]
   q4 <- xa[1:imax + 2 * imax]
   dcost <- abs(cost - ocost)
-  if ((ep - 1) %% 10 == 0) print_diag(ep, cost, gnorm)
+  if ((ep - 1) %% 100 == 0) print_diag(ep, cost, gnorm)
   if (cost < ftol) {print_diag(ep, cost, gnorm, "stopping due to ftol"); break}
   if (dcost < ctol) {print_diag(ep, cost, gnorm, "stopping due to ctol"); break}
   if (gnorm < gtol) {print_diag(ep, cost, gnorm, "stopping due to gtol"); break}

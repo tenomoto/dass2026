@@ -14,7 +14,8 @@ rng = st.rng
 q0 = cos(k0 * x)
 q2 = cos(k2 * x)
 q4 = cos(k4 * x)
-f = 0.1 * cos(kf * x)
+f = np.zeros([tmax, imax])
+f[0, :] = 0.1 * cos(kf * x)
 
 true_state = run.forward(q0, q2, q4, f, tmax)
 
@@ -33,7 +34,8 @@ smod = 0.01
 q0 = sin(k0 * x)
 q2 = sin(k2 * x)
 q4 = sin(k4 * x)
-f = 0.1 * cos(kf * x)
+f[:, :] = 0
+f[0, :] = 0.1 * cos(kf * x)
 
 #guess_state = run.forward(q0, q2, q4, f, tmax)
 
@@ -62,7 +64,7 @@ for ep in range(niter):
     q2 = xa[imax:(2 * imax)]
     q4 = xa[(2 * imax):(3 * imax)]
     dcost = fabs(cost - ocost)
-    if ep % 10 == 0:
+    if ep % 100 == 0:
         run.print_diag(ep, cost, gnorm)
     if cost < ftol:
         run.print_diag(ep, cost, gnorm, "stopping due to ftol")

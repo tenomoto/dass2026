@@ -1,36 +1,27 @@
 source("settings.R")
 source("eqocean.R")
 
-run_forward <- function(q0, q2, q4, fin, tmax) {
-  q0_hist <- matrix(0, imax, tmax)
-  q2_hist <- matrix(0, imax, tmax)
-  q4_hist <- matrix(0, imax, tmax)
+run_forward <- function(q0, q2, q4, f, nt, progf = TRUE) {
+  q0_hist <- matrix(0, imax, nt)
+  q2_hist <- matrix(0, imax, nt)
+  q4_hist <- matrix(0, imax, nt)
   q0_hist[, 1] <- q0
   q2_hist[, 1] <- q2
   q4_hist[, 1] <- q4
-  if (is.vector(fin)) {
-    f_hist <- matrix(0, imax, tmax)
-    f_hist[, 1] <- fin
-    f <- fin
-  }
-  for (n in 2:tmax) {
-    if (is.vector(fin)) {
-      f <- forward(f, 0, 0, gmaf, tau)
-    } else {
-      f <- fin[, n]
+  if (progf) {
+    for (n in 2:nt) {
+      f[, n] <- forward(f[, n - 1], 0, 0, gmaf, tau)
     }
-    q0 <- forward(q0, d0 * f, sgm, gma0, tau)
-    q2 <- forward(q2, d2 * f, sgm, gma2, tau)
-    q4 <- forward(q4, d4 * f, sgm, gma4, tau)
+  }
+  for (n in 2:nt) {
+    q0 <- forward(q0, d0 * f[, n], sgm, gma0, tau)
+    q2 <- forward(q2, d2 * f[, n], sgm, gma2, tau)
+    q4 <- forward(q4, d4 * f[, n], sgm, gma4, tau)
     q0_hist[, n] <- q0
     q2_hist[, n] <- q2
     q4_hist[, n] <- q4
-    if (is.vector(fin)) f_hist[, n] <- f 
   }
-  if (is.matrix(fin)) {
-    f_hist <- fin
-  }
-  list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f_hist)
+  list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f)
 }
 
 run_adjoint <- function(dh, ds = NULL) {
@@ -57,6 +48,7 @@ run_ensemble <- function(xf, xe, f, nt) {
   #  xe: ensemble perturbation
   #  f : forcing
   #  nt: number of steps
+  nmem <- ncol(xe)
   q0m <- xf[1:imax]
   q2m <- xf[1:imax + imax]
   q4m <- xf[1:imax + 2 * imax]
@@ -64,9 +56,9 @@ run_ensemble <- function(xf, xe, f, nt) {
   q2_hist <- matrix(0, imax, nt)
   q4_hist <- matrix(0, imax, nt)
   f_hist <- matrix(0, imax, nt)
-  q0s_hist <- matrix(0, imax, nt)
-  q2s_hist <- matrix(0, imax, nt)
-  q4s_hist <- matrix(0, imax, nt)
+#  q0s_hist <- matrix(0, imax, nt)
+#  q2s_hist <- matrix(0, imax, nt)
+#  q4s_hist <- matrix(0, imax, nt)
   for (mem in 1:nmem) {
     q0 <- q0m + xe[1:imax, mem]
     q2 <- q2m + xe[1:imax + imax, mem]
@@ -77,21 +69,20 @@ run_ensemble <- function(xf, xe, f, nt) {
     q2_hist <- q2_hist + state$q2
     q4_hist <- q4_hist + state$q4
     f_hist <- f_hist + state$f
-    q0s_hist <- q0s_hist + state$q0^2
-    q2s_hist <- q2s_hist + state$q2^2
-    q4s_hist <- q4s_hist + state$q4^2
+#    q0s_hist <- q0s_hist + state$q0^2
+#    q2s_hist <- q2s_hist + state$q2^2
+#    q4s_hist <- q4s_hist + state$q4^2
   }
   xm <- rowMeans(xe)
   xe <- xe - xm
   q0_hist <- q0_hist / nmem
   q2_hist <- q2_hist / nmem
   q4_hist <- q4_hist / nmem
-  q0s_hist <- (q0s_hist/nmem) - q0_hist^2
-  q2s_hist <- (q2s_hist/nmem) - q2_hist^2
-  q4s_hist <- (q4s_hist/nmem) - q4_hist^2
-  mstate <- list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist,
-                 f = f_hist / nmem,
-                 q0s = sqrt(q0s_hist), q2s = sqrt(q2s_hist), q4s = sqrt(q4s_hist))
+#  q0s_hist <- (q0s_hist/nmem) - q0_hist^2
+#  q2s_hist <- (q2s_hist/nmem) - q2_hist^2
+#  q4s_hist <- (q4s_hist/nmem) - q4_hist^2
+  mstate <- list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f_hist / nmem)#,
+#                 q0s = sqrt(q0s_hist), q2s = sqrt(q2s_hist), q4s = sqrt(q4s_hist))
   f <- mstate$f[, nt]
   list(xf = xm, xe = xe, f = f, state = mstate)
 }

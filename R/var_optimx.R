@@ -8,7 +8,8 @@ source("plot.R")
 q0 <- cos(k0 * x)
 q2 <- cos(k2 * x)
 q4 <- cos(k4 * x)
-f <- 0.1 * cos(kf * x)
+f <- matrix(0, imax, tmax)
+f[, 1] <- 0.1 * cos(kf * x)
 
 true_state <- run_forward(q0, q2, q4, f, tmax)
 
@@ -22,7 +23,8 @@ smod <- 0.01
 q0 <- sin(k0 * x)
 q2 <- sin(k2 * x)
 q4 <- sin(k4 * x)
-f <- 0.1 * cos(kf * x)
+f[, ] <- 0
+f[, 1] <- 0.1 * cos(kf * x)
 lr <- 0.1
 
 fn <- function(par, f, tmax, hobs, tobs) {
