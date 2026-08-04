@@ -126,25 +126,25 @@ function run_ensemble(xf_in, xe_in, f, nt) result(ens)
 
 end function run_ensemble
 
-function calc_cost(dh, ds, sh, ss) result(cost)
+function run_calc_cost(dh, ds, sh, ss) result(cost)
   real(dp), dimension(:, :), intent(in) :: dh, ds
   real(dp), intent(in) :: sh, ss
   real(dp) :: cost
 
   cost = 0.5_dp * (sum(dh ** 2) / sh ** 2 + sum(ds ** 2) / ss ** 2)
 
-end function calc_cost
+end function run_calc_cost
 
-subroutine print_diag(epoch, cost, gnorm, message) 
+subroutine run_print_diag(epoch, cost, gnorm, message) 
   integer, intent(in) :: epoch
   real(dp), intent(in) :: cost, gnorm
   character(len = *), intent(in) :: message
 
   print *, "epoch: ", epoch, "cost=", cost, "gnorm=", gnorm, " ", message
 
-end subroutine print_diag
+end subroutine run_print_diag
 
-subroutine print_mse(state, tstate)
+subroutine run_print_mse(state, tstate)
   type(state_type), intent(in) :: state, tstate
 
   real(dp), dimension(imax) :: ha, ht
@@ -153,6 +153,6 @@ subroutine print_mse(state, tstate)
   ht = eo_calc_h(tstate%q0(:,tmax), tstate%q2(:, tmax), tstate%q4(:, tmax))
   print *, "MSE = ", sum((ha - ht) ** 2)
 
-end subroutine print_mse
+end subroutine run_print_mse
 
 end module run_module

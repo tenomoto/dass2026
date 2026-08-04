@@ -18,7 +18,7 @@ contains
   function eo_adjoint(p, dh, sgm, gma, eps, tau) result(pout)
     real(dp), dimension(:), intent(in) :: p, dh
     real(dp), intent(in) :: sgm, gma, eps, tau
-    real(dp), dimension(imax) :: pout
+    real(dp), dimension(size(p)) :: pout
 
     pout = (p - 0.5_dp * gma * (cshift(p, -1) - cshift(p, 1)) + &
        0.5_dp * gma ** 2 * (cshift(p, -1) - 2.0_dp * p + cshift(p, 1)) + &
@@ -27,7 +27,7 @@ contains
 
   function eo_calc_h(q0, q2, q4) result(h)
     real(dp), dimension(:), intent(in) :: q0, q2, q4
-    real(dp), dimension(imax) :: h
+    real(dp), dimension(size(q0)) :: h
 
     h = q0 + q2 - q4
   

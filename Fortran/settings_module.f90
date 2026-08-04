@@ -4,9 +4,8 @@ module settings_module
 
   integer, parameter :: seed = 514, imax = 75, tmax = 33, nmem = 100
 
-  !x = 2 * pi / imax * (1:imax - 1)
   real(dp), parameter :: &
-    tau = 1.0_dp, sgm = 0.05_dp, dx = 1.0_dp &
+    tau = 1.0_dp, sgm = 0.05_dp, dx = 1.0_dp, &
     d0 = 1.0_dp, d2 = 0.5_dp, d4 = 0.125_dp, &
     k0 = 1.0_dp, k2 = 3.0_dp, k4 = 7.0_dp, kf = 2.0_dp, &
     c0 = 1.0_dp, c2 = -c0 / 3.0_dp, c4 = -c0 / 7.0_dp, cf = 0.5_dp * c0, &
