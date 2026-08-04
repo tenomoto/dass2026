@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "環境構築",
+    "section": "",
+    "text": "演習用プログラムは、Fortran および Python のプログラムを配布する。 実行には以下の環境が必要となる。"
+  },
+  {
+    "objectID": "setup.html#fortran",
+    "href": "setup.html#fortran",
+    "title": "環境構築",
+    "section": "Fortran",
+    "text": "Fortran\nノートパソコンに、Fortranコンパイラ (gfortranなど) を用意する。 配布プログラムはgfortran-15.2.0でコンパイル、実行ができることを確認した。 行列積にはFortran組込手続であるmatmulなどを用いているので、線型代数ライブラリは不要が、行列計算を行うには線型代数ライブラリを用意する。 OpenBLASなどを導入してもよいが、以下ではRtoolsに含まれるLAPACKを利用する。\nFortranプログラムの実行結果を可視化するために、プロットができるアプリケーションが必要である。演習ではRで書かれたスクリプトを配布する。"
+  },
+  {
+    "objectID": "setup.html#python",
+    "href": "setup.html#python",
+    "title": "環境構築",
+    "section": "Python",
+    "text": "Python\nPythonは一般的なプログラミング言語であり、ライブラリを追加する必要がある。 数学函数や行列計算にはNumpyを用いる。 データの描画にはMatplotlibが一般的である。 ノートパソコンに、Python実行環境を準備する。 配布するスクリプトはPython3.14.4で作成した。"
+  },
+  {
+    "objectID": "setup.html#google-colaboratory",
+    "href": "setup.html#google-colaboratory",
+    "title": "環境構築",
+    "section": "Google Colaboratory",
+    "text": "Google Colaboratory\nGoogle Colaboratoryは、ウェブブラウザから使う。 Google ColaboratoryはGoogleアカウントがあれば無料で利用できる。 無償版は使用できる資源に制約がある。 ネットワーク環境の制約を受けることにも注意が必要である。\nPython3をCPUで使うのが既定であるが、GPUを使ったり、RやJuliaを使うこともできる。 次のようにgfortranを使うこともできる。\n%%writefile hello.f90\nprint *, \"Hello, world!\"\nend\nシェルエスケープしてコンパイル、実行する。\n!gfortran -o hello hello.f90\n./hello"
+  },
+  {
+    "objectID": "setup.html#jupyter",
+    "href": "setup.html#jupyter",
+    "title": "環境構築",
+    "section": "Jupyter",
+    "text": "Jupyter\nJupyterもウェブブラウザから用いるが、 ノートパソコンに構築することもできる（Windows、Mac参照）。"
+  },
+  {
+    "objectID": "setup.html#ターミナル",
+    "href": "setup.html#ターミナル",
+    "title": "環境構築",
+    "section": "ターミナル",
+    "text": "ターミナル\nWindowsは近年ターミナルやLinuxとの統合を強化している。黒い窓と呼ばれたDOS窓コマンドプロンプト（cmd.exe）でのMS-DOSに代わり、Windows 11や最新のWindowsではTerminalが既定の端末エミュレータである。 インストールされていない場合は、Microsoft Storeで検索してインストールする。\nMacには「アプリケーション/ユーティリティ」に、LaunchPadでは「その他」にある。"
+  },
+  {
+    "objectID": "setup.html#windows",
+    "href": "setup.html#windows",
+    "title": "環境構築",
+    "section": "Windows",
+    "text": "Windows\nWindowsでは、wingetを用いると簡単に環境構築ができる。\nPowershellはWindows PowerShellではなく、マルチプラットフォームのPowerShell 7以降を使う。 PowerShellをインストールして設定してみよう。 スタートメニューから「ターミナル」または「terminal」を検索して、タスクバーに追加する。起動すると、古いWindows PowerShellが起動する。PowerShell 7をインストールするように案内が表示される。\nwinget install Microsoft.PowerShell\nプロファイルが自動で作成されるので、これがWindowsターミナルを起動した時に選択されるように設定する。ウインドウのタイトルバーの下向き記号から設定を選択するか、Ctrl+,で設定画面を表示する。「スタートアップ」の「既定のプロファイル」から、青ではなく黒のPowerShellを選び、ウィンドウ右下の「保存」ボタンをクリックする。 \n\nPythonのインストール\nFortranを用いる場合は、飛ばして良い。\nwinget install Python.Python.3.14\n新しいタブを開くと、pythonにパスが通っている。 pythonから抜けるにはquit()とタイプする。\nPowerShell 7.5.2\npython\nPython 3.12.5 (tags/v3.13.7:bceelc3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)] on win32\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n&gt;&gt;&gt; quit()\npipでNumpyとmatplotlibをインストールする。\npip install numpy matplotlib\n\n\nJupyterのインストール\njupyterをインストールする。\npip install jupyter\nJupyterLabまたはJupyter Notebookを起動すると、既定のブラウザに表示される。\njupyter notebook\n\n\nエディタのインストール\nソースコードを書くには、テキストエディタを用いる。必要なものを一つ入れる。\nwinget install Microsoft.Edit\nwinget install Neovim.Neovim\nwinget install GNU.Emacs\nwinget install Microsoft.VisualStudioCode\n私はneovimを使っている。Neovim（コマンド名はnvim）を起動して:Tutorとタイプすると、チュートリアルが始まる。\n\n\ngfortranとRのインストール\nFortranでの計算結果の可視化にはRスクリプトを配布する。 R以外で描画する場合はRは不要であるが、gfortranやLAPCKを使うため、Rの開発環境であるRToolsをインストールする。 RToolsにはMinGW-w64が含まれており、最も手軽に開発環境を構築できる。 （Numpyのソースからのインストールにも推奨されている。）\nwinget install RProject.R\nwinget install RProject.Rtools\nパスを設定する。設定ファイルはドキュメント（パソコンのアカウントがMicrosoftアカウントと紐付けられている場合はOneDrive\\ドキュメント）のPowerShellフォルダの中のMicrosoft.PowerShell_profile.ps1に保存される。PowerShellフォルダがないと保存できないことがあるので、あらかじめ作成しておく。Neovimで編集する場合は次のようにする。\nnvim $profile\n$env:PATH += \"$env:ProgramFiles/R/R-4.5.1/bin/x64;\"\n$env:PATH += \"C:/rtools45/usr/bin;C:/rtools45/x86_w64-mingw32.static.posix/bin;\"\nRは1行目のパスに、makeは2行目の前者に、gfortranは後者にある。RはPowerShellでは、一つ前に投入したコマンドを呼び出すものであり、名前が衝突する。 Rを起動したいときは、R.exeと打鍵する。x86_w64-mingw32.static.posix`はプラットフォームに依存するので、ARM64では異なる。 別タブを開いてgfortranがあることを確認する。\ngfortran --version"
+  },
+  {
+    "objectID": "setup.html#mac",
+    "href": "setup.html#mac",
+    "title": "環境構築",
+    "section": "Mac",
+    "text": "Mac\nプログラミング習の範囲ではMacでも、公式サイトのPythonインストーラでよい。コンパイルが必要な外部ライブラリに依存する場合は、MacPortsを使ってインストールすることをお勧めする。 Homebrewはネット上に多くの情報があるが、一貫した環境を提供するMacPortsを推す（Qiitaの解説）。 MacPortsの既定のインストール先は/opt/localである。Homebrewは、Intel Macでは/usr/localに、インストールされるので、自分でコンパイルしたものと混在することになる。Apple Siliconでは（ついに学んだのか）/opt/homebrewにインストールされるようになった。\n\nMacPortsのインストール\nInstalling MacPortsに従って、次の手順でインストールする。\nOSを最新に更新した後、OSに応じたpkgインストーラ（アプリケーションをインストールする普通のインストーラ）を入手してMacPortsをインストールする。 インストーラは/opt/local/binを.zshrcに追加する。\n\nAppleのCommand Line Developer Toolsをインストールする。\n\nsudo xcode-select --install\n\n（オプション）App StoreからXcodeをインストールしライセンスに同意する。\n\nsudo xcodebuild -license\n\n（オプション）X11ウインドウ環境を用いる場合はxorg-serverポートをインストールする。\n\nsudo port install xorg-server\nインストールが済んだら、\nsudo port -v selfupdate\nを実行する。 portコマンドについては、man portまたはドキュメント参照。\n\n\nPythonのインストール\n複数のバージョンを共存させるために、Pythonのライブラリ名はpy314-numpyのようにPythonのバージョンが付されている。 python314は/opt/local/Library/Frameworks/Python.framework/Versions/3.14にインストールされる。\nsudo port install python314\nインストール後に表示されるメッセージにあるが、使用するバージョンをselectサブコマンドで選択する。\nsudo port select python python314\n次にNumpyとmatplotlibをインストールする。\nsudo port install py314-numpy py314-matplotlib\npython312を明示的にインストールしなてくも、Numpyやmatpotlibが依存するものとしてインストールされる。\n\n\nJupyterのインストール\nJupyterもMacPortsで簡単にインストールできる。\nsudo port install py314-jupyter\n\n\ngfortranとRのインストール\ngfortranはgccの一部として配布されている。\nsudo port install gcc15\ngccも複数のバージョンを共存させるため、gfortran-mp-15のようにバージョン番号をつけた実行ファイル名になっている。\nsudo port select gcc mp-gcc15\nを実行するとgcc14を既定としてgfortran-mp-14を指すエイリアスgfortranが/opt/local/binに作成される。\n描画に使う場合には、Rもインストールする。\nsudo port install R"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Handson: equatorial ocean model",
+    "section": "",
+    "text": "We learn the basics of data assimilation (DA) using an equatorial ocean model (Thacker and Long 1988)."
+  },
+  {
+    "objectID": "index.html#governing-equations",
+    "href": "index.html#governing-equations",
+    "title": "Handson: equatorial ocean model",
+    "section": "Governing equations",
+    "text": "Governing equations\nThe domain is one-dimensional in the longitudinal direction (\\(x\\)) with a cyclic boundary condition. The model consists of three linear waves. Each wave propagates with a constant wave speed; the model is linear of form.\n\\[\n\\frac{\\partial q_j}{\\partial t} + c_j\\frac{\\partial q_j}{\\partial x} + \\sigma q_j = d_j f,\\; j = 0,\\,2,\\,4\n\\tag{1}\\]\nThe index \\(j = 0\\) represents the Kelvin wave, which propagates eastward with the phase speed of \\(c_0 = 1\\) and the sensitivity to forcing of \\(d_j = 1\\). The indices \\(j = 2, 4\\) are the Rossby waves with \\(c_2 = - c_0/3,\\,c_4 = -c_0/7\\) and \\(d_2 = 1/2,\\,d_4 = 1/8\\), respectively. The damping coefficient \\(\\sigma\\) is independent of the wave types.\nThe only observable is the sea-surface height.\n\\[\nh = q_0 + q_2 - q_4\n\\tag{2}\\]"
+  },
+  {
+    "objectID": "index.html#discretization",
+    "href": "index.html#discretization",
+    "title": "Handson: equatorial ocean model",
+    "section": "Discretization",
+    "text": "Discretization\nThe governing equations (1) is discretized with the Lax-Wendroff method (Lax and Wendroff 1960). This scheme is a single step and explicit method of \\(O(\\tau^2)\\), where \\(\\tau\\) is the time step. The \\(O(\\tau)\\) error in time is elimiated in space. Consider advection equation\n\\[\n\\frac{\\partial q}{\\partial t} + c\\frac{\\partial q}{\\partial x} = 0,\n\\tag{3}\\]\nwhich is discretized as\n\\[\n\\frac{q_j^{n+1} - q_j^n}{\\tau} + c\\frac{q_{j+1}^n - q_{j-1}^n}{2\\Delta} =\n\\frac{c^2\\tau}{2}\\left(\\frac{q_{j+1}^n - 2q_j^n + q_{j-1}^n}{\\Delta^2}\\right)\n\\tag{4}\\]\nwhere \\(\\Delta\\) is the grid interval.\nThe right-hand side of (4) is a discretized form of the trunction error\n\\[\n\\frac{\\tau}{2}\\frac{\\partial^2 q}{\\partial t^2} = \\frac{\\tau}{2}\\frac{\\partial}{\\partial t}\\left(-c\\frac{\\partial q}{\\partial x}\\right) = \\frac{c^2\\tau}{2}\\frac{\\partial^2 q}{\\partial x^2}.\n\\]\nUsing the Lax-Wendroff method, (1) is discretized as\n\\[\nq_{j, i}^n = \\frac{1}{1 + \\sigma \\tau}\\left\\{\nq_{j, i}^{n-1} + \\frac{1}{2}\\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})\n+ \\frac{1}{2}\\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j,i}^{n-1} + q_{j, i-1}^{n-1}) + \\tau d_j f_i^n\n\\right\\}\n\\tag{5}\\] where \\(\\gamma_j = c_j\\tau/\\Delta\\)."
+  },
+  {
+    "objectID": "index.html#lagrangian-method",
+    "href": "index.html#lagrangian-method",
+    "title": "Handson: equatorial ocean model",
+    "section": "Lagrangian method",
+    "text": "Lagrangian method\nFor simplicity, it is assumed that observations are available on the model grid and observations are uncorrelated one another.\nThe cost function can be defined as\n\\[\nJ = \\frac{1}{2} \\sum_{i = 0}^{I} \\sum_{n = 0}^N [(\\eta_i^n - h_i^n)^2 + (\\phi_i^n - f_i^n)^2]\n\\tag{6}\\]\nwhere \\(\\eta_i^n, \\phi_i^n\\) are sea-surface height and wind stress observations and \\(h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n\\) are their model equivalents, respectively.\nThe Lagrangian function is defined as\n\\[\nL = J + \\sum_{j = 0}^{2, 4} \\sum_{i = 0}^I \\sum_{n=1}^N \\lambda_{j, i}^n[\n(1 + \\sigma\\tau)q_{j, i}^n - q_{j, i}^{n-1} + \\frac{1}{2}\\gamma_j(q_{j, i+1}^{n-1} - q_{j, i}^{n-1})\n- \\frac{1}{2}\\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j, i}^{n-1} + q_{j, i-1}^{n-1}) - \\tau d_j f_i^n]\n\\tag{7}\\]\nWhere \\(\\lambda_{j,i}^n\\) is the Lagrange multiplier (and adjoint variable) with the terminal and initial conditions\n\\[\n\\begin{aligned}\n\\lambda_{j,i}^{N+1} &= 0 \\\\\n\\lambda_{j,i}^0 &= 0.\n\\end{aligned}\n\\tag{8}\\]\nThe terminal condition indicates at the future step \\(n = N+1\\), the adjoint is naught. The initial condition is fulfilled at the minimizer; it is the negative gradient, used for optimization.\n\\(\\partial L/\\partial \\lambda_{j,i}^n\\) recovers the forward model (5). \\(\\partial L/\\partial q_{j,i}^n\\) leads to the adjoint equation\n\\[\n\\lambda_{j, i}^n = \\frac{1}{1 + \\sigma \\tau}\\left\\{\n\\lambda_{j, i}^{n+1} - \\frac{1}{2}\\gamma_j(\\lambda_{j, i-1}^{n+1} - \\lambda_{j, i+1}^{n+1})\n+ \\frac{1}{2}\\gamma_j^2(\\lambda_{j,i-1}^{n+1} - 2\\lambda_{j,i}^{n+1} + \\lambda_{j, i+1}^{n+1})\n+ \\varepsilon_j(\\eta_i^n - q_{0,i}^n - q_{2,i}^n + q_{4,i}^n)\\right\\}\n\\tag{9}\\]\nwhere \\(\\varepsilon_0 = \\varepsilon_2 = 1, \\varepsilon_4 = -1\\). The last term on the right-hand side exist at the step where the observations are available. Finally, \\(\\partial L/\\partial f_i\\) gives \\[\n-\\tau\\sum_j d_j\\lambda_{j,i}^n - (\\phi_i^n - f_i^n) = 0\n\\tag{10}\\] at the minimizer. The left-hand side of (10) represents the gradient with respect to forcing.\n\n\n\n\n\n\nNoteExcercises for beginners\n\n\n\n\nWrite the forward model and run the model with a prescribed two-cycle forcing migrating with \\(c_f = 0.5\\).\nDerive the adjoint model and estimate the initial state with the observations at \\(n = 0. 16, 32\\).\nCompare the gradient descent and conjugate gradient methods.\nWrite an perturbed observation (PO) ensemble Kalman filter (EnKF) to assimilate observation sequentially.\nAdd noise to the observations.\nChange the obsertion frequency and locations.\n\n\n\n\n\n\n\n\n\nNoteExcercises for intermidates\n\n\n\n\nModify the variational method to estimate the forcing at all steps.\nWrite (ensemble) Kalman smoother and compare with the variational method.\nWrite a variational or ensemble data assimilation code for your favourite model, e.g. the Lorenz-96 model and its variants."
+  }
+]
