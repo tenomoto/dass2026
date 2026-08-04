@@ -6,18 +6,19 @@ source("plot.R")
 q0 <- cos(k0 * x)
 q2 <- cos(k2 * x)
 q4 <- cos(k4 * x)
-f <- 0.1 * cos(kf * x)
+f <- matrix(0, imax, tmax)
+f[, 1] <- 0.1 * cos(kf * x)
 
 true_state <- run_forward(q0, q2, q4, f, tmax)
 
 tobs <- c(0, 16, 32) + 1
 #tobs <- seq(1, tmax, length.out=tmax)
 ntobs <- length(tobs)
-s_obs <- 1e-8
+s_obs <- 1e-1
 htrue <- calc_h(true_state$q0, true_state$q2, true_state$q4)
 hobs <- htrue[, tobs] + matrix(rnorm(imax * ntobs, 0, s_obs), imax, ntobs)
 
-rmat <- diag(imax) / s_obs^2
+rmat <- diag(imax) * s_obs^2
 
 nmem <- 100
 
@@ -26,13 +27,13 @@ s_ens <- 1.0
 #q0 <- cos(k0 * x) + rnorm(imax, 0, s_mod)
 #q2 <- cos(k2 * x) + rnorm(imax, 0, s_mod)
 #q4 <- cos(k4 * x) + rnorm(imax, 0, s_mod)
-q0 <- sin(k0 * x)
-q2 <- sin(k2 * x)
-q4 <- sin(k4 * x)
+q0 <- sin(k0 * x) #+ rnorm(imax, 0, s_mod)
+q2 <- sin(k2 * x) #+ rnorm(imax, 0, s_mod)
+q4 <- sin(k4 * x) #+ rnorm(imax, 0, s_mod)
 xf <- c(q0, q2, q4)
 xe <- matrix(rnorm(3 * imax * nmem, 0, s_ens), 3 * imax, nmem)
 #pmat <- xe %*% t(xe) / (nmem - 1)
-f <- 0.1 * cos(kf * x)
+f <- true_state$f
 
 guess_state <- run_forward(q0, q2, q4, f, tmax)
 
@@ -49,11 +50,12 @@ ensemble_update <- function(xf, xe, yo, rmat, infl = 0.1, std = 0.01) {
   hxm <- rowMeans(hxe)
   hxe <- hxe - hxm
   xe <- sqrt(1 + infl) * xe
-#  pmat <- xe %*% t(xe) / (nmem - 1)
+  # K = X^f*Y^T*(Y*Y^T + (N-1)*R)^{-1}
   kmat <- xe %*% t(hxe) %*% solve(hxe %*% t(hxe) + (nmem-1)*rmat)
   xf <- xf + kmat %*% (yo - hxm)
-  ye <- matrix(rnorm(omax * nmem, 0, std), omax, nmem)
+  ye <- matrix(rnorm(omax * nmem, 0, sqrt(diag(rmat))), omax, nmem)
   xe <- xe + kmat %*% (ye - hxe)
+#  pmat <- xe %*% t(xe) / (nmem - 1)
 #  print(sum(diag(pmat)))
   list(xf = xf, xe = xe)
 }
@@ -77,6 +79,7 @@ for (k in 1:ntobs) {
   }
   if (k != ntobs) {
     print("run ensemble forecast")
+    f <- true_state$f[, n:(dtobs[k] + n)]
     efcst <- run_ensemble(xf, xe, f, dtobs[k] + 1)
     xf <- efcst$xf
     xe <- efcst$xe
@@ -85,27 +88,30 @@ for (k in 1:ntobs) {
     q2_hist[, n:(dtobs[k] + n)] <- efcst$state$q2
     q4_hist[, n:(dtobs[k] + n)] <- efcst$state$q4
     f_hist[, n:(dtobs[k] + n)] <- efcst$state$f
-    #pmat <- xe %*% t(xe) / (nmem - 1)
-    #q0s_hist[, n:(dtobs[k] + n)] <- efcst$state$q0s
-    #q2s_hist[, n:(dtobs[k] + n)] <- efcst$state$q2s
-    #q4s_hist[, n:(dtobs[k] + n)] <- efcst$state$q4s
+#    q0s_hist[, n:(dtobs[k] + n)] <- efcst$state$q0s
+#    q2s_hist[, n:(dtobs[k] + n)] <- efcst$state$q2s
+#    q4s_hist[, n:(dtobs[k] + n)] <- efcst$state$q4s
     n <- n + dtobs[k]
   } else {
     q0_hist[, n] <- xf[1:imax]
     q2_hist[, n] <- xf[1:imax + imax]
     q4_hist[, n] <- xf[1:imax + 2 * imax]
-    #pmat <- xe %*% t(xe) / (nmem - 1)
-    #q0s_hist[, n] <- sqrt(diag(pmat)[1:imax])
-    #q2s_hist[, n] <- sqrt(diag(pmat)[1:imax + imax])
-    #q4s_hist[, n] <- sqrt(diag(pmat)[1:imax + 2*imax])
+#    pmat <- xe %*% t(xe) / (nmem - 1)
+#    q0s_hist[, n] <- sqrt(diag(pmat)[1:imax])
+#    q2s_hist[, n] <- sqrt(diag(pmat)[1:imax + imax])
+#    q4s_hist[, n] <- sqrt(diag(pmat)[1:imax + 2*imax])
   }
 }
 state <- list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f_hist)
 #             ,q0s = q0s_hist, q2s = q2s_hist, q4s = q4s_hist)
 #saveRDS(state, "analysis_enkf.rds")
-#plot_rmse(state, true_state, guess_state)
-print_mse(state, true_state)
-plot_waves(x, state, true_state)
-#plot_waves_with_truth(x, state, true_state)
-#plot_diff(x, state, true_state)
+#print_mse(state, true_state)
+plot_waves(x, state)
+plot_waves_with_truth(x, guess_state, true_state, suffix="guess")
+plot_waves_with_truth(x, state, true_state, suffix="enkf")
+plot_diff(x, state, true_state)
 #plot_sprd(x, state)
+rmse <- calc_rmse(state, true_state, guess_state)
+write.csv(rmse, file = paste0("rmse_enkf_nmem",nmem,".csv"))
+print("q0s" %in% names(rmse))
+plot_rmse(rmse)

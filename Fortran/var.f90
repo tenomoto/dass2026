@@ -4,7 +4,8 @@ program var
   use settings_module, only: k0, k2, k4, kf, imax, tmax
   use eqocean_module, only: eo_calc_h
   use run_module, only: state_type, astate_type, &
-    run_forward, run_adjoint, run_calc_cost
+    run_forward, run_adjoint, run_calc_cost, &
+    run_print_diag, run_print_mse
   implicit none
 
   integer, parameter :: ntobs = 3, niter = 1000, fcg = 1
@@ -13,12 +14,13 @@ program var
     sobs = 0.0_dp, smod = 0.01_dp, &
     ftol = 1.0e-15_dp, ctol = 1.0e-15_dp, gtol = 1.0e-15_dp, &
     lr = 0.1_dp
+  real(dp), parameter :: sh = 1.0_dp, ss = 1.0_dp
 
   integer :: i, ep
-  real(dp) :: ognorm, gnorm, bta, ocost = 1.0e8_dp, cost, dcost
-  real(dp), dimension(imax) :: x, q0, q2, q4, htrue
+  real(dp) :: ognorm = 1.0e8_dp, gnorm, bta, ocost = 1.0e8_dp, cost, dcost
+  real(dp), dimension(imax) :: x, q0, q2, q4
   real(dp), dimension(3 * imax) :: d = 0.0_dp, xf, g, xa
-  real(dp), dimension(imax, tmax) :: h, htrue, f = 0.0_dp, dh = 0.0_dp
+  real(dp), dimension(imax, tmax) :: h, htrue, f = 0.0_dp, dh = 0.0_dp, ds = 0.0_dp
   real(dp), dimension(imax, ntobs) :: hobs
   type(state_type) :: true_state, state
   type(astate_type) :: adj
@@ -33,7 +35,7 @@ program var
   true_state = run_forward(q0, q2, q4, f, tmax)
 
   htrue = eo_calc_h(true_state%q0, true_state%q2, true_state%q4)
-  hobs = htrue(:, tobs) + reshape(random_normal(imax * ntobs, 0.0_dp, sobs), imax, ntobs)
+  hobs = htrue(:, tobs) + reshape(random_normal(imax * ntobs, 0.0_dp, sobs), (/imax, ntobs/))
 
   q0 = sin(k0 * x)
   q2 = sin(k2 * x)
@@ -46,7 +48,7 @@ program var
     h = eo_calc_h(state%q0, state%q2, state%q4)
     dh(:, tobs) = hobs - h(:, tobs)
     adj = run_adjoint(dh)
-    cost = run_calc_cost(dh, 0)
+    cost = run_calc_cost(dh, ds, sh, ss)
     xf(1:imax) = q0
     xf(imax + 1:2 * imax) = q2
     xf(2 * imax + 1:3 * imax) = q4

@@ -121,7 +121,7 @@ The left-hand side of (@eq-forcing_gradients) represents the gradient with respe
 - Change the obsertion frequency and locations.
 :::
 
-::: {.callout-note title = "Excercises for intermidates"}
+::: {.callout-note title = "Excercises for intermediates"}
 - Modify the variational method to estimate the forcing at all steps.
 - Write (ensemble) Kalman smoother and compare with the variational method.
 - Write a variational or ensemble data assimilation code for your favourite model, e.g. the Lorenz-96 model and its variants.

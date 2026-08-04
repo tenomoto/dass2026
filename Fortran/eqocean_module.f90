@@ -1,5 +1,6 @@
 module eqocean_module
   use, intrinsic :: iso_fortran_env, only: dp => real64 
+  use settings_module, only: imax
   implicit none
 
 contains
@@ -11,7 +12,7 @@ contains
 
     qout = (q - 0.5_dp * gma * (cshift(q, 1) - cshift(q, -1)) + &
        0.5_dp * gma ** 2 *(cshift(q, 1) - 2.0_dp * q + cshift(q, -1)) + &
-       tau * df) / (1 + sgm * tau)
+       tau * df) / (1.0_dp + sgm * tau)
 
   end function eo_forward
 
@@ -26,8 +27,8 @@ contains
   end function eo_adjoint
 
   function eo_calc_h(q0, q2, q4) result(h)
-    real(dp), dimension(:), intent(in) :: q0, q2, q4
-    real(dp), dimension(size(q0)) :: h
+    real(dp), dimension(:, :), intent(in) :: q0, q2, q4
+    real(dp), dimension(size(q0, 1), size(q0, 2)) :: h
 
     h = q0 + q2 - q4
   

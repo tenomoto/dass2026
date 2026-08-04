@@ -40,9 +40,10 @@ function run_forward(q0, q2, q4, f, nt, progf) result(st)
   integer :: n
 
   if (.not. present(progf) .or. progf) then
+    st%f(:, 1) = f(:, 1)
     df0(:) = 0.0_dp
     do n = 2, nt
-      st%f(:, n) = eo_forward(f(:, n - 1), df0, 0.0_dp, gmaf, tau)
+      st%f(:, n) = eo_forward(st%f(:, n - 1), df0, 0.0_dp, gmaf, tau)
     end do
   else
     st%f  = f
@@ -51,9 +52,9 @@ function run_forward(q0, q2, q4, f, nt, progf) result(st)
   st%q2(:, 1) = q2(:)
   st%q4(:, 1) = q4(:)
   do n = 2, nt
-    st%q0(:, n) = eo_forward(q0, d0 * f(:, n), sgm, gma0, tau)
-    st%q2(:, n) = eo_forward(q2, d2 * f(:, n), sgm, gma2, tau)
-    st%q4(:, n) = eo_forward(q4, d4 * f(:, n), sgm, gma4, tau)
+    st%q0(:, n) = eo_forward(st%q0(:, n-1), d0 * st%f(:, n), sgm, gma0, tau)
+    st%q2(:, n) = eo_forward(st%q2(:, n-1), d2 * st%f(:, n), sgm, gma2, tau)
+    st%q4(:, n) = eo_forward(st%q4(:, n-1), d4 * st%f(:, n), sgm, gma4, tau)
   end do
 
 end function run_forward
@@ -138,20 +139,24 @@ end function run_calc_cost
 subroutine run_print_diag(epoch, cost, gnorm, message) 
   integer, intent(in) :: epoch
   real(dp), intent(in) :: cost, gnorm
-  character(len = *), intent(in) :: message
+  character(len = *), intent(in), optional :: message
 
-  print *, "epoch: ", epoch, "cost=", cost, "gnorm=", gnorm, " ", message
+  if (present(message)) then
+    print *, "epoch: ", epoch, "cost=", cost, "gnorm=", gnorm, " ", message
+  else
+    print *, "epoch: ", epoch, "cost=", cost, "gnorm=", gnorm
+  end if
 
 end subroutine run_print_diag
 
 subroutine run_print_mse(state, tstate)
   type(state_type), intent(in) :: state, tstate
 
-  real(dp), dimension(imax) :: ha, ht
+  real(dp), dimension(imax, tmax) :: ha, ht
 
-  ha = eo_calc_h(state%q0(:,tmax), state%q2(:, tmax), state%q4(:, tmax))
-  ht = eo_calc_h(tstate%q0(:,tmax), tstate%q2(:, tmax), tstate%q4(:, tmax))
-  print *, "MSE = ", sum((ha - ht) ** 2)
+  ha = eo_calc_h(state%q0, state%q2, state%q4)
+  ht = eo_calc_h(tstate%q0, tstate%q2, tstate%q4)
+  print *, "MSE = ", sum((ha(:, tmax) - ht(:, tmax)) ** 2)
 
 end subroutine run_print_mse
 

@@ -3,7 +3,7 @@ from numpy import cos, sin, fabs
 import settings as st
 import eqocean as eo
 import run
-from plot import plot_waves
+from plot import plot_waves, plot_rmse
 
 x = st.x
 tmax = st.tmax
@@ -37,7 +37,7 @@ q4 = sin(k4 * x)
 f[:, :] = 0
 f[0, :] = 0.1 * cos(kf * x)
 
-#guess_state = run.forward(q0, q2, q4, f, tmax)
+guess_state = run.forward(q0, q2, q4, f, tmax)
 
 lr = 0.1
 ocost = 1e8
@@ -80,6 +80,5 @@ for ep in range(niter):
 state = run.forward(q0, q2, q4, f, tmax)
 run.print_mse(state, true_state)
 #saveRDS(state, "analysis_var.rds")
-#plot_rmse(state, true_state, guess_state)
 plot_waves(x, state, true_state)
-#plot_diff(x, state, true_state)
+rmse = plot_rmse(state, true_state, guess_state)
