@@ -45,18 +45,16 @@ ensemble_update <- function(xf, xe, yo, rmat, infl = 0.1, std = 0.01) {
     q0 <- xf[1:imax] + xe[1:imax, mem]
     q2 <- xf[1:imax + imax] + xe[1:imax + imax, mem]
     q4 <- xf[1:imax + 2 * imax] + xe[1:imax + 2 * imax, mem]
-    hxe[,mem] <- calc_h(q0, q2, q4)
+    hxe[, mem] <- calc_h(q0, q2, q4)
   }
   hxm <- rowMeans(hxe)
   hxe <- hxe - hxm
   xe <- sqrt(1 + infl) * xe
   # K = X^f*Y^T*(Y*Y^T + (N-1)*R)^{-1}
-  kmat <- xe %*% t(hxe) %*% solve(hxe %*% t(hxe) + (nmem-1)*rmat)
+  kmat <- xe %*% t(hxe) %*% solve(hxe %*% t(hxe) + (nmem - 1) * rmat)
   xf <- xf + kmat %*% (yo - hxm)
   ye <- matrix(rnorm(omax * nmem, 0, sqrt(diag(rmat))), omax, nmem)
   xe <- xe + kmat %*% (ye - hxe)
-#  pmat <- xe %*% t(xe) / (nmem - 1)
-#  print(sum(diag(pmat)))
   list(xf = xf, xe = xe)
 }
 
