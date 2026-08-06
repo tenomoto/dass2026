@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -167,6 +167,8 @@ window.Quarto = {
   <li><a href="#governing-equations" id="toc-governing-equations" class="nav-link active" data-scroll-target="#governing-equations">Governing equations</a></li>
   <li><a href="#discretization" id="toc-discretization" class="nav-link" data-scroll-target="#discretization">Discretization</a></li>
   <li><a href="#lagrangian-method" id="toc-lagrangian-method" class="nav-link" data-scroll-target="#lagrangian-method">Lagrangian method</a></li>
+  <li><a href="#numerical-optimization" id="toc-numerical-optimization" class="nav-link" data-scroll-target="#numerical-optimization">Numerical optimization</a></li>
+  <li><a href="#ensemble-kalman-filter" id="toc-ensemble-kalman-filter" class="nav-link" data-scroll-target="#ensemble-kalman-filter">Ensemble Kalman filter</a></li>
   </ul>
 </nav>
     </div>
@@ -213,10 +215,10 @@ h = q_0 + q_2 - q_4
 \tag{3}\]</span></span></p>
 <p>which is discretized as</p>
 <p><span id="eq-discretized_advection"><span class="math display">\[
-\frac{q_j^{n+1} - q_j^n}{\tau} + c\frac{q_{j+1}^n - q_{j-1}^n}{2\Delta} =
-\frac{c^2\tau}{2}\left(\frac{q_{j+1}^n - 2q_j^n + q_{j-1}^n}{\Delta^2}\right)
+\frac{q_i^{n+1} - q_i^n}{\tau} + c\frac{q_{i+1}^n - q_{i-1}^n}{2\Delta} =
+\frac{c^2\tau}{2}\left(\frac{q_{i+1}^n - 2q_i^n + q_{i-1}^n}{\Delta^2}\right)
 \tag{4}\]</span></span></p>
-<p>where <span class="math inline">\(\Delta\)</span> is the grid interval.</p>
+<p>where <span class="math inline">\(i\)</span> is the horizonal index and <span class="math inline">\(\Delta\)</span> is the grid interval.</p>
 <p>The right-hand side of (<a href="#eq-discretized_advection" class="quarto-xref">4</a>) is a discretized form of the trunction error</p>
 <p><span class="math display">\[
 \frac{\tau}{2}\frac{\partial^2 q}{\partial t^2} = \frac{\tau}{2}\frac{\partial}{\partial t}\left(-c\frac{\partial q}{\partial x}\right) = \frac{c^2\tau}{2}\frac{\partial^2 q}{\partial x^2}.
@@ -243,7 +245,8 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 (1 + \sigma\tau)q_{j, i}^n - q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i}^{n-1})
 - \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j, i}^{n-1} + q_{j, i-1}^{n-1}) - \tau d_j f_i^n]
 \tag{7}\]</span></span></p>
-<p>Where <span class="math inline">\(\lambda_{j,i}^n\)</span> is the Lagrange multiplier (and adjoint variable) with the terminal and initial conditions</p>
+<p>where <span class="math inline">\(\lambda_{j,i}^n\)</span> is the Lagrange multiplier (and adjoint variable). The minimum of <span class="math inline">\(J\)</span> is found by the point where the gradients of <span class="math inline">\(L\)</span> with respect to the state, multiplier, and forcing are identically zero.</p>
+<p>The terminal and initial conditions of the adjoint are</p>
 <p><span id="eq-adjoint-bc"><span class="math display">\[
 \begin{aligned}
 \lambda_{j,i}^{N+1} &amp;= 0 \\
@@ -258,9 +261,110 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 + \frac{1}{2}\gamma_j^2(\lambda_{j,i-1}^{n+1} - 2\lambda_{j,i}^{n+1} + \lambda_{j, i+1}^{n+1})
 + \varepsilon_j(\eta_i^n - q_{0,i}^n - q_{2,i}^n + q_{4,i}^n)\right\}
 \tag{9}\]</span></span></p>
-<p>where <span class="math inline">\(\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1\)</span>. The last term on the right-hand side exist at the step where the observations are available. Finally, <span class="math inline">\(\partial L/\partial f_i\)</span> gives <span id="eq-forcing_gradients"><span class="math display">\[
+<p>where <span class="math inline">\(\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1\)</span>. The last term on the right-hand side exist at the step where the observations are available.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The adjoint equations (<a href="#eq-adjoint" class="quarto-xref">9</a>) are derived simply by differentiating <span class="math inline">\(L\)</span> (<a href="#eq-lagrange_function" class="quarto-xref">7</a>) with respect to the state <span class="math inline">\(q_{j,i}^n\)</span>, without requiring the knowledge on adjoint operator.</li>
+<li>The adjoint variables accumulates the misfit (innovation) between the data and the model equivalents and propagate backward to the initial time.</li>
+<li>The adjoint equations (<a href="#eq-adjoint" class="quarto-xref">9</a>) are linear in the adjoint variables.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Whether <span class="math inline">\(\lambda\)</span> represents the gradient or the negative gradient depends on the sign preceeding the multiplier, which is a matter of convention.</li>
+<li>Note a tiny but critical error in (10d) of <span class="citation" data-cites="Thacker-Long:1988">Thacker and Long (<a href="#ref-Thacker-Long:1988" role="doc-biblioref">1988</a>)</span>. The sign preceeding <span class="math inline">\(\epsilon_j\)</span> should be <span class="math inline">\(-\)</span> rather than <span class="math inline">\(+\)</span>.</li>
+</ul>
+</div>
+</div>
+<p>Finally, <span class="math inline">\(\partial L/\partial f_i\)</span> gives <span id="eq-forcing_gradients"><span class="math display">\[
 -\tau\sum_j d_j\lambda_{j,i}^n - (\phi_i^n - f_i^n) = 0
 \tag{10}\]</span></span> at the minimizer. The left-hand side of (<a href="#eq-forcing_gradients" class="quarto-xref">10</a>) represents the gradient with respect to forcing.</p>
+</section>
+<section id="numerical-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-optimization">Numerical optimization</h2>
+<p>The gradients are used to find the minimum of <span class="math inline">\(J\)</span>.</p>
+<p><span id="eq-optimization"><span class="math display">\[
+\mathbf{x}_k = \mathbf{x}_{k - 1} + \alpha\mathbf{d}
+\tag{11}\]</span></span></p>
+<p>where <span class="math inline">\(\mathbf{x}\)</span> represents the control vector containing the variables to be optimized, <span class="math inline">\(\mathbf{d}\)</span> is the descent direction, <span class="math inline">\(\alpha\)</span> is the step size and <span class="math inline">\(k\)</span> is the number of iteration.</p>
+<p>The most na"ive approach is the gradient descent method</p>
+<p><span id="eq-gradient_descent"><span class="math display">\[
+\mathbf{x}_k = \mathbf{x}_{k - 1} - \alpha\mathbf{g}
+\tag{12}\]</span></span></p>
+<p><span class="math inline">\(\mathbf{g}\)</span> is the gradient vector, i.e., <span class="math inline">\(\mathbf{d} = -\mathbf{g}\)</span>. The iteration is terminated by criteria such as the gradient norm, cost or its change from the previous step.</p>
+<p>One of the more sophisticated approaches is the conjugate gradient method. The descent direction, distinct from the gradient, is updated by</p>
+<p><span id="eq-conjugate_gradient"><span class="math display">\[
+\mathbf{d}_k = -\mathbf{g}_{k-1} + \beta_k\mathbf{d}_{k-1}.
+\tag{13}\]</span></span></p>
+<p>Several formula have been proposed to compute <span class="math inline">\(\beta_k\)</span>. Here, the following form is used <span class="citation" data-cites="Fletcher-Reeves:1964">(<a href="#ref-Fletcher-Reeves:1964" role="doc-biblioref">Fletcher and Reeves 1964</a>)</span>.</p>
+<p><span id="eq-Fletcher_Reeves"><span class="math display">\[
+\beta_k = \frac{\mathbf{g}_k^\mathrm{T}\mathbf{g}_k}{\mathbf{g}_{k-1}^\mathrm{T}\mathbf{g}_{k-1}}
+\tag{14}\]</span></span></p>
+</section>
+<section id="ensemble-kalman-filter" class="level2">
+<h2 class="anchored" data-anchor-id="ensemble-kalman-filter">Ensemble Kalman filter</h2>
+<p>The ensemble Kalman filter <span class="citation" data-cites="Evensen:1994">(EnKF, <a href="#ref-Evensen:1994" role="doc-biblioref">Evensen 1994</a>)</span> approximates the forecast error covariance using the sample covariance of an ensemble forecast</p>
+<p><span id="eq-bmat"><span class="math display">\[
+\mathbf{B} \approx \frac{1}{K - 1}\delta\mathbf{X}\delta\mathbf{X}^\mathrm{T}
+\tag{15}\]</span></span></p>
+<p>where the <span class="math inline">\(k\)</span>-th column of <span class="math inline">\(\delta\mathbf{X}\)</span> is the ensemble perturbation <span class="math inline">\(\mathbf{x}_k - \bar{\mathbf{x}}\)</span>, <span class="math inline">\(K\)</span> is the ensemble size and</p>
+<p><span id="eq-ensemble_mean"><span class="math display">\[
+\bar{\mathbf{x}} = \frac{1}{K}\sum_{k=1}^K \mathbf{x}_k
+\tag{16}\]</span></span></p>
+<p>is the ensemble mean.</p>
+<p>The update for the ensemble mean is</p>
+<p><span id="eq-update_mean"><span class="math display">\[
+\bar{\mathbf{x}}^\mathrm{a} = \bar{\mathbf{x}}^\mathrm{f} + \mathbf{K}(\mathbf{y} - \mathbf{H}\bar{\mathbf{x}}^\mathrm{f})
+\tag{17}\]</span></span></p>
+<p>and that for perturbation is</p>
+<p><span id="eq-update_pert"><span class="math display">\[
+\mathbf{x}^\mathrm{'a} = \mathbf{x}^\mathrm{'f} + \mathbf{K}(\mathbf{y}' - \mathbf{H}\mathbf{x}^\mathrm{'f})
+\tag{18}\]</span></span></p>
+<p>where <span class="math inline">\(\mathbf{H}\)</span> is the linearized observation operator, <span class="math inline">\(\mathbf{K}\)</span> is the Kalman gain</p>
+<p><span class="math display">\[
+\mathbf{K} = \mathbf{BH}^\mathrm{T}(\mathbf{HBH}^\mathrm{T} + \mathbf{R})^{-1}
+\]</span></p>
+<p>and <span class="math inline">\(\mathbf{R}\)</span> is the observation error covariance matrix.</p>
+<p>In (<a href="#eq-update_pert" class="quarto-xref">18</a>), <span class="math inline">\(\mathbf{y}'\)</span> is randomly drawn from the probability density distribution of the observation error, i.e., the pertubed observations <span class="citation" data-cites="Burgers-etal:1998 Houtekamer-Mitchell:1998">(PO, <a href="#ref-Burgers-etal:1998" role="doc-biblioref">Burgers et al. 1998</a>; <a href="#ref-Houtekamer-Mitchell:1998" role="doc-biblioref">Houtekamer and Mitchell 1998</a>)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>EnKF does not requre the adjoint equations (<a href="#eq-adjoint" class="quarto-xref">9</a>).</li>
+<li>The forecast error covariance matrix (<a href="#eq-bmat" class="quarto-xref">15</a>) is flow-dependent and can incorporate the `the error of the day’.</li>
+<li>The analysis forecast error covariance matrix shrinks by <span class="math inline">\((\mathbf{I} - \mathbf{KB})\)</span>. If it shrinks too much, the true state will not be within the space spanned by the ensemble. Here the analysis forecast error covariance matrix is increased by a multiplicative factor (multiplicative inflation).</li>
+<li>The ensemble size is much smaller than the degree of freedom of the state, i.e., the forecast error covariance is rank deficient.</li>
+<li>Localization is often required to reduce psedo correlation due to sampling errors.</li>
+<li>A number of deteministic alternatives have been proposed that does not perburb observaions to avoid introduction of additional sampling errors.</li>
+</ul>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Excercises for beginners">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -273,7 +377,7 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 <div class="callout-body-container callout-body">
 <ul>
 <li>Write the forward model and run the model with a prescribed two-cycle forcing migrating with <span class="math inline">\(c_f = 0.5\)</span>.</li>
-<li>Derive the adjoint model and estimate the initial state with the observations at <span class="math inline">\(n = 0. 16, 32\)</span>.</li>
+<li>Derive the adjoint model and estimate the initial state with the observations at <span class="math inline">\(n = 0,\,16,\,32\)</span>.</li>
 <li>Compare the gradient descent and conjugate gradient methods.</li>
 <li>Write an perturbed observation (PO) ensemble Kalman filter (EnKF) to assimilate observation sequentially.</li>
 <li>Add noise to the observations.</li>
@@ -281,13 +385,13 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Excercises for intermidates">
+<div class="callout callout-style-default callout-note callout-titled" title="Excercises for intermediates">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Excercises for intermidates
+<span class="screen-reader-only">Note</span>Excercises for intermediates
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -304,6 +408,18 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 </section>
 
 <div id="quarto-appendix"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Burgers-etal:1998" class="csl-entry" role="listitem">
+Burgers, G., P. J. van Leeuwen, and G. Evensen, 1998: Analysis scheme in the ensemble <span>Kalman</span> filter. <em>Monthly Weather Review</em>, <strong>126</strong>, 1719–1724, https://doi.org/<a href="https://doi.org/10.1175/1520-0493(1998)126<1719:ASITEK>2.0.CO;2">10.1175/1520-0493(1998)126&lt;1719:ASITEK&gt;2.0.CO;2</a>.
+</div>
+<div id="ref-Evensen:1994" class="csl-entry" role="listitem">
+Evensen, G., 1994: Sequential data assimilation with a nonlinear quasi-geostrophic model using <span>Monte</span> <span>Carlo</span> methods to forecast error statistics. <em>J. Geophys. Res. Oceans</em>, <strong>99</strong>, 10143–10162, https://doi.org/<a href="https://doi.org/10.1029/94JC00572">10.1029/94JC00572</a>.
+</div>
+<div id="ref-Fletcher-Reeves:1964" class="csl-entry" role="listitem">
+Fletcher, R., and C. M. Reeves, 1964: Function minimization by conjugate gradients. <em>The Computer Journal</em>, <strong>7</strong>, 149–154, https://doi.org/<a href="https://doi.org/10.1093/comjnl/7.2.149">10.1093/comjnl/7.2.149</a>.
+</div>
+<div id="ref-Houtekamer-Mitchell:1998" class="csl-entry" role="listitem">
+Houtekamer, P. L., and H. L. Mitchell, 1998: Data assimilation using an ensemble <span>Kalman</span> filter technique. <em>Mon. Wea. Rev.</em>, <strong>126</strong>, 796–811, https://doi.org/<a href="https://doi.org/10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2">10.1175/1520-0493(1998)126&lt;0796:DAUAEK&gt;2.0.CO;2</a>.
+</div>
 <div id="ref-Lax-Wendroff:1960" class="csl-entry" role="listitem">
 Lax, P., and B. Wendroff, 1960: Systems of conservation laws. <em>Comm. Pure Appl. Math.</em>, <strong>13</strong>, 217–237, https://doi.org/<a href="https://doi.org/10.1002/cpa.3160130205">10.1002/cpa.3160130205</a>.
 </div>

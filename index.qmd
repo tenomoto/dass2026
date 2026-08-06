@@ -38,11 +38,11 @@ $$ {#eq-advection}
 which is discretized as
 
 $$
-\frac{q_j^{n+1} - q_j^n}{\tau} + c\frac{q_{j+1}^n - q_{j-1}^n}{2\Delta} =
-\frac{c^2\tau}{2}\left(\frac{q_{j+1}^n - 2q_j^n + q_{j-1}^n}{\Delta^2}\right)
+\frac{q_i^{n+1} - q_i^n}{\tau} + c\frac{q_{i+1}^n - q_{i-1}^n}{2\Delta} =
+\frac{c^2\tau}{2}\left(\frac{q_{i+1}^n - 2q_i^n + q_{i-1}^n}{\Delta^2}\right)
 $$ {#eq-discretized_advection}
 
-where $\Delta$ is the grid interval.
+where $i$ is the horizonal index and $\Delta$ is the grid interval.
 
 The right-hand side of (@eq-discretized_advection) is a discretized form of the trunction error
 
@@ -81,7 +81,10 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 - \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j, i}^{n-1} + q_{j, i-1}^{n-1}) - \tau d_j f_i^n]
 $$ {#eq-lagrange_function}
 
-Where $\lambda_{j,i}^n$ is the Lagrange multiplier (and adjoint variable) with the terminal and initial conditions
+where $\lambda_{j,i}^n$ is the Lagrange multiplier (and adjoint variable).
+The minimum of $J$ is found by the point where the gradients of $L$ with respect to the state, multiplier, and forcing are identically zero.
+
+The terminal and initial conditions of the adjoint are
 
 $$
 \begin{aligned}
@@ -105,6 +108,19 @@ $$ {#eq-adjoint}
 
 where $\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1$.
 The last term on the right-hand side exist at the step where the observations are available.
+
+::: {.callout-important}
+- The adjoint equations (@eq-adjoint) are derived simply by differentiating $L$ (@eq-lagrange_function) with respect to the state $q_{j,i}^n$, without requiring the knowledge on adjoint operator.
+- The adjoint variables accumulates the misfit (innovation) between the data and the model equivalents and propagate backward to the initial time.
+- The adjoint equations (@eq-adjoint) are linear in the adjoint variables.
+:::
+
+::: {.callout-warning}
+- Whether $\lambda$ represents the gradient or the negative gradient depends on the sign preceeding the multiplier, which is a matter of convention.
+- Note a tiny but critical error in (10d) of @Thacker-Long:1988.
+  The sign preceeding $\epsilon_j$ should be $-$ rather than $+$.
+:::
+
 Finally, $\partial L/\partial f_i$ gives
 $$
 -\tau\sum_j d_j\lambda_{j,i}^n - (\phi_i^n - f_i^n) = 0
@@ -112,9 +128,90 @@ $$ {#eq-forcing_gradients}
 at the minimizer.
 The left-hand side of (@eq-forcing_gradients) represents the gradient with respect to forcing.
 
+## Numerical optimization
+
+The gradients are used to find the minimum of $J$.
+
+$$
+\mathbf{x}_k = \mathbf{x}_{k - 1} + \alpha\mathbf{d}
+$$ {#eq-optimization}
+
+where $\mathbf{x}$ represents the control vector containing the variables to be optimized,
+$\mathbf{d}$ is the descent direction, $\alpha$ is the step size and $k$ is the number of iteration.
+ 
+The most na\"ive approach is the gradient descent method
+
+$$
+\mathbf{x}_k = \mathbf{x}_{k - 1} - \alpha\mathbf{g}
+$$ {#eq-gradient_descent}
+
+$\mathbf{g}$ is the gradient vector, i.e., $\mathbf{d} = -\mathbf{g}$.
+The iteration is terminated by criteria such as the gradient norm, cost or its change from the previous step.
+
+One of the more sophisticated approaches is the conjugate gradient method.
+The descent direction, distinct from the gradient, is updated by
+
+$$
+\mathbf{d}_k = -\mathbf{g}_{k-1} + \beta_k\mathbf{d}_{k-1}.
+$$ {#eq-conjugate_gradient}
+
+Several formula have been proposed to compute $\beta_k$.
+Here, the following form is used [@Fletcher-Reeves:1964].
+
+$$
+\beta_k = \frac{\mathbf{g}_k^\mathrm{T}\mathbf{g}_k}{\mathbf{g}_{k-1}^\mathrm{T}\mathbf{g}_{k-1}}
+$$ {#eq-Fletcher_Reeves}
+
+## Ensemble Kalman filter
+
+The ensemble Kalman filter [EnKF, @Evensen:1994] approximates the forecast error covariance using the sample covariance of an ensemble forecast
+
+$$
+\mathbf{B} \approx \frac{1}{K - 1}\delta\mathbf{X}\delta\mathbf{X}^\mathrm{T}
+$$ {#eq-bmat}
+
+where the $k$-th column of $\delta\mathbf{X}$ is the ensemble perturbation $\mathbf{x}_k - \bar{\mathbf{x}}$, $K$ is the ensemble size and
+
+$$
+\bar{\mathbf{x}} = \frac{1}{K}\sum_{k=1}^K \mathbf{x}_k
+$$ {#eq-ensemble_mean}
+
+is the ensemble mean.
+
+The update for the ensemble mean is
+
+$$
+\bar{\mathbf{x}}^\mathrm{a} = \bar{\mathbf{x}}^\mathrm{f} + \mathbf{K}(\mathbf{y} - \mathbf{H}\bar{\mathbf{x}}^\mathrm{f})
+$$ {#eq-update_mean}
+
+and that for perturbation is
+
+$$
+\mathbf{x}^\mathrm{'a} = \mathbf{x}^\mathrm{'f} + \mathbf{K}(\mathbf{y}' - \mathbf{H}\mathbf{x}^\mathrm{'f})
+$$ {#eq-update_pert}
+
+where $\mathbf{H}$ is the linearized observation operator, $\mathbf{K}$ is the Kalman gain
+
+$$
+\mathbf{K} = \mathbf{BH}^\mathrm{T}(\mathbf{HBH}^\mathrm{T} + \mathbf{R})^{-1}
+$$
+
+and $\mathbf{R}$ is the observation error covariance matrix.
+
+In (@eq-update_pert), $\mathbf{y}'$ is randomly drawn from the probability density distribution of the observation error, i.e., the pertubed observations [PO, @Burgers-etal:1998;@Houtekamer-Mitchell:1998].
+
+::: {.callout-important}
+- EnKF does not requre the adjoint equations (@eq-adjoint).
+- The forecast error covariance matrix (@eq-bmat) is flow-dependent and can incorporate the `the error of the day'.
+- The analysis forecast error covariance matrix shrinks by $(\mathbf{I} - \mathbf{KB})$. If it shrinks too much, the true state will not be within the space spanned by the ensemble. Here the analysis forecast error covariance matrix is increased by a multiplicative factor (multiplicative inflation).
+- The ensemble size is much smaller than the degree of freedom of the state, i.e., the forecast error covariance is rank deficient.
+- Localization is often required to reduce psedo correlation due to sampling errors.
+- A number of deteministic alternatives have been proposed that does not perburb observaions to avoid introduction of additional sampling errors.
+:::
+
 ::: {.callout-note title = "Excercises for beginners"}
 - Write the forward model and run the model with a prescribed two-cycle forcing migrating with $c_f = 0.5$.
-- Derive the adjoint model and estimate the initial state with the observations at $n = 0. 16, 32$.
+- Derive the adjoint model and estimate the initial state with the observations at $n = 0,\,16,\,32$.
 - Compare the gradient descent and conjugate gradient methods.
 - Write an perturbed observation (PO) ensemble Kalman filter (EnKF) to assimilate observation sequentially.
 - Add noise to the observations.
