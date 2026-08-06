@@ -75,6 +75,4 @@ for (ep in 1:niter) {
 }
 state <- run_forward(q0, q2, q4, f, tmax, FALSE)
 print_mse(state, true_state)
-#saveRDS(state, "analysis_var5.rds")
 plot_waves(x, state, true_state)
-plot_diff(x, state, true_state)

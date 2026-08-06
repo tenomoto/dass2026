@@ -27,8 +27,8 @@ contains
   end function eo_adjoint
 
   function eo_calc_h(q0, q2, q4) result(h)
-    real(dp), dimension(:, :), intent(in) :: q0, q2, q4
-    real(dp), dimension(size(q0, 1), size(q0, 2)) :: h
+    real(dp), dimension(:), intent(in) :: q0, q2, q4
+    real(dp), dimension(size(q0)) :: h
 
     h = q0 + q2 - q4
   

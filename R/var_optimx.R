@@ -61,5 +61,4 @@ q2 <- res$par[1:imax + imax]
 q4 <- res$par[1:imax + 2 * imax]
 state <- run_forward(q0, q2, q4, f, tmax)
 print_mse(state, true_state)
-#saveRDS(state, "analysis_var.rds")
 plot_waves(x, state, true_state)

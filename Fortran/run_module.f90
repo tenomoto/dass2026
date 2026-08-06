@@ -152,11 +152,11 @@ end subroutine run_print_diag
 subroutine run_print_mse(state, tstate)
   type(state_type), intent(in) :: state, tstate
 
-  real(dp), dimension(imax, tmax) :: ha, ht
+  real(dp), dimension(imax) :: ha, ht
 
-  ha = eo_calc_h(state%q0, state%q2, state%q4)
-  ht = eo_calc_h(tstate%q0, tstate%q2, tstate%q4)
-  print *, "MSE = ", sum((ha(:, tmax) - ht(:, tmax)) ** 2)
+  ha = eo_calc_h(state%q0(:, tmax), state%q2(:, tmax), state%q4(:, tmax))
+  ht = eo_calc_h(tstate%q0(:, tmax), tstate%q2(:, tmax), tstate%q4(:, tmax))
+  print *, "MSE = ", sum((ha - ht) ** 2)
 
 end subroutine run_print_mse
 

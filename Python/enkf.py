@@ -4,7 +4,7 @@ from numpy import cos, sin, sqrt
 import settings as st
 import eqocean as eo
 import run
-from plot import plot_waves, plot_rmse
+from plot import plot_waves
 
 x = st.x
 tmax = st.tmax
@@ -39,8 +39,6 @@ q4 = sin(k4 * x)
 xf = np.concatenate([q0, q2, q4])
 xe = rng.normal(0, s_ens, size = [3 * imax, nmem])
 f = true_state["f"]
-
-guess_state = run.forward(q0, q2, q4, f, tmax)
 
 def ensemble_update(xf, xe, yo, rmat, infl = 0.1, std = 0.01):
     nmem = xe.shape[1]
@@ -93,4 +91,3 @@ for k in range(ntobs):
 state = {"q0": q0_hist, "q2": q2_hist, "q4": q4_hist, "f": f_hist}
 run.print_mse(state, true_state)
 plot_waves(x, state, true_state)
-rmse = plot_rmse(state, true_state, guess_state)

@@ -58,9 +58,6 @@ def ensemble(xf, xe, f, nt):
     q2_hist = np.zeros([nt, imax])
     q4_hist = np.zeros([nt, imax])
     f_hist = np.zeros([nt, imax])
-    q0s_hist = np.zeros([nt, imax])
-    q2s_hist = np.zeros([nt, imax])
-    q4s_hist = np.zeros([nt, imax])
     for mem in range(nmem):
         q0 = q0m + xe[0:imax, mem]
         q2 = q2m + xe[imax:2 * imax, mem]
@@ -72,9 +69,6 @@ def ensemble(xf, xe, f, nt):
         q2_hist += q2h
         q4_hist += q4h
         f_hist += fh
-        q0s_hist += q0h ** 2
-        q2s_hist += q2h ** 2
-        q4s_hist += q4h ** 2
     xm = np.mean(xe, axis = 1)
     xe = xe - xm[:, None]
     q0_hist = q0_hist / nmem

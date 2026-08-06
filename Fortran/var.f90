@@ -8,7 +8,7 @@ program var
     run_print_diag, run_print_mse
   implicit none
 
-  integer, parameter :: ntobs = 3, niter = 1000, fcg = 1
+  integer, parameter :: ntobs = 3, niter = 1000, fcg = 1, un = 51
   integer, parameter, dimension(ntobs) :: tobs = [0, 16, 32] + 1
   real(dp), parameter :: pi = acos(-1.0_dp), &
     sobs = 0.0_dp, smod = 0.01_dp, &
@@ -16,7 +16,7 @@ program var
     lr = 0.1_dp
   real(dp), parameter :: sh = 1.0_dp, ss = 1.0_dp
 
-  integer :: i, ep
+  integer :: i, ep, n
   real(dp) :: ognorm = 1.0e8_dp, gnorm, bta, ocost = 1.0e8_dp, cost, dcost
   real(dp), dimension(imax) :: x, q0, q2, q4
   real(dp), dimension(3 * imax) :: d = 0.0_dp, xf, g, xa
@@ -34,7 +34,9 @@ program var
 
   true_state = run_forward(q0, q2, q4, f, tmax)
 
-  htrue = eo_calc_h(true_state%q0, true_state%q2, true_state%q4)
+  do n = 1, tmax
+   htrue(:, n) = eo_calc_h(true_state%q0(:, n), true_state%q2(:, n), true_state%q4(:, n))
+  end do
   hobs = htrue(:, tobs) + reshape(random_normal(imax * ntobs, 0.0_dp, sobs), (/imax, ntobs/))
 
   q0 = sin(k0 * x)
@@ -45,7 +47,9 @@ program var
 
   do ep = 1, niter
     state = run_forward(q0, q2, q4, f, tmax)
-    h = eo_calc_h(state%q0, state%q2, state%q4)
+    do n = 1, tmax
+     h(:, n) = eo_calc_h(state%q0(:, n), state%q2(:, n), state%q4(:, n))
+    end do
     dh(:, tobs) = hobs - h(:, tobs)
     adj = run_adjoint(dh)
     cost = run_calc_cost(dh, ds, sh, ss)
@@ -83,4 +87,15 @@ program var
   end do
   state = run_forward(q0, q2, q4, f, tmax)
   call run_print_mse(state, true_state)
+
+  open(unit = un, file = "state_var.dat", status = "replace", &
+    action = "write", form = "unformatted", access = "stream")
+    write(unit = un) state%q0, state%q2, state%q4, state%f
+  close(unit = un)
+
+  open(unit = un, file = "true_state.dat", status = "replace", &
+    action = "write", form = "unformatted", access = "stream")
+    write(unit = un) true_state%q0, true_state%q2, true_state%q4, true_state%f
+  close(unit = un)
+
 end program var
