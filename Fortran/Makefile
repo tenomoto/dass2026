@@ -10,7 +10,9 @@ FFLAGS = -O2
 SRCS = random_module.f90 settings_module.f90 eqocean_module.f90 run_module.f90
 OBJS = $(SRCS:.f90=.o)
 MODS = $(SRCS:.f90=.mod)
-#LIBS = -lopenblas
+# Windows
+#LIBS = -L"C:/rtools45/x86_64-w64-mingw32.rcrt/lib" -lblas
+# Mac
 LIBS = -framework accelerate
 
 TARGETS = check_adjoint var enkf
@@ -33,5 +35,6 @@ clean:
 	$(FC) $(FFLAGS) -c $<
 
 check_adjoint.o : $(OBJS)
+run_module.o : settings_module.o
 var.o : $(OBJS)
 enkf.o : $(OBJS)

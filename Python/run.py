@@ -76,7 +76,7 @@ def ensemble(xf, xe, f, nt):
     q4_hist = q4_hist / nmem
     f_hist = f_hist / nmem
     mstate = {"q0":q0_hist, "q2":q2_hist, "q4":q4_hist, "f":f_hist}
-    f = mstate["f"][-1, :]
+    f = mstate["f"]
     return {"xf":xm, "xe":xe, "f":f, "state":mstate}
 
 def calc_cost(dh, ds, sh = 1, ss = 1):

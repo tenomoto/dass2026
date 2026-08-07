@@ -1,14 +1,14 @@
 program var
   use, intrinsic :: iso_fortran_env, only: dp => real64
-  use random_module, only: random_normal
-  use settings_module, only: k0, k2, k4, kf, imax, tmax
+  use random_module, only: random_set_seed, random_normal
+  use settings_module, only: k0, k2, k4, kf, imax, tmax, seed
   use eqocean_module, only: eo_calc_h
   use run_module, only: state_type, astate_type, &
     run_forward, run_adjoint, run_calc_cost, &
-    run_print_diag, run_print_mse
+    run_print_diag, run_print_mse, run_save_state
   implicit none
 
-  integer, parameter :: ntobs = 3, niter = 1000, fcg = 1, un = 51
+  integer, parameter :: ntobs = 3, niter = 1000, fcg = 1
   integer, parameter, dimension(ntobs) :: tobs = [0, 16, 32] + 1
   real(dp), parameter :: pi = acos(-1.0_dp), &
     sobs = 0.0_dp, smod = 0.01_dp, &
@@ -25,6 +25,8 @@ program var
   type(state_type) :: true_state, state
   type(astate_type) :: adj
 
+  call random_set_seed(seed)
+
   x = 2 * pi / imax * [(i, i = 0, imax - 1)]
   q0 = cos(k0 * x)
   q2 = cos(k2 * x)
@@ -37,7 +39,7 @@ program var
   do n = 1, tmax
    htrue(:, n) = eo_calc_h(true_state%q0(:, n), true_state%q2(:, n), true_state%q4(:, n))
   end do
-  hobs = htrue(:, tobs) + reshape(random_normal(imax * ntobs, 0.0_dp, sobs), (/imax, ntobs/))
+  hobs = htrue(:, tobs) + reshape(random_normal(imax * ntobs, 0.0_dp, sobs), [imax, ntobs])
 
   q0 = sin(k0 * x)
   q2 = sin(k2 * x)
@@ -88,14 +90,7 @@ program var
   state = run_forward(q0, q2, q4, f, tmax)
   call run_print_mse(state, true_state)
 
-  open(unit = un, file = "state_var.dat", status = "replace", &
-    action = "write", form = "unformatted", access = "stream")
-    write(unit = un) state%q0, state%q2, state%q4, state%f
-  close(unit = un)
-
-  open(unit = un, file = "true_state.dat", status = "replace", &
-    action = "write", form = "unformatted", access = "stream")
-    write(unit = un) true_state%q0, true_state%q2, true_state%q4, true_state%f
-  close(unit = un)
+  call run_save_state("state_var.dat", state)
+  call run_save_state("true_state.dat", true_state)
 
 end program var

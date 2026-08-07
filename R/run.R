@@ -73,8 +73,7 @@ run_ensemble <- function(xf, xe, f, nt) {
   q2_hist <- q2_hist / nmem
   q4_hist <- q4_hist / nmem
   mstate <- list(q0 = q0_hist, q2 = q2_hist, q4 = q4_hist, f = f_hist / nmem)
-  f <- mstate$f[, nt]
-  list(xf = xm, xe = xe, f = f, state = mstate)
+  list(xf = xm, xe = xe, state = mstate)
 }
 
 calc_cost <- function(dh, ds, sh = 1, ss = 1) 0.5 * (sum(dh^2) / sh^2 + sum(ds^2) / ss^2)

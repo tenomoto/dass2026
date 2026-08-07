@@ -23,7 +23,6 @@ module run_module
   type:: ens_type
     real(dp), dimension(3 * imax) :: xf
     real(dp), dimension(3 * imax, nmem) :: xe
-    real(dp), dimension(imax) :: f
     type(state_type) :: mstate
   end type ens_type
 
@@ -99,6 +98,10 @@ function run_ensemble(xf_in, xe_in, f, nt) result(ens)
   q0m = xf(1:imax)
   q2m = xf(imax + 1:2 * imax)
   q4m = xf(2 * imax + 1: 3 * imax)
+  mstate%q0 = 0.0_dp
+  mstate%q2 = 0.0_dp
+  mstate%q4 = 0.0_dp
+  mstate%f = 0.0_dp
   do mem = 1, nmem
     q0 = q0m + xe(1:imax, mem)
     q2 = q2m + xe(imax + 1:2 * imax, mem)
@@ -123,7 +126,7 @@ function run_ensemble(xf_in, xe_in, f, nt) result(ens)
 
   ens%xf = xf
   ens%xe = xe
-  ens%f = mstate%f(:, tmax)
+  ens%mstate = mstate
 
 end function run_ensemble
 
@@ -159,5 +162,18 @@ subroutine run_print_mse(state, tstate)
   print *, "MSE = ", sum((ha - ht) ** 2)
 
 end subroutine run_print_mse
+
+subroutine run_save_state(fname, state)
+  character(len = *), intent(in) :: fname
+  type(state_type), intent(in) :: state
+
+  integer, parameter :: un = 51
+
+  open(unit = un, file = trim(adjustl(fname)), status = "replace", &
+    action = "write", form = "unformatted", access = "stream")
+    write(unit = un) state%q0, state%q2, state%q4, state%f
+  close(unit = un)
+
+end subroutine run_save_state
 
 end module run_module
