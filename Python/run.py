@@ -58,9 +58,6 @@ def ensemble(xf, xe, f, nt):
     q2_hist = np.zeros([nt, imax])
     q4_hist = np.zeros([nt, imax])
     f_hist = np.zeros([nt, imax])
-    q0s_hist = np.zeros([nt, imax])
-    q2s_hist = np.zeros([nt, imax])
-    q4s_hist = np.zeros([nt, imax])
     for mem in range(nmem):
         q0 = q0m + xe[0:imax, mem]
         q2 = q2m + xe[imax:2 * imax, mem]
@@ -72,9 +69,6 @@ def ensemble(xf, xe, f, nt):
         q2_hist += q2h
         q4_hist += q4h
         f_hist += fh
-        q0s_hist += q0h ** 2
-        q2s_hist += q2h ** 2
-        q4s_hist += q4h ** 2
     xm = np.mean(xe, axis = 1)
     xe = xe - xm[:, None]
     q0_hist = q0_hist / nmem
@@ -82,7 +76,7 @@ def ensemble(xf, xe, f, nt):
     q4_hist = q4_hist / nmem
     f_hist = f_hist / nmem
     mstate = {"q0":q0_hist, "q2":q2_hist, "q4":q4_hist, "f":f_hist}
-    f = mstate["f"][-1, :]
+    f = mstate["f"]
     return {"xf":xm, "xe":xe, "f":f, "state":mstate}
 
 def calc_cost(dh, ds, sh = 1, ss = 1):

@@ -2,7 +2,7 @@ module settings_module
   use, intrinsic :: iso_fortran_env, only: dp => real64 
   implicit none
 
-  integer, parameter :: seed = 514, imax = 75, tmax = 33, nmem = 100
+  integer, parameter :: seed = 514, imax = 75, tmax = 33, nmem = 200
 
   real(dp), parameter :: &
     tau = 1.0_dp, sgm = 0.05_dp, dx = 1.0_dp, &

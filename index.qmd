@@ -54,7 +54,7 @@ Using the Lax-Wendroff method, (@eq-governing_equations) is discretized as
 
 $$
 q_{j, i}^n = \frac{1}{1 + \sigma \tau}\left\{
-q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
+q_{j, i}^{n-1} - \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
 + \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j,i}^{n-1} + q_{j, i-1}^{n-1}) + \tau d_j f_i^n
 \right\}
 $$ {#eq-forward}
@@ -206,7 +206,7 @@ In (@eq-update_pert), $\mathbf{y}'$ is randomly drawn from the probability densi
 - The analysis forecast error covariance matrix shrinks by $(\mathbf{I} - \mathbf{KB})$. If it shrinks too much, the true state will not be within the space spanned by the ensemble. Here the analysis forecast error covariance matrix is increased by a multiplicative factor (multiplicative inflation).
 - The ensemble size is much smaller than the degree of freedom of the state, i.e., the forecast error covariance is rank deficient.
 - Localization is often required to reduce psedo correlation due to sampling errors.
-- A number of deteministic alternatives have been proposed that does not perburb observaions to avoid introduction of additional sampling errors.
+- A number of deteministic alternatives have been proposed that does not perburb observations to avoid introduction of additional sampling errors.
 :::
 
 ::: {.callout-note title = "Excercises for beginners"}

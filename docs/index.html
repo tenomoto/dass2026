@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -226,7 +226,7 @@ h = q_0 + q_2 - q_4
 <p>Using the Lax-Wendroff method, (<a href="#eq-governing_equations" class="quarto-xref">1</a>) is discretized as</p>
 <p><span id="eq-forward"><span class="math display">\[
 q_{j, i}^n = \frac{1}{1 + \sigma \tau}\left\{
-q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
+q_{j, i}^{n-1} - \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
 + \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j,i}^{n-1} + q_{j, i-1}^{n-1}) + \tau d_j f_i^n
 \right\}
 \tag{5}\]</span></span> where <span class="math inline">\(\gamma_j = c_j\tau/\Delta\)</span>.</p>
@@ -361,7 +361,7 @@ Important
 <li>The analysis forecast error covariance matrix shrinks by <span class="math inline">\((\mathbf{I} - \mathbf{KB})\)</span>. If it shrinks too much, the true state will not be within the space spanned by the ensemble. Here the analysis forecast error covariance matrix is increased by a multiplicative factor (multiplicative inflation).</li>
 <li>The ensemble size is much smaller than the degree of freedom of the state, i.e., the forecast error covariance is rank deficient.</li>
 <li>Localization is often required to reduce psedo correlation due to sampling errors.</li>
-<li>A number of deteministic alternatives have been proposed that does not perburb observaions to avoid introduction of additional sampling errors.</li>
+<li>A number of deteministic alternatives have been proposed that does not perburb observations to avoid introduction of additional sampling errors.</li>
 </ul>
 </div>
 </div>

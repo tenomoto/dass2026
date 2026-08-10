@@ -77,6 +77,4 @@ q4 <- res$par[1:imax + 2 * imax]
 f <- matrix(res$par[(3 * imax + 1):length(res$par)], imax, tmax)
 state <- run_forward(q0, q2, q4, f, tmax, FALSE)
 print_mse(state, true_state)
-#saveRDS(state, "analysis_var5.rds")
 plot_waves(x, state, true_state)
-plot_diff(x, state, true_state)
