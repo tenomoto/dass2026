@@ -8,7 +8,6 @@ website:
     search: true
     left:
       - href: index.qmd
-        text: "ホーム"
       - setup.qmd
 
 appendix-style: plain
@@ -24,3 +23,14 @@ format:
 
 crossref:
   eq-prefix: ""
+
+babelquarto:
+  languagelinks: navbar
+  languagecodes:
+  - name: ja
+    text: "日本語"
+  - name: en
+    text: "English"
+  mainlanguage: 'en'
+  languages: ['ja']
+lang: en
