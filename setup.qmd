@@ -2,71 +2,68 @@
 title: Getting Started
 ---
 
-Source code for hands-on is available in Fortran and Python.
-The following environment is required to run the program.
+Source code for the hands-on sessions is available in Fortran and Python.
+The following environment is required to run the programs.
 
 ## Fortran
 
-Prepare a Fortran complier such as gfortran.
+Prepare a Fortran compiler such as gfortran.
 The distributed code compiles and runs with gfortran-15.2.0.
-For matrix multiplication, intrinsic procedure `matmul` is used.
-To compute matrix inverse, a linear algebra library is required.
-Although [OpenBLAS](https://www.openblas.net/) may be installed, LAPACK in Rtools is used on Windows and Accelerate.Framework is used on Mac.
+For matrix multiplication, the intrinsic procedure `matmul` is used.
+To compute a matrix inverse, a linear algebra library is required.
+Although [OpenBLAS](https://www.openblas.net/) may be installed, LAPACK in Rtools is used on Windows and Accelerate.framework is used on macOS.
 
-For visualization of data produced with Fortran programs, a graphics package is required. R scripts are included in the hands-on distribution.
+To visualize data produced with the Fortran programs, a graphics package is required. R scripts are included in the hands-on distribution.
 
 ## Python
 
-Python is a generic programming language and relies on libraries to add functionalities.
-Numpy provides mathematical functions and matrix manipulation.
-Matplotlib is a standard visualization package.
-The hands-on distribtuion was prepared with Python 3.14.7.
+Python is a general-purpose programming language that relies on libraries to extend its functionality.
+Numpy provides mathematical functions and matrix manipulation, while Matplotlib is a standard visualization package.
+The hands-on distribtuion was prepared using Python 3.14.7.
 
-Participants unfamiliar with a terminal or an editor may install [Jupyter](https://jupyter.org/) (see [Windows](#sec-jupyter-win)、[Mac](#sec-jupyter-mac)) that allows to write a program and execute it from a web browser.
+Participants unfamiliar with a terminal or editor may install [Jupyter](https://jupyter.org/) (see [Windows](#sec-jupyter-win), [Mac](#sec-jupyter-mac)) that allows to write and execute code directly in a web browser.
 
 ## Google Colaboratory
 
-[Google Colaboratory](https://colab.research.google.com/) is a cloud service with a free tier for anyone a Google account.
-The free version has a severer computational resource.
-Note that a good network connection is needed.
+[Google Colaboratory](https://colab.research.google.com/) is a cloud service with a free tier available to anyone a Google account.
+Note that the free version has stricter computational resource limits, and a stable network connection is required.
 
-The default is Python on CPU, but it can be changed to GPU or switched to R or Julia.
+By default, Colab runs Python on CPU, but it can be changed to GPU or switched to R or Julia.
 
 ## Terminal
 
-On Windows 11, instead of `cmd.exe`, Windows Terminal is the default terminal emulator.
-If not installed, search and install in Microsoft Store.
+On Windows 11, Windows Terminal is the default terminal emulator instead of `cmd.exe`.
+If it is not installed, search for and install in Microsoft Store.
 
-Terminal.app on Mac is located in `/Applications/Utilities.` and Others in LaunchPad.
+Terminal.app on Mac is located in `/Applications/Utilities` or under ``Others'' in LaunchPad.
 
 ## Windows
 
-On Windows, [winget](https://learn.microsoft.com/ja-jp/windows/package-manager/winget/) allows a quick setup.
+On Windows, [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) enables quick setup.
 
-Instead of Windows PowerShell, installed by default, PowerShell 7 is used.
-To install PowerShell, search `terminal` in Start Menu and add to Task Bar.
-By default, old Windows PowerShell launches.
-Type the following to install PowerShell 7.
+PowerShell 7 is used instead of Windows PowerShell (which is installed by default). 
+To install PowerShell, search for `terminal` in the Start Menu and pin it to the Taskbar.
+Run the following command to install PowerShell 7;
 
 ```powershell
 winget install Microsoft.PowerShell
 ```
 
-The profile for PowerShell 7 is automatically created but need to set it to launch PowerShell 7 by default.
-The downward arrow in the title bar to select settings or type Ctrl+,.
-Select PowerShell in black (not blue) in Default Profile in Start Up and click Save in the lower right of the window.
+The profile for PowerShell 7 is created automatically, but you need to configure Windows Terminal to open PowerShell 7 by default.
+Click the downward arrow in the title bar and select **Settings** (or press `Ctrl+,`).
+Under **Default Profile** in the Startup settings, select PowerShell (represented by a black icon, not blue) and click Save in the lower-right corner.
 ![](images/powershell_default_profile.png)
 
 ### Install Python
 
-Not need for Fortran.
+*(Not needed if you are only using Fortran)*
 
 ```powershell
 winget install Python.Python.3.14
 ```
 
-In the new tab of Terminal, a path to `python` is automatically added.
-To quit python, type `quit()`.
+In a new tab of Terminal, the path to `python` is automatically added.
+To exit Python, type `quit()`.
 
 ```powershell
 PowerShell 7.6.4
@@ -76,7 +73,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> quit()
 ```
 
-Install Numpy and matplotlib with `pip`.
+Install Numpy and Matplotlib with `pip`.
 
 ```powershell
 pip install numpy matplotlib
@@ -84,15 +81,15 @@ pip install numpy matplotlib
 
 ### Install Jupyter {#sec-jupyter-win}
 
-Install Jupyter if neede.
+Install Jupyter if needed.
 
 ```powershell
 pip install jupyter
 ```
 
-When Jupyter Notebook is launched, the default browser pops up.
-The current directory of Terminal will be displayed in the browser on launch.
-`cd` can be used to move to another diretory before launching Jupyter.
+When Jupyter Notebook launches, your default browser will open automatically.
+The browser will display the current directory of your terminal.
+You can use `cd` to navigate to a different directory before launching Jupyter:
 
 ```powershell
 jupyter notebook
@@ -100,8 +97,7 @@ jupyter notebook
 
 ### Install an editor
 
-To write source code, an editor is used.
-Install your favourite editor.
+To write source code, install your preferred code editor (pick just one):
 
 ```powershell
 winget install Microsoft.Edit
@@ -110,21 +106,23 @@ winget install GNU.Emacs
 winget install Microsoft.VisualStudioCode
 ```
 
-For those never used any editors, [`Microsoft.Edit`](https://learn.microsoft.com/ja-jp/windows/edit/) is recommended.
+For those who have never used a text editor before, [`Microsoft.Edit`](https://learn.microsoft.com/ja-jp/windows/edit/) is recommended.
 The tutorial for [Neovim](https://neovim.io/) can be launched by typing `:Tutor`.
-That for `emacs` is accessible by setting a cursor to `Emacs Tutorial` and type enter.
+The Emacs tutorial can be accessed by moving the cursor to `Emacs Tutorial` and pressing `Enter`.
 
 ### Install gfortran and R
 
-R scripts are provided to visualize the data produced by Fortran binaries.
-R is not needed if other tools are used, RTools is a convenient way to install gfortran and LAPCK because it includes MinGW-w64 as recommended by Numpy [Build from source](https://numpy.org/doc/stable/building/index.html).
+R scripts are provided to visualize data produced by the Fortran binaries.
+R is not needed if you use other visualizaton tools.
+However, RTools provides a convenient way to install `gfortran` and LAPCK because it includes MinGW-w64, as recommended by Numpy [Build from source](https://numpy.org/doc/stable/building/index.html) guide.
 
 ```powershell
 winget install RProject.R
 winget install RProject.Rtools
 ```
 
-To set the paths, edit the configuration file `Documents\PowerShell\Microsoft.PowerShell_profile.ps1` (or OneDrive\Documents if the account is connected to a Microsoft account). Create `PowerShell` folder if it does not exist before editing.
+To configure environment paths, edit your profile at `Documents\PowerShell\Microsoft.PowerShell_profile.ps1` (or `OneDrive\Documents...` if your account uses OneDrive.)
+Create the `PowerShell` folder first if it does not already exist.
 
 ```powershell
 edit $profile
@@ -134,15 +132,16 @@ edit $profile
 Remove-Alias -Name R # <1>
 $env:PATH += "$env:ProgramFiles/R/R-4.6.1/bin;" # <2>
 $env:PATH += "C:/rtools46/usr/bin;" # <3>
-$env:PATH += "C:/rtools46/x86_w64-mingw32.static.posix/bin;" <4>
+$env:PATH += "C:/rtools46/x86_w64-mingw32.static.posix/bin;" # <4>
 ```
 
-1. In PowerShell `R` is an alias to recall the previous command. To avoid the name clash, remove the alias, allowing to type `R` instead of `R.exe`.
+1. In PowerShell `R` is an alias used to recall previous commands.
+   Removing this alias avoids name conflicts, allowing you to run `R` directly instead of typing `R.exe`.
 2. Path to `R.exe`.
 3. Path to `make`.
-4. Path to `gfortran`. Note that `x86_w64-mingw32.static.posix` depends on the platform and it is something else on the ARM64 architecture.
+4. Path to `gfortran`. Note that `x86_w64-mingw32.static.posix` depends on the platform and differ on ARM64 architectures.
 
-Open another tab to confirm gfortran.
+Open a new terminal tab to verify gfortran installation.
 
 ```powershell
 gfortran --version
@@ -150,20 +149,20 @@ gfortran --version
 
 ## Mac
 
-For hands-on, the official installer from python.org can be used.
-Install Numpy and Matplotlib, optionally Jupyter using `pip`.
+For the hands-on sessions, the official installer from python.org can be used.
+Install Numpy and Matplotlib, and (optionally) Jupyter using `pip`.
 
-For Fortran users, follow the instructions below to insrall gfortran and R using MacPorts.
+For Fortran users, follow the instructions below to install `gfortran` and `R` using MacPorts.
 
 ### Install MacPorts
 
-[MacPorts](https://www.macports.org/) is preferred to Homebrew becaue it provide a more robust and consistent environment.
-The default install location of MacPorts is `/opt/local`.
+[MacPorts](https://www.macports.org/) is preferred over Homebrew because it provide a more robust and consistent environment.
+The default install directory for MacPorts is `/opt/local`.
 
-Follow Installing MacPorts](https://www.macports.org/install.php).
+Follow [Installing MacPorts](https://www.macports.org/install.php).
 
-Update OS and use the pkg installer for the appropritate OS version.
-The installer append `/opt/local/bin` to PATH in `.zshrc`.
+Update macOS and use the `.pkg` installer for the your OS version.
+The installer append `/opt/local/bin` to the `PATH` in `.zshrc`.
 
 
 1. Install Apple's Command Line Developer Tools.
@@ -172,45 +171,47 @@ The installer append `/opt/local/bin` to PATH in `.zshrc`.
 sudo xcode-select --install
 ```
 
-2. (Optional) install Xcode from App Store and agree the license.
+2. (Optional) Install Xcode from App Store and accept the license agreement:
 
 ```zsh
 sudo xcodebuild -license
 ```
 
-3. (optional) install `xorg-server` to use X11.
+3. (Optional) Install `xorg-server` to use X11:
 
 ```zsh
 sudo port install xorg-server
 ```
 
-See `man port` or [documentation](https://guide.macports.org/#using).
+See `man port` or [documentation](https://guide.macports.org/#using) for further details.
 
 ### Install gfortran and R
 
-gfortran is a part of gcc package.
+`gfortran` is included as part of `gcc` package:
 
 ```
 sudo port install gcc15
 ```
 
-To make different version of gcc coexist, the compiler is named `gfortran-mp-15` to include the version number.
-By running
+To allow multiple versions of gcc to coexist, the compiler binary is named `gfortran-mp-15` to include the major version number.
+Run the following command:
 
 ```zsh
 sudo port select gcc mp-gcc15
 ```
 
-make gcc15 default and an alias `gfortran` pointing `gfortran-mp-15` is created in `/opt/local/bin`.
+This sets gcc15 as the default and creates a `gfortran` alias (pointing `/opt/local/bin/gfortran-mp-15`.
 
-For visualization, install R.
+For visualization, install R:
 
 ```zsh
 sudo port install R
 ```
 ### Install Python
 
-To install Python in MacPorts instead of the official binary, type the following command. Python is not required for the hands-on in Fortran. To make multiple versions coexist Python libraries has a version number as py314-numpy.
+To install Python via MacPorts instead of the official installer, run the command below.
+(Python is not required if you are only running the Fortran hands-on.)
+To allow multiple versions to coexist, MacPorts appends version numbers to package names (e.g., py314-numpy).
 
 `python314` is installed in `/opt/local/Library/Frameworks/Python.framework/Versions/3.14`.
 
@@ -218,22 +219,22 @@ To install Python in MacPorts instead of the official binary, type the following
 sudo port install python314
 ```
 
-As in the install messages, use `select` subcommand to choose the Python version to use.
+As indicated in the install messages, use `select` subcommand to set the active Python version.
 
 ```zsh
 sudo port select python python314
 ```
 
-Next, install Numpy and matplotlib.
+Next, install Numpy and Matplotlib.
 
 ```zsh
 sudo port install py314-numpy py314-matplotlib
 ```
-In fact `python314` will be installed as the dependencies to Numpy or matpotlib.
+*(Note: `python314` will automatically be installed as a dependency if it was not installed previously.)*
 
 ### Install Jupyter {#sec-jupyter-mac}
 
-Jupyter can be easily installed from MacPorts.
+Jupyter can also be installed via MacPorts.
 
 ```zsh
 sudo port install py314-jupyter

@@ -1,56 +1,57 @@
 ---
-title: "Handson: equatorial ocean model"
+title: "演習: 赤道海洋モデル"
 ---
 
-We learn the basics of data assimilation (DA) using an equatorial ocean model [@Thacker-Long:1988].
+データ同化の基礎を赤道海洋モデルを学ぶ [@Thacker-Long:1988] 。
 
-## Governing equations
+## 支配方程式
 
-The domain is one-dimensional in the longitudinal direction ($x$) with a cyclic boundary condition.
-The model consists of three linear waves.
-Each wave propagates with a constant wave speed; the model is linear of form.
+領域は経度方向（ $x$ ）に1次元で、周期的境界条件を仮定する。
+モデルは三つの線型波動から構成される。
+それぞれの波は一定の位相速度で伝播し、次のように線型である。
 
 $$
 \frac{\partial q_j}{\partial t} + c_j\frac{\partial q_j}{\partial x} + \sigma q_j = d_j f,\; j = 0,\,2,\,4
 $$ {#eq-governing_equations}
 
-The index $j = 0$  represents the Kelvin wave, which propagates eastward with the phase speed of $c_0 = 1$ and the sensitivity to forcing of $d_j = 1$.
-The indices $j = 2, 4$ are the Rossby waves with $c_2 = - c_0/3,\,c_4 = -c_0/7$ and $d_2 = 1/2,\,d_4 = 1/8$, respectively.
-The damping coefficient $\sigma$ is independent of the wave types.
+添字 $j = 0$ ケルビン波で東向きに位相速度 $c_0 = 1$ で伝播し、強制に対する感度は $d_0 = 1$ である。
+添字 $j = 2, 4$ のロスビー波は位相速度 $c_2 = - c_0/3,\,c_4 = -c_0/7$ で強制に対する感度はそれぞれ $d_2 = 1/2,\,d_4 = 1/8$ である。
+減衰係数 $\sigma$ は波の種類に依存しない。
 
-The only observable is the sea-surface height.
+観測可能な変数は海面高度だけである。
 
 $$
 h = q_0 + q_2 - q_4
 $$ {#eq-observation_operator}
 
-## Discretization
+## 離散化
 
-The governing equations (@eq-governing_equations) is discretized with the Lax-Wendroff method [@Lax-Wendroff:1960].
-This scheme is a single step and explicit method of $O(\tau^2)$, where $\tau$ is the time step.
-The $O(\tau)$ error in time is elimiated in space.
-Consider advection equation
+支配方程式 (@eq-governing_equations) は @Lax-Wendroff:1960 法で離散化する。
+このスキームは単段階の陽的解法で、誤差は $O(\tau^2)$ である。
+ここで、 $\tau$ は時間ステップを表す。
+時間方向に $O(\tau)$ の誤差を空間において打ち消す。
+次の移流方程式を考える。
 
 $$
 \frac{\partial q}{\partial t} + c\frac{\partial q}{\partial x} = 0,
 $$ {#eq-advection}
 
-which is discretized as
+その離散形は
 
 $$
 \frac{q_i^{n+1} - q_i^n}{\tau} + c\frac{q_{i+1}^n - q_{i-1}^n}{2\Delta} =
 \frac{c^2\tau}{2}\left(\frac{q_{i+1}^n - 2q_i^n + q_{i-1}^n}{\Delta^2}\right)
 $$ {#eq-discretized_advection}
 
-where $i$ is the horizonal index and $\Delta$ is the grid interval.
+となる。ここで $i$ は水平の格子番号で $\Delta$ は格子間隔である。
 
-The right-hand side of (@eq-discretized_advection) is a discretized form of the trunction error
+式 (@eq-discretized_advection) の右辺は離散化誤差の離散形である。
 
 $$
 \frac{\tau}{2}\frac{\partial^2 q}{\partial t^2} = \frac{\tau}{2}\frac{\partial}{\partial t}\left(-c\frac{\partial q}{\partial x}\right) = \frac{c^2\tau}{2}\frac{\partial^2 q}{\partial x^2}.
 $$
 
-Using the Lax-Wendroff method, (@eq-governing_equations) is discretized as
+Lax-Wendroff 法を用いると (@eq-governing_equations) は次のように離散化される。
 
 $$
 q_{j, i}^n = \frac{1}{1 + \sigma \tau}\left\{
@@ -60,31 +61,31 @@ q_{j, i}^{n-1} - \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
 $$ {#eq-forward}
 where $\gamma_j = c_j\tau/\Delta$.
 
-## Lagrangian method
+## ラグランジュの未定乗数法
 
-For simplicity, it is assumed that observations are available on the model grid and observations are uncorrelated one another.
+簡単のため、観測はモデル格子上にあるものとし、観測誤差は互いに無相関とする。
 
-The cost function can be defined as
+コスト函数を次のように定義する。
 
 $$
 J = \frac{1}{2} \sum_{i = 0}^{I} \sum_{n = 0}^N [(\eta_i^n - h_i^n)^2 + (\phi_i^n - f_i^n)^2]
 $$ {#eq-cost_function}
 
-where $\eta_i^n, \phi_i^n$ are sea-surface height and wind stress observations and
-$h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n$ are their model equivalents, respectively.
+ここで $\eta_i^n, \phi_i^n$ は海面高度と風応力の観測で、
+$h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n$ はそのモデル相当量である。
 
-The Lagrangian function is defined as
+ラグランジュ函数を次のように定義する。
 
 $$
 L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
-(1 + \sigma\tau)q_{j, i}^n - q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i}^{n-1})
+(1 + \sigma\tau)q_{j, i}^n - q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
 - \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j, i}^{n-1} + q_{j, i-1}^{n-1}) - \tau d_j f_i^n]
 $$ {#eq-lagrange_function}
 
-where $\lambda_{j,i}^n$ is the Lagrange multiplier (and adjoint variable).
-The minimum of $J$ is found by the point where the gradients of $L$ with respect to the state, multiplier, and forcing are identically zero.
+ここで $\lambda_{j,i}^n$ はラグランジュの未定乗数（随伴変数）である。
+$J$ の最小値は $L$ の状態、未定乗数及び強制に対する勾配が同時に0になる点である。
 
-The terminal and initial conditions of the adjoint are
+随伴変数の終端及び初期条件は次のとおりである。
 
 $$
 \begin{aligned}
@@ -93,11 +94,10 @@ $$
 \end{aligned}
 $$ {#eq-adjoint-bc}
 
-The terminal condition indicates at the future step $n = N+1$, the adjoint is naught.
-The initial condition is fulfilled at the minimizer; it is the negative gradient, used for optimization.
+終端条件は未来の時刻 $n = N+1$ で随伴変数が0であることを表す。
+初期条件は最小となる点で満たされ、最適化に使われる負の勾配を表す。
 
-$\partial L/\partial \lambda_{j,i}^n$ recovers the forward model (@eq-forward).
-$\partial L/\partial q_{j,i}^n$ leads to the adjoint equation
+$\partial L/\partial \lambda_{j,i}^n$ から順行モデル (@eq-forward) が復元され、 $\partial L/\partial q_{j,i}^n$ から随伴方程式が得られる。
 
 $$
 \lambda_{j, i}^n = \frac{1}{1 + \sigma \tau}\left\{
@@ -106,121 +106,125 @@ $$
 + \varepsilon_j(\eta_i^n - q_{0,i}^n - q_{2,i}^n + q_{4,i}^n)\right\}
 $$ {#eq-adjoint}
 
-where $\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1$.
-The last term on the right-hand side exist at the step where the observations are available.
+ここで $\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1$ である。
+右辺の最後の項は観測が得られる時刻にのみ存在する。
 
-::: {.callout-important}
-- The adjoint equations (@eq-adjoint) are derived simply by differentiating $L$ (@eq-lagrange_function) with respect to the state $q_{j,i}^n$, without requiring the knowledge on adjoint operator.
-- The adjoint variables accumulates the misfit (innovation) between the data and the model equivalents and propagate backward to the initial time.
-- The adjoint equations (@eq-adjoint) are linear in the adjoint variables.
+::: {.callout-important title="重要"}
+- 随伴方程式 (@eq-adjoint) は $L$ (@eq-lagrange_function) を状態 $q_{j,i}^n$ について微分するだけで得られ、随伴演算子の知識を必要としない。
+- 随伴変数は観測とモデル相当量とのずれ（イノベーション）を時間逆方向に蓄積する。
+- 随伴方程式は (@eq-adjoint) 随伴変数について線型である。
 :::
 
-::: {.callout-warning}
-- Whether $\lambda$ represents the gradient or the negative gradient depends on the sign preceeding the multiplier, which is a matter of convention.
-- Note a tiny but critical error in (10d) of @Thacker-Long:1988.
-  The sign preceeding $\epsilon_j$ should be $-$ rather than $+$.
+::: {.callout-warning title="注意"}
+- $\lambda$ が勾配を表すか、負の勾配を表すかは、未定乗数の前の符号次第で、規約の問題である。
+- 小さいが致命的なタイプミス @Thacker-Long:1988 の(10d)にあることに注意。
+  $\epsilon_j$ の前の符号は $-$ ではなく $+$ が正しい。
 :::
 
-Finally, $\partial L/\partial f_i$ gives
+最後に、 $\partial L/\partial f_i$ は最小点で
+
 $$
 -\tau\sum_j d_j\lambda_{j,i}^n - (\phi_i^n - f_i^n) = 0
 $$ {#eq-forcing_gradients}
-at the minimizer.
-The left-hand side of (@eq-forcing_gradients) represents the gradient with respect to forcing.
 
-## Numerical optimization
+となる。
+式 (@eq-forcing_gradients) の左辺はコスト函数の強制に対する勾配を表す。
 
-The gradients are used to find the minimum of $J$.
+## 数値最適化
+
+勾配を用いて $J$ の最小値を求める。
 
 $$
 \mathbf{x}_k = \mathbf{x}_{k - 1} + \alpha\mathbf{d}
 $$ {#eq-optimization}
 
-where $\mathbf{x}$ represents the control vector containing the variables to be optimized,
-$\mathbf{d}$ is the descent direction, $\alpha$ is the step size and $k$ is the number of iteration.
+ここで $\mathbf{x}$ は、最適化する変数を格納した制御ベクトル、
+$\mathbf{d}$ は降下方向、 $\alpha$ はステップ幅 $k$ は反復回数を表す。
  
-The most na\"ive approach is the gradient descent method
+最もな単純な方法は勾配降下法である。
 
 $$
 \mathbf{x}_k = \mathbf{x}_{k - 1} - \alpha\mathbf{g}
 $$ {#eq-gradient_descent}
 
-$\mathbf{g}$ is the gradient vector, i.e., $\mathbf{d} = -\mathbf{g}$.
-The iteration is terminated by criteria such as the gradient norm, cost or its change from the previous step.
+ここで $\mathbf{g}$ は勾配ベクトル（つまり $\mathbf{d} = -\mathbf{g}$ ）である。
+反復は、勾配のノルムやコスト函数の値、コストの前のステップからの相対変化などの収束条件に基づいて終了する。
 
-One of the more sophisticated approaches is the conjugate gradient method.
-The descent direction, distinct from the gradient, is updated by
+より洗練された共軛勾配法では、降下方向を次のように更新する。
 
 $$
 \mathbf{d}_k = -\mathbf{g}_{k-1} + \beta_k\mathbf{d}_{k-1}.
 $$ {#eq-conjugate_gradient}
 
-Several formula have been proposed to compute $\beta_k$.
-Here, the following form is used [@Fletcher-Reeves:1964].
+$\beta_k$ の計算方法にはいくつかある。
+ここでは、 @Fletcher-Reeves:1964 公式を使う。
 
 $$
 \beta_k = \frac{\mathbf{g}_k^\mathrm{T}\mathbf{g}_k}{\mathbf{g}_{k-1}^\mathrm{T}\mathbf{g}_{k-1}}
 $$ {#eq-Fletcher_Reeves}
 
-## Ensemble Kalman filter
+## アンサンブルカルマンフィルタ
 
-The ensemble Kalman filter [EnKF, @Evensen:1994] approximates the forecast error covariance using the sample covariance of an ensemble forecast
+アンサンブルカルマンフィルタ [EnKF, @Evensen:1994] は予報誤差共分散行列をアンサンブル予報から求めた標本共分散で近似する。
 
 $$
 \mathbf{B} \approx \frac{1}{K - 1}\delta\mathbf{X}\delta\mathbf{X}^\mathrm{T}
 $$ {#eq-bmat}
 
-where the $k$-th column of $\delta\mathbf{X}$ is the ensemble perturbation $\mathbf{x}_k - \bar{\mathbf{x}}$, $K$ is the ensemble size and
+ここで $\delta\mathbf{X}$ の $k$ 番目の列はアンサンブル摂動 $\mathbf{x}_k - \bar{\mathbf{x}}$ 、 $K$ はアンサンブルの大きさで
 
 $$
 \bar{\mathbf{x}} = \frac{1}{K}\sum_{k=1}^K \mathbf{x}_k
 $$ {#eq-ensemble_mean}
 
-is the ensemble mean.
+はアンサンブル平均である。
 
-The update for the ensemble mean is
+アンサンブル平均の更新式は
 
 $$
 \bar{\mathbf{x}}^\mathrm{a} = \bar{\mathbf{x}}^\mathrm{f} + \mathbf{K}(\mathbf{y} - \mathbf{H}\bar{\mathbf{x}}^\mathrm{f})
 $$ {#eq-update_mean}
 
-and that for perturbation is
+で摂動に対しては
 
 $$
 \mathbf{x}^\mathrm{'a} = \mathbf{x}^\mathrm{'f} + \mathbf{K}(\mathbf{y}' - \mathbf{H}\mathbf{x}^\mathrm{'f})
 $$ {#eq-update_pert}
 
-where $\mathbf{H}$ is the linearized observation operator, $\mathbf{K}$ is the Kalman gain
+を用いる。
+ここで $\mathbf{H}$ は線型化された観測演算子、 $\mathbf{K}$ はカルマンゲイン行列
 
 $$
 \mathbf{K} = \mathbf{BH}^\mathrm{T}(\mathbf{HBH}^\mathrm{T} + \mathbf{R})^{-1}
 $$
 
-and $\mathbf{R}$ is the observation error covariance matrix.
+$\mathbf{R}$ は観測誤差共分散行列である。
 
-In (@eq-update_pert), $\mathbf{y}'$ is randomly drawn from the probability density distribution of the observation error, i.e., the pertubed observations [PO, @Burgers-etal:1998;@Houtekamer-Mitchell:1998].
+式 (@eq-update_pert) で $\mathbf{y}'$ は観測誤差の確率密度分布から乱択し、摂動観測 [PO: perturbed observations, @Burgers-etal:1998;@Houtekamer-Mitchell:1998] に相当する。
 
-::: {.callout-important}
-- EnKF does not requre the adjoint equations (@eq-adjoint).
-- The forecast error covariance matrix (@eq-bmat) is flow-dependent and can incorporate the `the error of the day'.
-- The analysis forecast error covariance matrix shrinks by $(\mathbf{I} - \mathbf{KB})$. If it shrinks too much, the true state will not be within the space spanned by the ensemble. Here the analysis forecast error covariance matrix is increased by a multiplicative factor (multiplicative inflation).
-- The ensemble size is much smaller than the degree of freedom of the state, i.e., the forecast error covariance is rank deficient.
-- Localization is often required to reduce psedo correlation due to sampling errors.
-- A number of deteministic alternatives have been proposed that does not perburb observations to avoid introduction of additional sampling errors.
+::: {.callout-important title="重要"}
+- アンサンブルカルマンフィルタに随伴方程式 (@eq-adjoint) は不要である。
+- 予報誤差共分散行列 (@eq-bmat) は流れに依存し、日々の誤差 (the error of the day) を考慮することができる。
+- 誤差共分散は $(\mathbf{I} - \mathbf{KH})$ の割合で縮小する。
+  縮小しすぎると、真の状態がアンサンブルが張る空間に存在しなくなる。
+  これを防止するために、誤差共分散に乗数を掛けて大きくする（乗法的インフレーション）。
+- アンサンブルの大きさは、大抵の場合、状態の次元（自由度）よりも小さいので、誤差共分散行列は階数（ランク）不足である。
+- 局所化は、標本誤差により生じる偽の相関を減少させるためによく用いられている。
+- 観測に摂動与えない決定論的な手法が複数存在し、追加の標本誤差を回避している。
 :::
 
-::: {.callout-note title = "Excercises for beginners"}
-- Write the forward model and run the model with a prescribed two-cycle forcing migrating with $c_f = 0.5$.
-- Derive the adjoint model and estimate the initial state with the observations at $n = 0,\,16,\,32$.
-- Compare the gradient descent and conjugate gradient methods.
-- Write an perturbed observation (PO) ensemble Kalman filter (EnKF) to assimilate observation sequentially.
-- Add noise to the observations.
-- Change the obsertion frequency and locations.
+::: {.callout-note title="初級課題"}
+- 順行モデルを書き、位相速度 $c_f = 0.5$ で伝播する強制を与えて積分せよ。
+- 随伴モデルを導出し、時刻 $n = 0,\,16,\,32$ における観測から初期状態を推定せよ。
+- 勾配降下法と共軛勾配法の性能を比較せよ。
+- 摂動観測アンサンブルカルマンフィルタを実装し、観測を逐次に同化せよ。
+- 人工的な観測にノイズを与えよ。
+- 観測頻度と場所を変えてみよ。
 :::
 
-::: {.callout-note title = "Excercises for intermediates"}
-- Modify the variational method to estimate the forcing at all steps.
-- Write (ensemble) Kalman smoother and compare with the variational method.
-- Write a variational or ensemble data assimilation code for your favourite model, e.g. the Lorenz-96 model and its variants.
+::: {.callout-note title="中級課題"}
+- 変分法同化スキームを変更して、全ての時刻における強制を推定せよ。
+- （アンサンブル）カルマンスムーザを実装し、結果を変分法と比較せよ。
+- 自分で選んだモデル（例えば Lorenz-96 モデルやその派生）に対して、変分法あるいはアンサンブルデータ同化コードを構築せよ。
 :::
 

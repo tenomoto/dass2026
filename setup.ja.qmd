@@ -53,7 +53,7 @@ winget install Microsoft.PowerShell
 ```
 
 プロファイルが自動で作成されるので、これがWindowsターミナルを起動した時に選択されるように設定する。ウインドウのタイトルバーの下向き記号から設定を選択するか、Ctrl+,で設定画面を表示する。「スタートアップ」の「既定のプロファイル」から、青ではなく黒のPowerShellを選び、ウィンドウ右下の「保存」ボタンをクリックする。
-![](images/powershell_default_profile.png)
+![](images/powershell_default_profile_ja.png)
 
 ### Pythonのインストール
 
@@ -131,7 +131,7 @@ edit $profile
 Remove-Alias -Name R # <1>
 $env:PATH += "$env:ProgramFiles/R/R-4.6.1/bin;" # <2>
 $env:PATH += "C:/rtools46/usr/bin;" # <3>
-$env:PATH += "C:/rtools46/x86_w64-mingw32.static.posix/bin;" <4>
+$env:PATH += "C:/rtools46/x86_w64-mingw32.static.posix/bin;" # <4>
 ```
 
 1. `R` はPowerShellでは、一つ前に投入したコマンドを呼び出すものであり、名前が衝突するので、エイリアスを削除する。 Rを起動するときに`R.exe` と `R` 打鍵することができる。

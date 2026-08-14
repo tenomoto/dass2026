@@ -18,7 +18,6 @@ csl: american-meteorological-society.csl
 format:
   html:
     theme: cosmo
-    css: styles.css
     toc: true
 
 crossref:
