@@ -4,6 +4,7 @@ project:
 
 website:
   title: "dass2026"
+  site-url: "https://tenomoto.github.io/dass2026/"
   navbar:
     search: true
     left:
@@ -32,4 +33,5 @@ babelquarto:
     text: "English"
   mainlanguage: 'en'
   languages: ['ja']
+  csl-locale: en-US
 lang: en
