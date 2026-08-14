@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
-<link rel="alternate" hreflang="en" href="/index.html" />
-<link rel="alternate" hreflang="ja" href="/ja/index.ja.html" />
+<link rel="alternate" hreflang="en" href="https://tenomoto.github.io/dass2026/index.html" />
+<link rel="alternate" hreflang="ja" href="https://tenomoto.github.io/dass2026/ja/index.ja.html" />
 <meta charset="UTF-8">
 <meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -116,7 +116,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item"><div class="dropdown" id="languages-links-parent">
-<button class="btn btn-primary dropdown-toggle babelquarto-languages-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="languages-button"><i class="bi bi-globe2"></i> 日本語</button><ul class="dropdown-menu" id="languages-links"><li><a class="dropdown-item" href="/index.html" id="language-link-en">English</a></li></ul>
+<button class="btn btn-primary dropdown-toggle babelquarto-languages-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="languages-button"><i class="bi bi-globe2"></i> 日本語</button><ul class="dropdown-menu" id="languages-links"><li><a class="dropdown-item" href="https://tenomoto.github.io/dass2026/index.html" id="language-link-en">English</a></li></ul>
 </div></li>
 <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
@@ -161,7 +161,7 @@ window.Quarto = {
   
 
 
-</header><p>データ同化の基礎を赤道海洋モデルを学ぶ <span class="citation" data-cites="Thacker-Long:1988">(<a href="#ref-Thacker-Long:1988" role="doc-biblioref">Thacker と Long 1988</a>)</span> 。</p>
+</header><p>データ同化の基礎を赤道海洋モデルを学ぶ <span class="citation" data-cites="Thacker-Long:1988">(<a href="#ref-Thacker-Long:1988" role="doc-biblioref">Thacker and Long 1988</a>)</span> 。</p>
 <section id="支配方程式" class="level2"><h2 class="anchored" data-anchor-id="支配方程式">支配方程式</h2>
 <p>領域は経度方向（ <span class="math inline">\(x\)</span> ）に1次元で、周期的境界条件を仮定する。 モデルは三つの線型波動から構成される。 それぞれの波は一定の位相速度で伝播し、次のように線型である。</p>
 <p><span id="eq-governing_equations"><span class="math display">\[
@@ -173,7 +173,7 @@ window.Quarto = {
 h = q_0 + q_2 - q_4
 \tag{2}\]</span></span></p>
 </section><section id="離散化" class="level2"><h2 class="anchored" data-anchor-id="離散化">離散化</h2>
-<p>支配方程式 (<a href="#eq-governing_equations" class="quarto-xref">1</a>) は <span class="citation" data-cites="Lax-Wendroff:1960">Lax と Wendroff (<a href="#ref-Lax-Wendroff:1960" role="doc-biblioref">1960</a>)</span> 法で離散化する。 このスキームは単段階の陽的解法で、誤差は <span class="math inline">\(O(\tau^2)\)</span> である。 ここで、 <span class="math inline">\(\tau\)</span> は時間ステップを表す。 時間方向に <span class="math inline">\(O(\tau)\)</span> の誤差を空間において打ち消す。 次の移流方程式を考える。</p>
+<p>支配方程式 (<a href="#eq-governing_equations" class="quarto-xref">1</a>) は <span class="citation" data-cites="Lax-Wendroff:1960">Lax and Wendroff (<a href="#ref-Lax-Wendroff:1960" role="doc-biblioref">1960</a>)</span> 法で離散化する。 このスキームは単段階の陽的解法で、誤差は <span class="math inline">\(O(\tau^2)\)</span> である。 ここで、 <span class="math inline">\(\tau\)</span> は時間ステップを表す。 時間方向に <span class="math inline">\(O(\tau)\)</span> の誤差を空間において打ち消す。 次の移流方程式を考える。</p>
 <p><span id="eq-advection"><span class="math display">\[
 \frac{\partial q}{\partial t} + c\frac{\partial q}{\partial x} = 0,
 \tag{3}\]</span></span></p>
@@ -254,7 +254,7 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 <ul>
 <li>
 <span class="math inline">\(\lambda\)</span> が勾配を表すか、負の勾配を表すかは、未定乗数の前の符号次第で、規約の問題である。</li>
-<li>小さいが致命的なタイプミス <span class="citation" data-cites="Thacker-Long:1988">Thacker と Long (<a href="#ref-Thacker-Long:1988" role="doc-biblioref">1988</a>)</span> の(10d)にあることに注意。 <span class="math inline">\(\epsilon_j\)</span> の前の符号は <span class="math inline">\(-\)</span> ではなく <span class="math inline">\(+\)</span> が正しい。</li>
+<li>小さいが致命的なタイプミス <span class="citation" data-cites="Thacker-Long:1988">Thacker and Long (<a href="#ref-Thacker-Long:1988" role="doc-biblioref">1988</a>)</span> の(10d)にあることに注意。 <span class="math inline">\(\epsilon_j\)</span> の前の符号は <span class="math inline">\(-\)</span> ではなく <span class="math inline">\(+\)</span> が正しい。</li>
 </ul>
 </div>
 </div>
@@ -278,7 +278,7 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 <p><span id="eq-conjugate_gradient"><span class="math display">\[
 \mathbf{d}_k = -\mathbf{g}_{k-1} + \beta_k\mathbf{d}_{k-1}.
 \tag{13}\]</span></span></p>
-<p><span class="math inline">\(\beta_k\)</span> の計算方法にはいくつかある。 ここでは、 <span class="citation" data-cites="Fletcher-Reeves:1964">Fletcher と Reeves (<a href="#ref-Fletcher-Reeves:1964" role="doc-biblioref">1964</a>)</span> 公式を使う。</p>
+<p><span class="math inline">\(\beta_k\)</span> の計算方法にはいくつかある。 ここでは、 <span class="citation" data-cites="Fletcher-Reeves:1964">Fletcher and Reeves (<a href="#ref-Fletcher-Reeves:1964" role="doc-biblioref">1964</a>)</span> 公式を使う。</p>
 <p><span id="eq-Fletcher_Reeves"><span class="math display">\[
 \beta_k = \frac{\mathbf{g}_k^\mathrm{T}\mathbf{g}_k}{\mathbf{g}_{k-1}^\mathrm{T}\mathbf{g}_{k-1}}
 \tag{14}\]</span></span></p>
@@ -305,7 +305,7 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 \mathbf{K} = \mathbf{BH}^\mathrm{T}(\mathbf{HBH}^\mathrm{T} + \mathbf{R})^{-1}
 \]</span></p>
 <p><span class="math inline">\(\mathbf{R}\)</span> は観測誤差共分散行列である。</p>
-<p>式 (<a href="#eq-update_pert" class="quarto-xref">18</a>) で <span class="math inline">\(\mathbf{y}'\)</span> は観測誤差の確率密度分布から乱択し、摂動観測 <span class="citation" data-cites="Burgers-etal:1998 Houtekamer-Mitchell:1998">(PO: perturbed observations, <a href="#ref-Burgers-etal:1998" role="doc-biblioref">Burgers ほか 1998</a>; <a href="#ref-Houtekamer-Mitchell:1998" role="doc-biblioref">Houtekamer と Mitchell 1998</a>)</span> に相当する。</p>
+<p>式 (<a href="#eq-update_pert" class="quarto-xref">18</a>) で <span class="math inline">\(\mathbf{y}'\)</span> は観測誤差の確率密度分布から乱択し、摂動観測 <span class="citation" data-cites="Burgers-etal:1998 Houtekamer-Mitchell:1998">(PO: perturbed observations, <a href="#ref-Burgers-etal:1998" role="doc-biblioref">Burgers et al. 1998</a>; <a href="#ref-Houtekamer-Mitchell:1998" role="doc-biblioref">Houtekamer and Mitchell 1998</a>)</span> に相当する。</p>
 <div class="callout callout-style-default callout-important callout-titled" title="重要">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -369,22 +369,22 @@ L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 </section><div id="quarto-appendix"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">参考文献</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Burgers-etal:1998" class="csl-entry" role="listitem">
-Burgers, G., P. J. van Leeuwen, と G. Evensen, 1998: Analysis scheme in the ensemble <span>Kalman</span> filter. <em>Monthly Weather Review</em>, <strong>126</strong>, 1719–1724, https://doi.org/<a href="https://doi.org/10.1175/1520-0493(1998)126<1719:ASITEK>2.0.CO;2">10.1175/1520-0493(1998)126&lt;1719:ASITEK&gt;2.0.CO;2</a>.
+Burgers, G., P. J. van Leeuwen, and G. Evensen, 1998: Analysis scheme in the ensemble <span>Kalman</span> filter. <em>Monthly Weather Review</em>, <strong>126</strong>, 1719–1724, <a href="https://doi.org/10.1175/1520-0493(1998)126<1719:ASITEK>2.0.CO;2">10.1175/1520-0493(1998)126&lt;1719:ASITEK&gt;2.0.CO;2</a>.
 </div>
 <div id="ref-Evensen:1994" class="csl-entry" role="listitem">
-Evensen, G., 1994: Sequential data assimilation with a nonlinear quasi-geostrophic model using <span>Monte</span> <span>Carlo</span> methods to forecast error statistics. <em>J. Geophys. Res. Oceans</em>, <strong>99</strong>, 10143–10162, https://doi.org/<a href="https://doi.org/10.1029/94JC00572">10.1029/94JC00572</a>.
+Evensen, G., 1994: Sequential data assimilation with a nonlinear quasi-geostrophic model using <span>Monte</span> <span>Carlo</span> methods to forecast error statistics. <em>J. Geophys. Res. Oceans</em>, <strong>99</strong>, 10143–10162, <a href="https://doi.org/10.1029/94JC00572">10.1029/94JC00572</a>.
 </div>
 <div id="ref-Fletcher-Reeves:1964" class="csl-entry" role="listitem">
-Fletcher, R., と C. M. Reeves, 1964: Function minimization by conjugate gradients. <em>The Computer Journal</em>, <strong>7</strong>, 149–154, https://doi.org/<a href="https://doi.org/10.1093/comjnl/7.2.149">10.1093/comjnl/7.2.149</a>.
+Fletcher, R., and C. M. Reeves, 1964: Function minimization by conjugate gradients. <em>The Computer Journal</em>, <strong>7</strong>, 149–154, <a href="https://doi.org/10.1093/comjnl/7.2.149">10.1093/comjnl/7.2.149</a>.
 </div>
 <div id="ref-Houtekamer-Mitchell:1998" class="csl-entry" role="listitem">
-Houtekamer, P. L., と H. L. Mitchell, 1998: Data assimilation using an ensemble <span>Kalman</span> filter technique. <em>Mon. Wea. Rev.</em>, <strong>126</strong>, 796–811, https://doi.org/<a href="https://doi.org/10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2">10.1175/1520-0493(1998)126&lt;0796:DAUAEK&gt;2.0.CO;2</a>.
+Houtekamer, P. L., and H. L. Mitchell, 1998: Data assimilation using an ensemble <span>Kalman</span> filter technique. <em>Mon. Wea. Rev.</em>, <strong>126</strong>, 796–811, <a href="https://doi.org/10.1175/1520-0493(1998)126<0796:DAUAEK>2.0.CO;2">10.1175/1520-0493(1998)126&lt;0796:DAUAEK&gt;2.0.CO;2</a>.
 </div>
 <div id="ref-Lax-Wendroff:1960" class="csl-entry" role="listitem">
-Lax, P., と B. Wendroff, 1960: Systems of conservation laws. <em>Comm. Pure Appl. Math.</em>, <strong>13</strong>, 217–237, https://doi.org/<a href="https://doi.org/10.1002/cpa.3160130205">10.1002/cpa.3160130205</a>.
+Lax, P., and B. Wendroff, 1960: Systems of conservation laws. <em>Comm. Pure Appl. Math.</em>, <strong>13</strong>, 217–237, <a href="https://doi.org/10.1002/cpa.3160130205">10.1002/cpa.3160130205</a>.
 </div>
 <div id="ref-Thacker-Long:1988" class="csl-entry" role="listitem">
-Thacker, W. C., と R. B. Long, 1988: Fitting dynamics to data. <em>J. Geophys. Res. Oceans</em>, <strong>93</strong>, 1227–1240, https://doi.org/<a href="https://doi.org/10.1029/JC093iC02p01227">10.1029/JC093iC02p01227</a>.
+Thacker, W. C., and R. B. Long, 1988: Fitting dynamics to data. <em>J. Geophys. Res. Oceans</em>, <strong>93</strong>, 1227–1240, <a href="https://doi.org/10.1029/JC093iC02p01227">10.1029/JC093iC02p01227</a>.
 </div>
 </div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -459,7 +459,7 @@ Thacker, W. C., と R. B. Long, 1988: Fitting dynamics to data. <em>J. Geophys. 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("\/ja");
+        var filterRegex = new RegExp("https:\/\/tenomoto\.github\.io\/dass2026\/ja");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

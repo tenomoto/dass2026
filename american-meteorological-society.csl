@@ -25,6 +25,12 @@
     <updated>2025-03-22T21:28:52+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
+  <locale xml:lang="ja">
+    <terms>
+      <term name="and">and</term>
+      <term name="et-al">et al.</term>
+    </terms>
+  </locale>
   <locale xml:lang="en">
     <terms>
       <term name="page" form="short">
@@ -98,7 +104,7 @@
         </group>
       </if>
       <else-if match="any" variable="DOI">
-        <text variable="DOI" prefix=", https://doi.org/"/>
+        <text variable="DOI" prefix=", "/>
       </else-if>
       <else-if type="webpage post post-weblog" match="any">
         <group delimiter=", " prefix=". ">
