@@ -9,6 +9,9 @@ website:
     left:
       - href: index.qmd
       - setup.qmd
+    right:
+      - icon: github
+        href: https://github.com/tenomoto/dass2026
 
 appendix-style: plain
 
