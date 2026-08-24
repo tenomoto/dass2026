@@ -1,9 +1,10 @@
 import numpy as np
 from numpy import cos, sin, fabs
+import matplotlib.pyplot as plt
 import settings as st
 import eqocean as eo
 import run
-from plot import plot_waves
+from plot import plot_waves, plot_rmse, plot_state
 
 x = st.x
 tmax = st.tmax
@@ -18,6 +19,10 @@ f = np.zeros([tmax, imax])
 f[0, :] = 0.1 * cos(kf * x)
 
 true_state = run.forward(q0, q2, q4, f, tmax)
+fig = plot_state(true_state, plot_f=True)
+fig.suptitle('True state')
+fig.savefig('true_state.png', dpi=300)
+plt.show()
 
 tobs = np.array([0, 16, 32])
 ntobs = len(tobs)
@@ -47,6 +52,7 @@ d = np.zeros(3 * imax)
 
 dh = np.zeros([tmax, imax])
 state = run.forward(q0, q2, q4, f, tmax)
+cost_hist = []
 for ep in range(niter):
     state = run.forward(q0, q2, q4, f, tmax)
     h = eo.calc_h(state["q0"], state["q2"], state["q4"])
@@ -54,6 +60,7 @@ for ep in range(niter):
     dh[tobs, :] = hobs - h[tobs, :]
     adj = run.adjoint(dh)
     cost = run.calc_cost(dh, 0)
+    cost_hist.append(cost)
     xf = np.concatenate([q0, q2, q4])
     g = -np.concatenate([adj["p0"], adj["p2"], adj["p4"]])
     gnorm = np.dot(g, g)
@@ -75,8 +82,27 @@ for ep in range(niter):
     if gnorm < gtol:
         run.print_diag(ep, cost, gnorm, "stopping due to gtol")
         break
+    if ep <= 100 and ep % 10 == 0:
+        fig = plot_state(state)
+        fig.suptitle(f'Iteration {ep:d}')
+        fig.savefig(f'var_state_iter{ep:d}.png', dpi=300)
+        plt.show(block=False)
+        plt.pause(1.0)
+        plt.close()
     ocost = cost
     ognorm = gnorm
 state = run.forward(q0, q2, q4, f, tmax)
 run.print_mse(state, true_state)
 plot_waves(x, state, true_state)
+_ = plot_rmse(state, true_state, guess_state)
+fig = plot_state(state)
+fig.suptitle('4DVar')
+fig.savefig('var_state.png', dpi=300)
+plt.show()
+
+plt.figure(figsize=(8,4),constrained_layout=True)
+plt.plot(np.log10(cost_hist))
+plt.xlabel('Iteration')
+plt.ylabel(r'$\log_{10}$(J)')
+plt.savefig('var_cost.png', dpi=300)
+plt.show()
