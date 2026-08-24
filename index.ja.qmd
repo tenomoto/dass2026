@@ -1,0 +1,230 @@
+---
+title: "演習: 赤道海洋モデル"
+---
+
+データ同化の基礎を赤道海洋モデルを学ぶ [@Thacker-Long:1988] 。
+
+## 支配方程式
+
+領域は経度方向（ $x$ ）に1次元で、周期的境界条件を仮定する。
+モデルは三つの線型波動から構成される。
+それぞれの波は一定の位相速度で伝播し、次のように線型である。
+
+$$
+\frac{\partial q_j}{\partial t} + c_j\frac{\partial q_j}{\partial x} + \sigma q_j = d_j f,\; j = 0,\,2,\,4
+$$ {#eq-governing_equations}
+
+添字 $j = 0$ ケルビン波で東向きに位相速度 $c_0 = 1$ で伝播し、強制に対する感度は $d_0 = 1$ である。
+添字 $j = 2, 4$ のロスビー波は位相速度 $c_2 = - c_0/3,\,c_4 = -c_0/7$ で強制に対する感度はそれぞれ $d_2 = 1/2,\,d_4 = 1/8$ である。
+減衰係数 $\sigma$ は波の種類に依存しない。
+
+観測可能な変数は海面高度だけである。
+
+$$
+h = q_0 + q_2 - q_4
+$$ {#eq-observation_operator}
+
+## 離散化
+
+支配方程式 (@eq-governing_equations) は @Lax-Wendroff:1960 法で離散化する。
+このスキームは単段階の陽的解法で、誤差は $O(\tau^2)$ である。
+ここで、 $\tau$ は時間ステップを表す。
+時間方向に $O(\tau)$ の誤差を空間において打ち消す。
+次の移流方程式を考える。
+
+$$
+\frac{\partial q}{\partial t} + c\frac{\partial q}{\partial x} = 0,
+$$ {#eq-advection}
+
+その離散形は
+
+$$
+\frac{q_i^{n+1} - q_i^n}{\tau} + c\frac{q_{i+1}^n - q_{i-1}^n}{2\Delta} =
+\frac{c^2\tau}{2}\left(\frac{q_{i+1}^n - 2q_i^n + q_{i-1}^n}{\Delta^2}\right)
+$$ {#eq-discretized_advection}
+
+となる。ここで $i$ は水平の格子番号で $\Delta$ は格子間隔である。
+
+式 (@eq-discretized_advection) の右辺は離散化誤差の離散形である。
+
+$$
+\frac{\tau}{2}\frac{\partial^2 q}{\partial t^2} = \frac{\tau}{2}\frac{\partial}{\partial t}\left(-c\frac{\partial q}{\partial x}\right) = \frac{c^2\tau}{2}\frac{\partial^2 q}{\partial x^2}.
+$$
+
+Lax-Wendroff 法を用いると (@eq-governing_equations) は次のように離散化される。
+
+$$
+q_{j, i}^n = \frac{1}{1 + \sigma \tau}\left\{
+q_{j, i}^{n-1} - \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
++ \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j,i}^{n-1} + q_{j, i-1}^{n-1}) + \tau d_j f_i^n
+\right\}
+$$ {#eq-forward}
+where $\gamma_j = c_j\tau/\Delta$.
+
+## ラグランジュの未定乗数法
+
+簡単のため、観測はモデル格子上にあるものとし、観測誤差は互いに無相関とする。
+
+コスト函数を次のように定義する。
+
+$$
+J = \frac{1}{2} \sum_{i = 0}^{I} \sum_{n = 0}^N [(\eta_i^n - h_i^n)^2 + (\phi_i^n - f_i^n)^2]
+$$ {#eq-cost_function}
+
+ここで $\eta_i^n, \phi_i^n$ は海面高度と風応力の観測で、
+$h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n$ はそのモデル相当量である。
+
+ラグランジュ函数を次のように定義する。
+
+$$
+L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
+(1 + \sigma\tau)q_{j, i}^n - q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
+- \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j, i}^{n-1} + q_{j, i-1}^{n-1}) - \tau d_j f_i^n]
+$$ {#eq-lagrange_function}
+
+ここで $\lambda_{j,i}^n$ はラグランジュの未定乗数（随伴変数）である。
+$J$ の最小値は $L$ の状態、未定乗数及び強制に対する勾配が同時に0になる点である。
+
+随伴変数の終端及び初期条件は次のとおりである。
+
+$$
+\begin{aligned}
+\lambda_{j,i}^{N+1} &= 0 \\
+\lambda_{j,i}^0 &= 0. 
+\end{aligned}
+$$ {#eq-adjoint-bc}
+
+終端条件は未来の時刻 $n = N+1$ で随伴変数が0であることを表す。
+初期条件は最小となる点で満たされ、最適化に使われる負の勾配を表す。
+
+$\partial L/\partial \lambda_{j,i}^n$ から順行モデル (@eq-forward) が復元され、 $\partial L/\partial q_{j,i}^n$ から随伴方程式が得られる。
+
+$$
+\lambda_{j, i}^n = \frac{1}{1 + \sigma \tau}\left\{
+\lambda_{j, i}^{n+1} - \frac{1}{2}\gamma_j(\lambda_{j, i-1}^{n+1} - \lambda_{j, i+1}^{n+1})
++ \frac{1}{2}\gamma_j^2(\lambda_{j,i-1}^{n+1} - 2\lambda_{j,i}^{n+1} + \lambda_{j, i+1}^{n+1})
++ \varepsilon_j(\eta_i^n - q_{0,i}^n - q_{2,i}^n + q_{4,i}^n)\right\}
+$$ {#eq-adjoint}
+
+ここで $\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1$ である。
+右辺の最後の項は観測が得られる時刻にのみ存在する。
+
+::: {.callout-important title="重要"}
+- 随伴方程式 (@eq-adjoint) は $L$ (@eq-lagrange_function) を状態 $q_{j,i}^n$ について微分するだけで得られ、随伴演算子の知識を必要としない。
+- 随伴変数は観測とモデル相当量とのずれ（イノベーション）を時間逆方向に蓄積する。
+- 随伴方程式は (@eq-adjoint) 随伴変数について線型である。
+:::
+
+::: {.callout-warning title="注意"}
+- $\lambda$ が勾配を表すか、負の勾配を表すかは、未定乗数の前の符号次第で、規約の問題である。
+- 小さいが致命的なタイプミス @Thacker-Long:1988 の(10d)にあることに注意。
+  $\epsilon_j$ の前の符号は $-$ ではなく $+$ が正しい。
+:::
+
+最後に、 $\partial L/\partial f_i$ は最小点で
+
+$$
+-\tau\sum_j d_j\lambda_{j,i}^n - (\phi_i^n - f_i^n) = 0
+$$ {#eq-forcing_gradients}
+
+となる。
+式 (@eq-forcing_gradients) の左辺はコスト函数の強制に対する勾配を表す。
+
+## 数値最適化
+
+勾配を用いて $J$ の最小値を求める。
+
+$$
+\mathbf{x}_k = \mathbf{x}_{k - 1} + \alpha\mathbf{d}
+$$ {#eq-optimization}
+
+ここで $\mathbf{x}$ は、最適化する変数を格納した制御ベクトル、
+$\mathbf{d}$ は降下方向、 $\alpha$ はステップ幅 $k$ は反復回数を表す。
+ 
+最もな単純な方法は勾配降下法である。
+
+$$
+\mathbf{x}_k = \mathbf{x}_{k - 1} - \alpha\mathbf{g}
+$$ {#eq-gradient_descent}
+
+ここで $\mathbf{g}$ は勾配ベクトル（つまり $\mathbf{d} = -\mathbf{g}$ ）である。
+反復は、勾配のノルムやコスト函数の値、コストの前のステップからの相対変化などの収束条件に基づいて終了する。
+
+より洗練された共軛勾配法では、降下方向を次のように更新する。
+
+$$
+\mathbf{d}_k = -\mathbf{g}_{k-1} + \beta_k\mathbf{d}_{k-1}.
+$$ {#eq-conjugate_gradient}
+
+$\beta_k$ の計算方法にはいくつかある。
+ここでは、 @Fletcher-Reeves:1964 公式を使う。
+
+$$
+\beta_k = \frac{\mathbf{g}_k^\mathrm{T}\mathbf{g}_k}{\mathbf{g}_{k-1}^\mathrm{T}\mathbf{g}_{k-1}}
+$$ {#eq-Fletcher_Reeves}
+
+## アンサンブルカルマンフィルタ
+
+アンサンブルカルマンフィルタ [EnKF, @Evensen:1994] は予報誤差共分散行列をアンサンブル予報から求めた標本共分散で近似する。
+
+$$
+\mathbf{B} \approx \frac{1}{K - 1}\delta\mathbf{X}\delta\mathbf{X}^\mathrm{T}
+$$ {#eq-bmat}
+
+ここで $\delta\mathbf{X}$ の $k$ 番目の列はアンサンブル摂動 $\mathbf{x}_k - \bar{\mathbf{x}}$ 、 $K$ はアンサンブルの大きさで
+
+$$
+\bar{\mathbf{x}} = \frac{1}{K}\sum_{k=1}^K \mathbf{x}_k
+$$ {#eq-ensemble_mean}
+
+はアンサンブル平均である。
+
+アンサンブル平均の更新式は
+
+$$
+\bar{\mathbf{x}}^\mathrm{a} = \bar{\mathbf{x}}^\mathrm{f} + \mathbf{K}(\mathbf{y} - \mathbf{H}\bar{\mathbf{x}}^\mathrm{f})
+$$ {#eq-update_mean}
+
+で摂動に対しては
+
+$$
+\mathbf{x}^\mathrm{'a} = \mathbf{x}^\mathrm{'f} + \mathbf{K}(\mathbf{y}' - \mathbf{H}\mathbf{x}^\mathrm{'f})
+$$ {#eq-update_pert}
+
+を用いる。
+ここで $\mathbf{H}$ は線型化された観測演算子、 $\mathbf{K}$ はカルマンゲイン行列
+
+$$
+\mathbf{K} = \mathbf{BH}^\mathrm{T}(\mathbf{HBH}^\mathrm{T} + \mathbf{R})^{-1}
+$$
+
+$\mathbf{R}$ は観測誤差共分散行列である。
+
+式 (@eq-update_pert) で $\mathbf{y}'$ は観測誤差の確率密度分布から乱択し、摂動観測 [PO: perturbed observations, @Burgers-etal:1998;@Houtekamer-Mitchell:1998] に相当する。
+
+::: {.callout-important title="重要"}
+- アンサンブルカルマンフィルタに随伴方程式 (@eq-adjoint) は不要である。
+- 予報誤差共分散行列 (@eq-bmat) は流れに依存し、日々の誤差 (the error of the day) を考慮することができる。
+- 誤差共分散は $(\mathbf{I} - \mathbf{KH})$ の割合で縮小する。
+  縮小しすぎると、真の状態がアンサンブルが張る空間に存在しなくなる。
+  これを防止するために、誤差共分散に乗数を掛けて大きくする（乗法的インフレーション）。
+- アンサンブルの大きさは、大抵の場合、状態の次元（自由度）よりも小さいので、誤差共分散行列は階数（ランク）不足である。
+- 局所化は、標本誤差により生じる偽の相関を減少させるためによく用いられている。
+- 観測に摂動与えない決定論的な手法が複数存在し、追加の標本誤差を回避している。
+:::
+
+::: {.callout-note title="初級課題"}
+- 順行モデルを書き、位相速度 $c_f = 0.5$ で伝播する強制を与えて積分せよ。
+- 随伴モデルを導出し、時刻 $n = 0,\,16,\,32$ における観測から初期状態を推定せよ。
+- 勾配降下法と共軛勾配法の性能を比較せよ。
+- 摂動観測アンサンブルカルマンフィルタを実装し、観測を逐次に同化せよ。
+- 人工的な観測にノイズを与えよ。
+- 観測頻度と場所を変えてみよ。
+:::
+
+::: {.callout-note title="中級課題"}
+- 変分法同化スキームを変更して、全ての時刻における強制を推定せよ。
+- （アンサンブル）カルマンスムーザを実装し、結果を変分法と比較せよ。
+- 自分で選んだモデル（例えば Lorenz-96 モデルやその派生）に対して、変分法あるいはアンサンブルデータ同化コードを構築せよ。
+:::
+

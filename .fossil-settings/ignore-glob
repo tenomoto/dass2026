@@ -1,0 +1,8 @@
+Fortran/*.o
+Fortran/*.mod
+Fortran/*.png
+Fortran/check_adjoint
+Fortran/var
+Fortran/enkf
+Fortran/*.dat
+Python/__pycache__/*

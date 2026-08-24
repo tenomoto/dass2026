@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
 <link rel="alternate" hreflang="en" href="https://tenomoto.github.io/dass2026/setup.html" />
 <link rel="alternate" hreflang="ja" href="https://tenomoto.github.io/dass2026/ja/setup.ja.html" />
 <meta charset="UTF-8">
 <meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Getting Started – dass2026</title>
+<title>環境構築 – dass2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -77,17 +77,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "一致なし",
+    "search-matching-documents-text": "一致した文書",
+    "search-copy-link-title": "検索へのリンクをコピー",
+    "search-hide-matches-text": "追加の検索結果を非表示",
+    "search-more-match-text": "追加の検索結果",
+    "search-more-matches-text": "追加の検索結果",
+    "search-clear-button-title": "消去",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "検索",
+    "search-label": "サーチ"
   }
 }</script>
 </head>
@@ -100,22 +100,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">dass2026</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="サーチ"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item"><div class="dropdown" id="languages-links-parent">
-<button class="btn btn-primary dropdown-toggle babelquarto-languages-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="languages-button"><i class="bi bi-globe2"></i> English</button><ul class="dropdown-menu" id="languages-links"><li><a class="dropdown-item" href="https://tenomoto.github.io/dass2026/ja/setup.html" id="language-link-ja">日本語</a></li></ul>
+<button class="btn btn-primary dropdown-toggle babelquarto-languages-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="languages-button"><i class="bi bi-globe2"></i> 日本語</button><ul class="dropdown-menu" id="languages-links"><li><a class="dropdown-item" href="https://tenomoto.github.io/dass2026/setup.html" id="language-link-en">English</a></li></ul>
 </div></li>
 <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Hand-son: Equatorial Ocean Model</span></a>
+<span class="menu-text">演習: 赤道海洋モデル</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./setup.html" aria-current="page"> 
-<span class="menu-text">Getting Started</span></a>
+<span class="menu-text">環境構築</span></a>
   </li>  
 </ul>
 <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -133,36 +133,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">目次</h2>
    
   <ul>
 <li><a href="#fortran" id="toc-fortran" class="nav-link active" data-scroll-target="#fortran">Fortran</a></li>
   <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
   <li><a href="#google-colaboratory" id="toc-google-colaboratory" class="nav-link" data-scroll-target="#google-colaboratory">Google Colaboratory</a></li>
-  <li><a href="#terminal" id="toc-terminal" class="nav-link" data-scroll-target="#terminal">Terminal</a></li>
+  <li><a href="#%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB" id="toc-ターミナル" class="nav-link" data-scroll-target="#ターミナル">ターミナル</a></li>
   <li>
 <a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a>
   <ul class="collapse">
-<li><a href="#install-python" id="toc-install-python" class="nav-link" data-scroll-target="#install-python">Install Python</a></li>
-  <li><a href="#sec-jupyter-win" id="toc-sec-jupyter-win" class="nav-link" data-scroll-target="#sec-jupyter-win">Install Jupyter</a></li>
-  <li><a href="#install-an-editor" id="toc-install-an-editor" class="nav-link" data-scroll-target="#install-an-editor">Install an editor</a></li>
-  <li><a href="#install-gfortran-and-r" id="toc-install-gfortran-and-r" class="nav-link" data-scroll-target="#install-gfortran-and-r">Install gfortran and R</a></li>
+<li><a href="#python%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB" id="toc-pythonのインストール" class="nav-link" data-scroll-target="#pythonのインストール">Pythonのインストール</a></li>
+  <li><a href="#sec-jupyter-win" id="toc-sec-jupyter-win" class="nav-link" data-scroll-target="#sec-jupyter-win">Jupyterのインストール</a></li>
+  <li><a href="#%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB" id="toc-エディタのインストール" class="nav-link" data-scroll-target="#エディタのインストール">エディタのインストール</a></li>
+  <li><a href="#gfortran%E3%81%A8r%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB" id="toc-gfortranとrのインストール" class="nav-link" data-scroll-target="#gfortranとrのインストール">gfortranとRのインストール</a></li>
   </ul>
 </li>
   <li>
 <a href="#mac" id="toc-mac" class="nav-link" data-scroll-target="#mac">Mac</a>
   <ul class="collapse">
-<li><a href="#install-macports" id="toc-install-macports" class="nav-link" data-scroll-target="#install-macports">Install MacPorts</a></li>
-  <li><a href="#install-gfortran-and-r-1" id="toc-install-gfortran-and-r-1" class="nav-link" data-scroll-target="#install-gfortran-and-r-1">Install gfortran and R</a></li>
-  <li><a href="#install-python-1" id="toc-install-python-1" class="nav-link" data-scroll-target="#install-python-1">Install Python</a></li>
-  <li><a href="#sec-jupyter-mac" id="toc-sec-jupyter-mac" class="nav-link" data-scroll-target="#sec-jupyter-mac">Install Jupyter</a></li>
+<li><a href="#macports%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB" id="toc-macportsのインストール" class="nav-link" data-scroll-target="#macportsのインストール">MacPortsのインストール</a></li>
+  <li><a href="#gfortran%E3%81%A8r%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB-1" id="toc-gfortranとrのインストール-1" class="nav-link" data-scroll-target="#gfortranとrのインストール-1">gfortranとRのインストール</a></li>
+  <li><a href="#python%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB-1" id="toc-pythonのインストール-1" class="nav-link" data-scroll-target="#pythonのインストール-1">Pythonのインストール</a></li>
+  <li><a href="#sec-jupyter-mac" id="toc-sec-jupyter-mac" class="nav-link" data-scroll-target="#sec-jupyter-mac">Jupyterのインストール</a></li>
   </ul>
 </li>
   </ul></nav>
 </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Getting Started</h1>
+<h1 class="title">環境構築</h1>
 </div>
 
 
@@ -176,79 +176,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Source code for the hands-on sessions is available in Fortran and Python. The following environment is required to run the programs.</p>
+</header><p>演習用プログラムは、Fortran および Python のプログラムを配布する。 実行には以下の環境が必要となる。</p>
 <section id="fortran" class="level2"><h2 class="anchored" data-anchor-id="fortran">Fortran</h2>
-<p>Prepare a Fortran compiler such as gfortran. The distributed code compiles and runs with gfortran-15.2.0. For matrix multiplication, the intrinsic procedure <code>matmul</code> is used. To compute a matrix inverse, a linear algebra library is required. Although <a href="https://www.openblas.net/">OpenBLAS</a> may be installed, LAPACK in Rtools is used on Windows and Accelerate.framework is used on macOS.</p>
-<p>To visualize data produced with the Fortran programs, a graphics package is required. R scripts are included in the hands-on distribution.</p>
+<p>ノートパソコンに、Fortranコンパイラ (gfortranなど) を用意する。 配布プログラムはgfortran-15.2.0でコンパイル、実行ができることを確認した。 行列積にはFortran組込手続である<code>matmul</code>などを用いているのが、逆行列計算を行うために線型代数ライブラリが必要である。 <a href="https://www.openblas.net/">OpenBLAS</a>などを導入してもよいが、WindowsではRtoolsに含まれるLAPACK、MacではOSに含まれるAccelerate.Frameworkを利用する。</p>
+<p>Fortranプログラムの実行結果を可視化するために、プロットができるアプリケーションが必要である。演習ではRで書かれたスクリプトを配布する。</p>
 </section><section id="python" class="level2"><h2 class="anchored" data-anchor-id="python">Python</h2>
-<p>Python is a general-purpose programming language that relies on libraries to extend its functionality. Numpy provides mathematical functions and matrix manipulation, while Matplotlib is a standard visualization package. The hands-on distribtuion was prepared using Python 3.14.7.</p>
-<p>Participants unfamiliar with a terminal or editor may install <a href="https://jupyter.org/">Jupyter</a> (see <a href="#sec-jupyter-win">Windows</a>, <a href="#sec-jupyter-mac">Mac</a>) that allows to write and execute code directly in a web browser.</p>
+<p>Pythonは一般的なプログラミング言語であり、機能を追加するにはライブラリが必要である。 数学函数や行列計算にはNumpyを用いる。 データの描画にはMatplotlibが一般的である。 ノートパソコンに、Python実行環境を準備する。 配布するスクリプトはPython 3.14.7で作成した。</p>
+<p>ターミナルやエディタの操作に馴染みがない場合は、ウェブブラウザから使える<a href="https://jupyter.org/">Jupyter</a> を導入してもよい（<a href="#sec-jupyter-win">Windows</a>、<a href="#sec-jupyter-mac">Mac</a>参照）。</p>
 </section><section id="google-colaboratory" class="level2"><h2 class="anchored" data-anchor-id="google-colaboratory">Google Colaboratory</h2>
-<p><a href="https://colab.research.google.com/">Google Colaboratory</a> is a cloud service with a free tier available to anyone a Google account. Note that the free version has stricter computational resource limits, and a stable network connection is required.</p>
-<p>By default, Colab runs Python on CPU, but it can be changed to GPU or switched to R or Julia.</p>
-</section><section id="terminal" class="level2"><h2 class="anchored" data-anchor-id="terminal">Terminal</h2>
-<p>On Windows 11, Windows Terminal is the default terminal emulator instead of <code>cmd.exe</code>. If it is not installed, search for and install in Microsoft Store.</p>
-<p>Terminal.app on Mac is located in <code>/Applications/Utilities</code> or under ``Others’’ in LaunchPad.</p>
+<p>Google Colaboratoryは、ウェブブラウザから使う。 <a href="https://colab.research.google.com/">Google Colaboratory</a>はGoogleアカウントがあれば無料で利用できる。 無償版は使用できる資源に制約がある。 ネットワーク環境の制約を受けることにも注意が必要である。</p>
+<p>Python3をCPUで使うのが既定であるが、GPUを使ったり、RやJuliaを使うこともできる。</p>
+</section><section id="ターミナル" class="level2"><h2 class="anchored" data-anchor-id="ターミナル">ターミナル</h2>
+<p>Windows 11では、 DOS窓コマンドプロンプト（cmd.exe）でのMS-DOSに代わり、Windows Terminalが既定の端末エミュレータである。 インストールされていない場合は、Microsoft Storeで検索してインストールする。</p>
+<p>Macのターミナルは「アプリケーション/ユーティリティ」に、LaunchPadでは「その他」にある。</p>
 </section><section id="windows" class="level2"><h2 class="anchored" data-anchor-id="windows">Windows</h2>
-<p>On Windows, <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/">winget</a> enables quick setup.</p>
-<p>PowerShell 7 is used instead of Windows PowerShell (which is installed by default). To install PowerShell, search for <code>terminal</code> in the Start Menu and pin it to the Taskbar. Run the following command to install PowerShell 7;</p>
+<p>Windowsでは、<a href="https://learn.microsoft.com/ja-jp/windows/package-manager/winget/">winget</a>を用いると簡単に環境構築ができる。</p>
+<p>WindowsにはWindows PowerShellが既定でインストールされているが、PowerShell 7以降を使う。 PowerShellをインストールして設定してみよう。 スタートメニューから「ターミナル」または「terminal」を検索して、タスクバーに追加する。起動すると、古いWindows PowerShellが起動する。PowerShell 7をインストールするように案内が表示される。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>winget install Microsoft<span class="op">.</span><span class="fu">PowerShell</span></span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>The profile for PowerShell 7 is created automatically, but you need to configure Windows Terminal to open PowerShell 7 by default. Click the downward arrow in the title bar and select <strong>Settings</strong> (or press <code>Ctrl+,</code>). Under <strong>Default Profile</strong> in the Startup settings, select PowerShell (represented by a black icon, not blue) and click Save in the lower-right corner. <img src="images/powershell_default_profile.png" class="img-fluid"></p>
-<section id="install-python" class="level3"><h3 class="anchored" data-anchor-id="install-python">Install Python</h3>
-<p><em>(Not needed if you are only using Fortran)</em></p>
+<p>プロファイルが自動で作成されるので、これがWindowsターミナルを起動した時に選択されるように設定する。ウインドウのタイトルバーの下向き記号から設定を選択するか、Ctrl+,で設定画面を表示する。「スタートアップ」の「既定のプロファイル」から、青ではなく黒のPowerShellを選び、ウィンドウ右下の「保存」ボタンをクリックする。 <img src="images/powershell_default_profile_ja.png" class="img-fluid"></p>
+<section id="pythonのインストール" class="level3"><h3 class="anchored" data-anchor-id="pythonのインストール">Pythonのインストール</h3>
+<p>Fortranを用いる場合は不要である。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>winget install Python<span class="op">.</span><span class="fu">Python</span><span class="op">.</span><span class="dv">3.14</span></span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>In a new tab of Terminal, the path to <code>python</code> is automatically added. To exit Python, type <code>quit()</code>.</p>
+<p>新しいタブを開くと、<code>python</code> にパスが通っている。 pythonから抜けるには<code>quit()</code>とタイプする。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>PowerShell <span class="dv">7.6</span><span class="op">.</span><span class="dv">4</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">python</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Python <span class="dv">3.14</span><span class="op">.</span><span class="dv">7</span> <span class="op">(</span>tags<span class="op">/</span>v3<span class="op">.</span><span class="dv">14.7</span><span class="op">:</span>823f032<span class="op">,</span> Aug  <span class="dv">5</span> <span class="dv">2026</span><span class="op">,</span> <span class="dv">10</span><span class="op">:</span><span class="dv">51</span><span class="op">:</span><span class="dv">32</span><span class="op">)</span> <span class="op">[</span>MSC v<span class="dv">.1944</span> <span class="dv">64</span> bit <span class="op">(</span>AMD64<span class="op">)]</span> on win32</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">Type</span> <span class="st">"help"</span><span class="op">,</span> <span class="st">"copyright"</span><span class="op">,</span> <span class="st">"credits"</span> or <span class="st">"license"</span> <span class="cf">for</span> more information<span class="op">.</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> quit<span class="op">()</span></span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>Install Numpy and Matplotlib with <code>pip</code>.</p>
+<p>pipでNumpyとmatplotlibをインストールする。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pip install numpy matplotlib</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-</section><section id="sec-jupyter-win" class="level3"><h3 class="anchored" data-anchor-id="sec-jupyter-win">Install Jupyter</h3>
-<p>Install Jupyter if needed.</p>
+</section><section id="sec-jupyter-win" class="level3"><h3 class="anchored" data-anchor-id="sec-jupyter-win">Jupyterのインストール</h3>
+<p>Jupyterを使用する場合はインストールする。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb5"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pip install jupyter</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>When Jupyter Notebook launches, your default browser will open automatically. The browser will display the current directory of your terminal. You can use <code>cd</code> to navigate to a different directory before launching Jupyter:</p>
+<p>Jupyter Notebookを起動すると、既定のブラウザに表示される。 ターミナルでのカレントディレクトリがJupyter起動時に表示されるので、適宜 <code>cd</code> でディレクトリを移動してから起動するとよい。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb6"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>jupyter notebook</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-</section><section id="install-an-editor" class="level3"><h3 class="anchored" data-anchor-id="install-an-editor">Install an editor</h3>
-<p>To write source code, install your preferred code editor (pick just one):</p>
+</section><section id="エディタのインストール" class="level3"><h3 class="anchored" data-anchor-id="エディタのインストール">エディタのインストール</h3>
+<p>ソースコードを書くには、テキストエディタを用いる。必要なものを一つ入れる。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb7"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>winget install Microsoft<span class="op">.</span><span class="fu">Edit</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>winget install Neovim<span class="op">.</span><span class="fu">Neovim</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>winget install GNU<span class="op">.</span><span class="fu">Emacs</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>winget install Microsoft<span class="op">.</span><span class="fu">VisualStudioCode</span></span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>For those who have never used a text editor before, <a href="https://learn.microsoft.com/ja-jp/windows/edit/"><code>Microsoft.Edit</code></a> is recommended. The tutorial for <a href="https://neovim.io/">Neovim</a> can be launched by typing <code>:Tutor</code>. The Emacs tutorial can be accessed by moving the cursor to <code>Emacs Tutorial</code> and pressing <code>Enter</code>.</p>
-</section><section id="install-gfortran-and-r" class="level3"><h3 class="anchored" data-anchor-id="install-gfortran-and-r">Install gfortran and R</h3>
-<p>R scripts are provided to visualize data produced by the Fortran binaries. R is not needed if you use other visualizaton tools. However, RTools provides a convenient way to install <code>gfortran</code> and LAPCK because it includes MinGW-w64, as recommended by Numpy <a href="https://numpy.org/doc/stable/building/index.html">Build from source</a> guide.</p>
+<p>どのエディタも使ったことがない場合は、 <a href="https://learn.microsoft.com/ja-jp/windows/edit/"><code>Microsoft.Edit</code></a> を勧める。 私は<a href="https://neovim.io/">neovim</a>を使っている。Neovim（コマンド名は<code>nvim</code>）を起動して<code>:Tutor</code>とタイプすると、チュートリアルが始まる。<code>emacs</code> を起動して <code>Emacs Tutorial</code> にカーソルを合わせてEnterを打鍵するとチュートリアルが始まる。</p>
+</section><section id="gfortranとrのインストール" class="level3"><h3 class="anchored" data-anchor-id="gfortranとrのインストール">gfortranとRのインストール</h3>
+<p>Fortranでの計算結果の可視化にはRスクリプトを配布する。 R以外で描画する場合はRは不要であるが、gfortranやLAPCKを使うため、Rの開発環境であるRToolsをインストールする。 RToolsにはMinGW-w64が含まれており、最も手軽に開発環境を構築できる。 （Numpyの<a href="https://numpy.org/doc/stable/building/index.html">ソースからのインストール</a>にも推奨されている。）</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb8"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>winget install RProject<span class="op">.</span><span class="fu">R</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>winget install RProject<span class="op">.</span><span class="fu">Rtools</span></span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>To configure environment paths, edit your profile at <code>Documents\PowerShell\Microsoft.PowerShell_profile.ps1</code> (or <code>OneDrive\Documents...</code> if your account uses OneDrive.) Create the <code>PowerShell</code> folder first if it does not already exist.</p>
+<p>パスを設定する。設定ファイルはドキュメント（パソコンのアカウントがMicrosoftアカウントと紐付けられている場合は<code>OneDrive\ドキュメント</code>）の<code>PowerShell</code>フォルダの中の<code>Microsoft.PowerShell_profile.ps1</code>に保存される。<code>PowerShell</code>フォルダがないと保存できないことがあるので、あらかじめ作成しておく。<code>edit</code> で編集する場合は次のようにする。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb9"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>edit <span class="va">$profile</span></span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="annotated-cell-10"><pre class="sourceCode powershell code-annotation-code code-with-copy code-annotated"><code class="sourceCode powershell"><a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-1" class="code-annotation-target"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>Remove-Alias <span class="op">-</span>Name <span class="fu">R</span></span>
@@ -256,97 +256,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">PATH</span> <span class="op">+=</span> <span class="st">"C:/rtools46/usr/bin;"</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">PATH</span> <span class="op">+=</span> <span class="st">"C:/rtools46/x86_w64-mingw32.static.posix/bin;"</span></span><div class="code-annotation-gutter-bg"></div>
 <div class="code-annotation-gutter"></div></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="1" data-code-annotation="1">In PowerShell <code>R</code> is an alias used to recall previous commands. Removing this alias avoids name conflicts, allowing you to run <code>R</code> directly instead of typing <code>R.exe</code>.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="1" data-code-annotation="1"><code>R</code> はPowerShellでは、一つ前に投入したコマンドを呼び出すものであり、名前が衝突するので、エイリアスを削除する。 Rを起動するときに<code>R.exe</code> と <code>R</code> 打鍵することができる。</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="2" data-code-annotation="2">Path to <code>R.exe</code>.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="2" data-code-annotation="2"><code>R.exe</code> があるパス。</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="3">Path to <code>make</code>.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="3"><code>make</code> があるパス。</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="4" data-code-annotation="4">Path to <code>gfortran</code>. Note that <code>x86_w64-mingw32.static.posix</code> depends on the platform and differ on ARM64 architectures.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="4" data-code-annotation="4"><code>gfortran</code> があるパス。 <code>x86_w64-mingw32.static.posix</code>はプラットフォームに依存するので、ARM64では異なる。</span>
 </dd>
 </dl>
-<p>Open a new terminal tab to verify gfortran installation.</p>
+<p>別タブを開いてgfortranがあることを確認する。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gfortran <span class="op">--</span>version</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
 </section></section><section id="mac" class="level2"><h2 class="anchored" data-anchor-id="mac">Mac</h2>
-<p>For the hands-on sessions, the official installer from python.org can be used. Install Numpy and Matplotlib, and (optionally) Jupyter using <code>pip</code>.</p>
-<p>For Fortran users, follow the instructions below to install <code>gfortran</code> and <code>R</code> using MacPorts.</p>
-<section id="install-macports" class="level3"><h3 class="anchored" data-anchor-id="install-macports">Install MacPorts</h3>
-<p><a href="https://www.macports.org/">MacPorts</a> is preferred over Homebrew because it provide a more robust and consistent environment. The default install directory for MacPorts is <code>/opt/local</code>.</p>
-<p>Follow <a href="https://www.macports.org/install.php">Installing MacPorts</a>.</p>
-<p>Update macOS and use the <code>.pkg</code> installer for the your OS version. The installer append <code>/opt/local/bin</code> to the <code>PATH</code> in <code>.zshrc</code>.</p>
+<p>プログラミング演習の範囲では、PythonはMacでも公式サイトのPythonインストーラでよい。 NumpyとMatplotlib、必要ならJupyterは <code>pip</code> でインストールする。</p>
+<p>Fortranユーザは以下に従って、MacPortsでgfortranとRをインストールする。</p>
+<section id="macportsのインストール" class="level3"><h3 class="anchored" data-anchor-id="macportsのインストール">MacPortsのインストール</h3>
+<p>コンパイルが必要な外部ライブラリに依存する場合は、<a href="https://www.macports.org/">MacPorts</a>を使ってインストールすることをお勧めする。 Homebrewよりも、一貫した環境を提供するMacPortsを推す（Qiitaの<a href="https://qiita.com/tenomoto/items/66614f982de96641d662">解説</a>）。 MacPortsの既定のインストール先は<code>/opt/local</code>である。</p>
+<p><a href="https://www.macports.org/install.php">Installing MacPorts</a>に従って、次の手順でインストールする。</p>
+<p>OSを最新に更新した後、OSに応じたpkgインストーラ（アプリケーションをインストールする普通のインストーラ）を入手してMacPortsをインストールする。 インストーラは <code>/opt/local/bin</code> を <code>.zshrc</code> に追加する。</p>
 <ol type="1">
-<li>Install Apple’s Command Line Developer Tools.</li>
+<li>AppleのCommand Line Developer Toolsをインストールする。</li>
 </ol>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb11"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> xcode-select <span class="at">--install</span></span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <ol start="2" type="1">
-<li>(Optional) Install Xcode from App Store and accept the license agreement:</li>
+<li>（オプション）App StoreからXcodeをインストールしライセンスに同意する。</li>
 </ol>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb12"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> xcodebuild <span class="at">-license</span></span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <ol start="3" type="1">
-<li>(Optional) Install <code>xorg-server</code> to use X11:</li>
+<li>（オプション）X11ウインドウ環境を用いる場合は <code>xorg-server</code> ポートをインストールする。</li>
 </ol>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb13"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port install xorg-server</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>See <code>man port</code> or <a href="https://guide.macports.org/#using">documentation</a> for further details.</p>
-</section><section id="install-gfortran-and-r-1" class="level3"><h3 class="anchored" data-anchor-id="install-gfortran-and-r-1">Install gfortran and R</h3>
-<p><code>gfortran</code> is included as part of <code>gcc</code> package:</p>
+<p><code>port</code> コマンドについては、 <code>man port</code> または <a href="https://guide.macports.org/#using">ドキュメント</a> 参照。</p>
+</section><section id="gfortranとrのインストール-1" class="level3"><h3 class="anchored" data-anchor-id="gfortranとrのインストール-1">gfortranとRのインストール</h3>
+<p>gfortranはgccの一部として配布されている。</p>
 <pre><code>sudo port install gcc15</code></pre>
-<p>To allow multiple versions of gcc to coexist, the compiler binary is named <code>gfortran-mp-15</code> to include the major version number. Run the following command:</p>
+<p>gccも複数のバージョンを共存させるため、<code>gfortran-mp-15</code>のようにバージョン番号をつけた実行ファイル名になっている。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb15"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port select gcc mp-gcc15</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>This sets gcc15 as the default and creates a <code>gfortran</code> alias (pointing <code>/opt/local/bin/gfortran-mp-15</code>.</p>
-<p>For visualization, install R:</p>
+<p>を実行すると、gcc15を既定として <code>gfortran-mp-15</code> を指すエイリアス <code>gfortran</code> が <code>/opt/local/bin</code> に作成される。</p>
+<p>描画に使う場合には、Rもインストールする。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb16"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port install R</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-</section><section id="install-python-1" class="level3"><h3 class="anchored" data-anchor-id="install-python-1">Install Python</h3>
-<p>To install Python via MacPorts instead of the official installer, run the command below. (Python is not required if you are only running the Fortran hands-on.) To allow multiple versions to coexist, MacPorts appends version numbers to package names (e.g., py314-numpy).</p>
-<p><code>python314</code> is installed in <code>/opt/local/Library/Frameworks/Python.framework/Versions/3.14</code>.</p>
+</section><section id="pythonのインストール-1" class="level3"><h3 class="anchored" data-anchor-id="pythonのインストール-1">Pythonのインストール</h3>
+<p>バイナリではなく、MacPortsでPythonを導入する場合は以下のようにする。Fortranで演習をする場合は不要である。複数のバージョンを共存させるために、Pythonのライブラリ名はpy314-numpyのようにPythonのバージョンが付されている。</p>
+<p><code>python314</code> は <code>/opt/local/Library/Frameworks/Python.framework/Versions/3.14</code> にインストールされる。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb17"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port install python314</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>As indicated in the install messages, use <code>select</code> subcommand to set the active Python version.</p>
+<p>インストール後に表示されるメッセージにあるが、使用するバージョンを <code>select</code> サブコマンドで選択する。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb18"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port select python python314</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p>Next, install Numpy and Matplotlib.</p>
+<p>次にNumpyとmatplotlibをインストールする。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb19"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port install py314-numpy py314-matplotlib</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
-<p><em>(Note: <code>python314</code> will automatically be installed as a dependency if it was not installed previously.)</em></p>
-</section><section id="sec-jupyter-mac" class="level3"><h3 class="anchored" data-anchor-id="sec-jupyter-mac">Install Jupyter</h3>
-<p>Jupyter can also be installed via MacPorts.</p>
+<p><code>python314</code> を明示的にインストールしなてくも、Numpyやmatpotlibが依存するものとしてインストールされる。</p>
+</section><section id="sec-jupyter-mac" class="level3"><h3 class="anchored" data-anchor-id="sec-jupyter-mac">Jupyterのインストール</h3>
+<p>JupyterもMacPortsで簡単にインストールできる。</p>
 <div class="code-copy-outer-scaffold">
 <div class="sourceCode" id="cb20"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port install py314-jupyter</span></code></pre></div>
-<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+<button title="コピー" class="code-copy-button"><i class="bi"></i></button>
 </div>
 
 
@@ -375,12 +375,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "コピーしました");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "コピーしました");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
@@ -423,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tenomoto\.github\.io\/dass2026\/ja");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

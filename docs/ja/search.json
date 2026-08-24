@@ -1,0 +1,93 @@
+[
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "環境構築",
+    "section": "",
+    "text": "演習用プログラムは、Fortran および Python のプログラムを配布する。 実行には以下の環境が必要となる。"
+  },
+  {
+    "objectID": "setup.html#fortran",
+    "href": "setup.html#fortran",
+    "title": "環境構築",
+    "section": "Fortran",
+    "text": "Fortran\nノートパソコンに、Fortranコンパイラ (gfortranなど) を用意する。 配布プログラムはgfortran-15.2.0でコンパイル、実行ができることを確認した。 行列積にはFortran組込手続であるmatmulなどを用いているのが、逆行列計算を行うために線型代数ライブラリが必要である。 OpenBLASなどを導入してもよいが、WindowsではRtoolsに含まれるLAPACK、MacではOSに含まれるAccelerate.Frameworkを利用する。\nFortranプログラムの実行結果を可視化するために、プロットができるアプリケーションが必要である。演習ではRで書かれたスクリプトを配布する。"
+  },
+  {
+    "objectID": "setup.html#python",
+    "href": "setup.html#python",
+    "title": "環境構築",
+    "section": "Python",
+    "text": "Python\nPythonは一般的なプログラミング言語であり、機能を追加するにはライブラリが必要である。 数学函数や行列計算にはNumpyを用いる。 データの描画にはMatplotlibが一般的である。 ノートパソコンに、Python実行環境を準備する。 配布するスクリプトはPython 3.14.7で作成した。\nターミナルやエディタの操作に馴染みがない場合は、ウェブブラウザから使えるJupyter を導入してもよい（Windows、Mac参照）。"
+  },
+  {
+    "objectID": "setup.html#google-colaboratory",
+    "href": "setup.html#google-colaboratory",
+    "title": "環境構築",
+    "section": "Google Colaboratory",
+    "text": "Google Colaboratory\nGoogle Colaboratoryは、ウェブブラウザから使う。 Google ColaboratoryはGoogleアカウントがあれば無料で利用できる。 無償版は使用できる資源に制約がある。 ネットワーク環境の制約を受けることにも注意が必要である。\nPython3をCPUで使うのが既定であるが、GPUを使ったり、RやJuliaを使うこともできる。"
+  },
+  {
+    "objectID": "setup.html#ターミナル",
+    "href": "setup.html#ターミナル",
+    "title": "環境構築",
+    "section": "ターミナル",
+    "text": "ターミナル\nWindows 11では、 DOS窓コマンドプロンプト（cmd.exe）でのMS-DOSに代わり、Windows Terminalが既定の端末エミュレータである。 インストールされていない場合は、Microsoft Storeで検索してインストールする。\nMacのターミナルは「アプリケーション/ユーティリティ」に、LaunchPadでは「その他」にある。"
+  },
+  {
+    "objectID": "setup.html#windows",
+    "href": "setup.html#windows",
+    "title": "環境構築",
+    "section": "Windows",
+    "text": "Windows\nWindowsでは、wingetを用いると簡単に環境構築ができる。\nWindowsにはWindows PowerShellが既定でインストールされているが、PowerShell 7以降を使う。 PowerShellをインストールして設定してみよう。 スタートメニューから「ターミナル」または「terminal」を検索して、タスクバーに追加する。起動すると、古いWindows PowerShellが起動する。PowerShell 7をインストールするように案内が表示される。\nwinget install Microsoft.PowerShell\nプロファイルが自動で作成されるので、これがWindowsターミナルを起動した時に選択されるように設定する。ウインドウのタイトルバーの下向き記号から設定を選択するか、Ctrl+,で設定画面を表示する。「スタートアップ」の「既定のプロファイル」から、青ではなく黒のPowerShellを選び、ウィンドウ右下の「保存」ボタンをクリックする。 \n\nPythonのインストール\nFortranを用いる場合は不要である。\nwinget install Python.Python.3.14\n新しいタブを開くと、python にパスが通っている。 pythonから抜けるにはquit()とタイプする。\nPowerShell 7.6.4\npython\nPython 3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)] on win32\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n&gt;&gt;&gt; quit()\npipでNumpyとmatplotlibをインストールする。\npip install numpy matplotlib\n\n\nJupyterのインストール\nJupyterを使用する場合はインストールする。\npip install jupyter\nJupyter Notebookを起動すると、既定のブラウザに表示される。 ターミナルでのカレントディレクトリがJupyter起動時に表示されるので、適宜 cd でディレクトリを移動してから起動するとよい。\njupyter notebook\n\n\nエディタのインストール\nソースコードを書くには、テキストエディタを用いる。必要なものを一つ入れる。\nwinget install Microsoft.Edit\nwinget install Neovim.Neovim\nwinget install GNU.Emacs\nwinget install Microsoft.VisualStudioCode\nどのエディタも使ったことがない場合は、 Microsoft.Edit を勧める。 私はneovimを使っている。Neovim（コマンド名はnvim）を起動して:Tutorとタイプすると、チュートリアルが始まる。emacs を起動して Emacs Tutorial にカーソルを合わせてEnterを打鍵するとチュートリアルが始まる。\n\n\ngfortranとRのインストール\nFortranでの計算結果の可視化にはRスクリプトを配布する。 R以外で描画する場合はRは不要であるが、gfortranやLAPCKを使うため、Rの開発環境であるRToolsをインストールする。 RToolsにはMinGW-w64が含まれており、最も手軽に開発環境を構築できる。 （Numpyのソースからのインストールにも推奨されている。）\nwinget install RProject.R\nwinget install RProject.Rtools\nパスを設定する。設定ファイルはドキュメント（パソコンのアカウントがMicrosoftアカウントと紐付けられている場合はOneDrive\\ドキュメント）のPowerShellフォルダの中のMicrosoft.PowerShell_profile.ps1に保存される。PowerShellフォルダがないと保存できないことがあるので、あらかじめ作成しておく。edit で編集する場合は次のようにする。\nedit $profile\n1Remove-Alias -Name R\n2$env:PATH += \"$env:ProgramFiles/R/R-4.6.1/bin;\"\n3$env:PATH += \"C:/rtools46/usr/bin;\"\n4$env:PATH += \"C:/rtools46/x86_w64-mingw32.static.posix/bin;\"\n\n1\n\nR はPowerShellでは、一つ前に投入したコマンドを呼び出すものであり、名前が衝突するので、エイリアスを削除する。 Rを起動するときにR.exe と R 打鍵することができる。\n\n2\n\nR.exe があるパス。\n\n3\n\nmake があるパス。\n\n4\n\ngfortran があるパス。 x86_w64-mingw32.static.posixはプラットフォームに依存するので、ARM64では異なる。\n\n\n別タブを開いてgfortranがあることを確認する。\ngfortran --version"
+  },
+  {
+    "objectID": "setup.html#mac",
+    "href": "setup.html#mac",
+    "title": "環境構築",
+    "section": "Mac",
+    "text": "Mac\nプログラミング演習の範囲では、PythonはMacでも公式サイトのPythonインストーラでよい。 NumpyとMatplotlib、必要ならJupyterは pip でインストールする。\nFortranユーザは以下に従って、MacPortsでgfortranとRをインストールする。\n\nMacPortsのインストール\nコンパイルが必要な外部ライブラリに依存する場合は、MacPortsを使ってインストールすることをお勧めする。 Homebrewよりも、一貫した環境を提供するMacPortsを推す（Qiitaの解説）。 MacPortsの既定のインストール先は/opt/localである。\nInstalling MacPortsに従って、次の手順でインストールする。\nOSを最新に更新した後、OSに応じたpkgインストーラ（アプリケーションをインストールする普通のインストーラ）を入手してMacPortsをインストールする。 インストーラは /opt/local/bin を .zshrc に追加する。\n\nAppleのCommand Line Developer Toolsをインストールする。\n\nsudo xcode-select --install\n\n（オプション）App StoreからXcodeをインストールしライセンスに同意する。\n\nsudo xcodebuild -license\n\n（オプション）X11ウインドウ環境を用いる場合は xorg-server ポートをインストールする。\n\nsudo port install xorg-server\nport コマンドについては、 man port または ドキュメント 参照。\n\n\ngfortranとRのインストール\ngfortranはgccの一部として配布されている。\nsudo port install gcc15\ngccも複数のバージョンを共存させるため、gfortran-mp-15のようにバージョン番号をつけた実行ファイル名になっている。\nsudo port select gcc mp-gcc15\nを実行すると、gcc15を既定として gfortran-mp-15 を指すエイリアス gfortran が /opt/local/bin に作成される。\n描画に使う場合には、Rもインストールする。\nsudo port install R\n\n\nPythonのインストール\nバイナリではなく、MacPortsでPythonを導入する場合は以下のようにする。Fortranで演習をする場合は不要である。複数のバージョンを共存させるために、Pythonのライブラリ名はpy314-numpyのようにPythonのバージョンが付されている。\npython314 は /opt/local/Library/Frameworks/Python.framework/Versions/3.14 にインストールされる。\nsudo port install python314\nインストール後に表示されるメッセージにあるが、使用するバージョンを select サブコマンドで選択する。\nsudo port select python python314\n次にNumpyとmatplotlibをインストールする。\nsudo port install py314-numpy py314-matplotlib\npython314 を明示的にインストールしなてくも、Numpyやmatpotlibが依存するものとしてインストールされる。\n\n\nJupyterのインストール\nJupyterもMacPortsで簡単にインストールできる。\nsudo port install py314-jupyter"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "演習: 赤道海洋モデル",
+    "section": "",
+    "text": "データ同化の基礎を赤道海洋モデルを学ぶ (Thacker and Long 1988) 。"
+  },
+  {
+    "objectID": "index.html#支配方程式",
+    "href": "index.html#支配方程式",
+    "title": "演習: 赤道海洋モデル",
+    "section": "支配方程式",
+    "text": "支配方程式\n領域は経度方向（ \\(x\\) ）に1次元で、周期的境界条件を仮定する。 モデルは三つの線型波動から構成される。 それぞれの波は一定の位相速度で伝播し、次のように線型である。\n\\[\n\\frac{\\partial q_j}{\\partial t} + c_j\\frac{\\partial q_j}{\\partial x} + \\sigma q_j = d_j f,\\; j = 0,\\,2,\\,4\n\\tag{1}\\]\n添字 \\(j = 0\\) ケルビン波で東向きに位相速度 \\(c_0 = 1\\) で伝播し、強制に対する感度は \\(d_0 = 1\\) である。 添字 \\(j = 2, 4\\) のロスビー波は位相速度 \\(c_2 = - c_0/3,\\,c_4 = -c_0/7\\) で強制に対する感度はそれぞれ \\(d_2 = 1/2,\\,d_4 = 1/8\\) である。 減衰係数 \\(\\sigma\\) は波の種類に依存しない。\n観測可能な変数は海面高度だけである。\n\\[\nh = q_0 + q_2 - q_4\n\\tag{2}\\]"
+  },
+  {
+    "objectID": "index.html#離散化",
+    "href": "index.html#離散化",
+    "title": "演習: 赤道海洋モデル",
+    "section": "離散化",
+    "text": "離散化\n支配方程式 (1) は Lax and Wendroff (1960) 法で離散化する。 このスキームは単段階の陽的解法で、誤差は \\(O(\\tau^2)\\) である。 ここで、 \\(\\tau\\) は時間ステップを表す。 時間方向に \\(O(\\tau)\\) の誤差を空間において打ち消す。 次の移流方程式を考える。\n\\[\n\\frac{\\partial q}{\\partial t} + c\\frac{\\partial q}{\\partial x} = 0,\n\\tag{3}\\]\nその離散形は\n\\[\n\\frac{q_i^{n+1} - q_i^n}{\\tau} + c\\frac{q_{i+1}^n - q_{i-1}^n}{2\\Delta} =\n\\frac{c^2\\tau}{2}\\left(\\frac{q_{i+1}^n - 2q_i^n + q_{i-1}^n}{\\Delta^2}\\right)\n\\tag{4}\\]\nとなる。ここで \\(i\\) は水平の格子番号で \\(\\Delta\\) は格子間隔である。\n式 (4) の右辺は離散化誤差の離散形である。\n\\[\n\\frac{\\tau}{2}\\frac{\\partial^2 q}{\\partial t^2} = \\frac{\\tau}{2}\\frac{\\partial}{\\partial t}\\left(-c\\frac{\\partial q}{\\partial x}\\right) = \\frac{c^2\\tau}{2}\\frac{\\partial^2 q}{\\partial x^2}.\n\\]\nLax-Wendroff 法を用いると (1) は次のように離散化される。\n\\[\nq_{j, i}^n = \\frac{1}{1 + \\sigma \\tau}\\left\\{\nq_{j, i}^{n-1} - \\frac{1}{2}\\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})\n+ \\frac{1}{2}\\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j,i}^{n-1} + q_{j, i-1}^{n-1}) + \\tau d_j f_i^n\n\\right\\}\n\\tag{5}\\] where \\(\\gamma_j = c_j\\tau/\\Delta\\)."
+  },
+  {
+    "objectID": "index.html#ラグランジュの未定乗数法",
+    "href": "index.html#ラグランジュの未定乗数法",
+    "title": "演習: 赤道海洋モデル",
+    "section": "ラグランジュの未定乗数法",
+    "text": "ラグランジュの未定乗数法\n簡単のため、観測はモデル格子上にあるものとし、観測誤差は互いに無相関とする。\nコスト函数を次のように定義する。\n\\[\nJ = \\frac{1}{2} \\sum_{i = 0}^{I} \\sum_{n = 0}^N [(\\eta_i^n - h_i^n)^2 + (\\phi_i^n - f_i^n)^2]\n\\tag{6}\\]\nここで \\(\\eta_i^n, \\phi_i^n\\) は海面高度と風応力の観測で、 \\(h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n\\) はそのモデル相当量である。\nラグランジュ函数を次のように定義する。\n\\[\nL = J + \\sum_{j = 0}^{2, 4} \\sum_{i = 0}^I \\sum_{n=1}^N \\lambda_{j, i}^n[\n(1 + \\sigma\\tau)q_{j, i}^n - q_{j, i}^{n-1} + \\frac{1}{2}\\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})\n- \\frac{1}{2}\\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j, i}^{n-1} + q_{j, i-1}^{n-1}) - \\tau d_j f_i^n]\n\\tag{7}\\]\nここで \\(\\lambda_{j,i}^n\\) はラグランジュの未定乗数（随伴変数）である。 \\(J\\) の最小値は \\(L\\) の状態、未定乗数及び強制に対する勾配が同時に0になる点である。\n随伴変数の終端及び初期条件は次のとおりである。\n\\[\n\\begin{aligned}\n\\lambda_{j,i}^{N+1} &= 0 \\\\\n\\lambda_{j,i}^0 &= 0.\n\\end{aligned}\n\\tag{8}\\]\n終端条件は未来の時刻 \\(n = N+1\\) で随伴変数が0であることを表す。 初期条件は最小となる点で満たされ、最適化に使われる負の勾配を表す。\n\\(\\partial L/\\partial \\lambda_{j,i}^n\\) から順行モデル (5) が復元され、 \\(\\partial L/\\partial q_{j,i}^n\\) から随伴方程式が得られる。\n\\[\n\\lambda_{j, i}^n = \\frac{1}{1 + \\sigma \\tau}\\left\\{\n\\lambda_{j, i}^{n+1} - \\frac{1}{2}\\gamma_j(\\lambda_{j, i-1}^{n+1} - \\lambda_{j, i+1}^{n+1})\n+ \\frac{1}{2}\\gamma_j^2(\\lambda_{j,i-1}^{n+1} - 2\\lambda_{j,i}^{n+1} + \\lambda_{j, i+1}^{n+1})\n+ \\varepsilon_j(\\eta_i^n - q_{0,i}^n - q_{2,i}^n + q_{4,i}^n)\\right\\}\n\\tag{9}\\]\nここで \\(\\varepsilon_0 = \\varepsilon_2 = 1, \\varepsilon_4 = -1\\) である。 右辺の最後の項は観測が得られる時刻にのみ存在する。\n\n\n\n\n\n\n重要重要\n\n\n\n\n随伴方程式 (9) は \\(L\\) (7) を状態 \\(q_{j,i}^n\\) について微分するだけで得られ、随伴演算子の知識を必要としない。\n随伴変数は観測とモデル相当量とのずれ（イノベーション）を時間逆方向に蓄積する。\n随伴方程式は (9) 随伴変数について線型である。\n\n\n\n\n\n\n\n\n\n警告注意\n\n\n\n\n\\(\\lambda\\) が勾配を表すか、負の勾配を表すかは、未定乗数の前の符号次第で、規約の問題である。\n小さいが致命的なタイプミス Thacker and Long (1988) の(10d)にあることに注意。 \\(\\epsilon_j\\) の前の符号は \\(-\\) ではなく \\(+\\) が正しい。\n\n\n\n最後に、 \\(\\partial L/\\partial f_i\\) は最小点で\n\\[\n-\\tau\\sum_j d_j\\lambda_{j,i}^n - (\\phi_i^n - f_i^n) = 0\n\\tag{10}\\]\nとなる。 式 (10) の左辺はコスト函数の強制に対する勾配を表す。"
+  },
+  {
+    "objectID": "index.html#数値最適化",
+    "href": "index.html#数値最適化",
+    "title": "演習: 赤道海洋モデル",
+    "section": "数値最適化",
+    "text": "数値最適化\n勾配を用いて \\(J\\) の最小値を求める。\n\\[\n\\mathbf{x}_k = \\mathbf{x}_{k - 1} + \\alpha\\mathbf{d}\n\\tag{11}\\]\nここで \\(\\mathbf{x}\\) は、最適化する変数を格納した制御ベクトル、 \\(\\mathbf{d}\\) は降下方向、 \\(\\alpha\\) はステップ幅 \\(k\\) は反復回数を表す。\n最もな単純な方法は勾配降下法である。\n\\[\n\\mathbf{x}_k = \\mathbf{x}_{k - 1} - \\alpha\\mathbf{g}\n\\tag{12}\\]\nここで \\(\\mathbf{g}\\) は勾配ベクトル（つまり \\(\\mathbf{d} = -\\mathbf{g}\\) ）である。 反復は、勾配のノルムやコスト函数の値、コストの前のステップからの相対変化などの収束条件に基づいて終了する。\nより洗練された共軛勾配法では、降下方向を次のように更新する。\n\\[\n\\mathbf{d}_k = -\\mathbf{g}_{k-1} + \\beta_k\\mathbf{d}_{k-1}.\n\\tag{13}\\]\n\\(\\beta_k\\) の計算方法にはいくつかある。 ここでは、 Fletcher and Reeves (1964) 公式を使う。\n\\[\n\\beta_k = \\frac{\\mathbf{g}_k^\\mathrm{T}\\mathbf{g}_k}{\\mathbf{g}_{k-1}^\\mathrm{T}\\mathbf{g}_{k-1}}\n\\tag{14}\\]"
+  },
+  {
+    "objectID": "index.html#アンサンブルカルマンフィルタ",
+    "href": "index.html#アンサンブルカルマンフィルタ",
+    "title": "演習: 赤道海洋モデル",
+    "section": "アンサンブルカルマンフィルタ",
+    "text": "アンサンブルカルマンフィルタ\nアンサンブルカルマンフィルタ (EnKF, Evensen 1994) は予報誤差共分散行列をアンサンブル予報から求めた標本共分散で近似する。\n\\[\n\\mathbf{B} \\approx \\frac{1}{K - 1}\\delta\\mathbf{X}\\delta\\mathbf{X}^\\mathrm{T}\n\\tag{15}\\]\nここで \\(\\delta\\mathbf{X}\\) の \\(k\\) 番目の列はアンサンブル摂動 \\(\\mathbf{x}_k - \\bar{\\mathbf{x}}\\) 、 \\(K\\) はアンサンブルの大きさで\n\\[\n\\bar{\\mathbf{x}} = \\frac{1}{K}\\sum_{k=1}^K \\mathbf{x}_k\n\\tag{16}\\]\nはアンサンブル平均である。\nアンサンブル平均の更新式は\n\\[\n\\bar{\\mathbf{x}}^\\mathrm{a} = \\bar{\\mathbf{x}}^\\mathrm{f} + \\mathbf{K}(\\mathbf{y} - \\mathbf{H}\\bar{\\mathbf{x}}^\\mathrm{f})\n\\tag{17}\\]\nで摂動に対しては\n\\[\n\\mathbf{x}^\\mathrm{'a} = \\mathbf{x}^\\mathrm{'f} + \\mathbf{K}(\\mathbf{y}' - \\mathbf{H}\\mathbf{x}^\\mathrm{'f})\n\\tag{18}\\]\nを用いる。 ここで \\(\\mathbf{H}\\) は線型化された観測演算子、 \\(\\mathbf{K}\\) はカルマンゲイン行列\n\\[\n\\mathbf{K} = \\mathbf{BH}^\\mathrm{T}(\\mathbf{HBH}^\\mathrm{T} + \\mathbf{R})^{-1}\n\\]\n\\(\\mathbf{R}\\) は観測誤差共分散行列である。\n式 (18) で \\(\\mathbf{y}'\\) は観測誤差の確率密度分布から乱択し、摂動観測 (PO: perturbed observations, Burgers et al. 1998; Houtekamer and Mitchell 1998) に相当する。\n\n\n\n\n\n\n重要重要\n\n\n\n\nアンサンブルカルマンフィルタに随伴方程式 (9) は不要である。\n予報誤差共分散行列 (15) は流れに依存し、日々の誤差 (the error of the day) を考慮することができる。\n誤差共分散は \\((\\mathbf{I} - \\mathbf{KH})\\) の割合で縮小する。 縮小しすぎると、真の状態がアンサンブルが張る空間に存在しなくなる。 これを防止するために、誤差共分散に乗数を掛けて大きくする（乗法的インフレーション）。\nアンサンブルの大きさは、大抵の場合、状態の次元（自由度）よりも小さいので、誤差共分散行列は階数（ランク）不足である。\n局所化は、標本誤差により生じる偽の相関を減少させるためによく用いられている。\n観測に摂動与えない決定論的な手法が複数存在し、追加の標本誤差を回避している。\n\n\n\n\n\n\n\n\n\nノート初級課題\n\n\n\n\n順行モデルを書き、位相速度 \\(c_f = 0.5\\) で伝播する強制を与えて積分せよ。\n随伴モデルを導出し、時刻 \\(n = 0,\\,16,\\,32\\) における観測から初期状態を推定せよ。\n勾配降下法と共軛勾配法の性能を比較せよ。\n摂動観測アンサンブルカルマンフィルタを実装し、観測を逐次に同化せよ。\n人工的な観測にノイズを与えよ。\n観測頻度と場所を変えてみよ。\n\n\n\n\n\n\n\n\n\nノート中級課題\n\n\n\n\n変分法同化スキームを変更して、全ての時刻における強制を推定せよ。\n（アンサンブル）カルマンスムーザを実装し、結果を変分法と比較せよ。\n自分で選んだモデル（例えば Lorenz-96 モデルやその派生）に対して、変分法あるいはアンサンブルデータ同化コードを構築せよ。"
+  }
+]

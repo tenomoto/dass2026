@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
 <link rel="alternate" hreflang="en" href="https://tenomoto.github.io/dass2026/index.html" />
 <link rel="alternate" hreflang="ja" href="https://tenomoto.github.io/dass2026/ja/index.ja.html" />
 <meta charset="UTF-8">
 <meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Hand-son: Equatorial Ocean Model – dass2026</title>
+<title>演習: 赤道海洋モデル – dass2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -61,17 +61,17 @@ div.csl-indent {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "一致なし",
+    "search-matching-documents-text": "一致した文書",
+    "search-copy-link-title": "検索へのリンクをコピー",
+    "search-hide-matches-text": "追加の検索結果を非表示",
+    "search-more-match-text": "追加の検索結果",
+    "search-more-matches-text": "追加の検索結果",
+    "search-clear-button-title": "消去",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "検索",
+    "search-label": "サーチ"
   }
 }</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
@@ -109,22 +109,22 @@ window.Quarto = {
     <span class="navbar-title">dass2026</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="サーチ"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item"><div class="dropdown" id="languages-links-parent">
-<button class="btn btn-primary dropdown-toggle babelquarto-languages-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="languages-button"><i class="bi bi-globe2"></i> English</button><ul class="dropdown-menu" id="languages-links"><li><a class="dropdown-item" href="https://tenomoto.github.io/dass2026/ja/index.html" id="language-link-ja">日本語</a></li></ul>
+<button class="btn btn-primary dropdown-toggle babelquarto-languages-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="languages-button"><i class="bi bi-globe2"></i> 日本語</button><ul class="dropdown-menu" id="languages-links"><li><a class="dropdown-item" href="https://tenomoto.github.io/dass2026/index.html" id="language-link-en">English</a></li></ul>
 </div></li>
 <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Hand-son: Equatorial Ocean Model</span></a>
+<span class="menu-text">演習: 赤道海洋モデル</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./setup.html"> 
-<span class="menu-text">Getting Started</span></a>
+<span class="menu-text">環境構築</span></a>
   </li>  
 </ul>
 <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -142,19 +142,19 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">目次</h2>
    
   <ul>
-<li><a href="#governing-equations" id="toc-governing-equations" class="nav-link active" data-scroll-target="#governing-equations">Governing equations</a></li>
-  <li><a href="#discretization" id="toc-discretization" class="nav-link" data-scroll-target="#discretization">Discretization</a></li>
-  <li><a href="#lagrangian-method" id="toc-lagrangian-method" class="nav-link" data-scroll-target="#lagrangian-method">Lagrangian method</a></li>
-  <li><a href="#numerical-optimization" id="toc-numerical-optimization" class="nav-link" data-scroll-target="#numerical-optimization">Numerical optimization</a></li>
-  <li><a href="#ensemble-kalman-filter" id="toc-ensemble-kalman-filter" class="nav-link" data-scroll-target="#ensemble-kalman-filter">Ensemble Kalman filter</a></li>
+<li><a href="#%E6%94%AF%E9%85%8D%E6%96%B9%E7%A8%8B%E5%BC%8F" id="toc-支配方程式" class="nav-link active" data-scroll-target="#支配方程式">支配方程式</a></li>
+  <li><a href="#%E9%9B%A2%E6%95%A3%E5%8C%96" id="toc-離散化" class="nav-link" data-scroll-target="#離散化">離散化</a></li>
+  <li><a href="#%E3%83%A9%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B8%E3%83%A5%E3%81%AE%E6%9C%AA%E5%AE%9A%E4%B9%97%E6%95%B0%E6%B3%95" id="toc-ラグランジュの未定乗数法" class="nav-link" data-scroll-target="#ラグランジュの未定乗数法">ラグランジュの未定乗数法</a></li>
+  <li><a href="#%E6%95%B0%E5%80%A4%E6%9C%80%E9%81%A9%E5%8C%96" id="toc-数値最適化" class="nav-link" data-scroll-target="#数値最適化">数値最適化</a></li>
+  <li><a href="#%E3%82%A2%E3%83%B3%E3%82%B5%E3%83%B3%E3%83%96%E3%83%AB%E3%82%AB%E3%83%AB%E3%83%9E%E3%83%B3%E3%83%95%E3%82%A3%E3%83%AB%E3%82%BF" id="toc-アンサンブルカルマンフィルタ" class="nav-link" data-scroll-target="#アンサンブルカルマンフィルタ">アンサンブルカルマンフィルタ</a></li>
   </ul></nav>
 </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Hand-son: Equatorial Ocean Model</h1>
+<h1 class="title">演習: 赤道海洋モデル</h1>
 </div>
 
 
@@ -168,211 +168,212 @@ window.Quarto = {
   
 
 
-</header><p>We learn the basics of data assimilation (DA) using an equatorial ocean model <span class="citation" data-cites="Thacker-Long:1988">(<a href="#ref-Thacker-Long:1988" role="doc-biblioref">Thacker and Long 1988</a>)</span>.</p>
-<section id="governing-equations" class="level2"><h2 class="anchored" data-anchor-id="governing-equations">Governing equations</h2>
-<p>The domain is one-dimensional in the longitudinal direction (<span class="math inline">\(x\)</span>) with a cyclic boundary condition. The model consists of three linear waves. Each wave propagates with a constant phase speed; the model is linear in form.</p>
+</header><p>データ同化の基礎を赤道海洋モデルを学ぶ <span class="citation" data-cites="Thacker-Long:1988">(<a href="#ref-Thacker-Long:1988" role="doc-biblioref">Thacker and Long 1988</a>)</span> 。</p>
+<section id="支配方程式" class="level2"><h2 class="anchored" data-anchor-id="支配方程式">支配方程式</h2>
+<p>領域は経度方向（ <span class="math inline">\(x\)</span> ）に1次元で、周期的境界条件を仮定する。 モデルは三つの線型波動から構成される。 それぞれの波は一定の位相速度で伝播し、次のように線型である。</p>
 <p><span id="eq-governing_equations"><span class="math display">\[
 \frac{\partial q_j}{\partial t} + c_j\frac{\partial q_j}{\partial x} + \sigma q_j = d_j f,\; j = 0,\,2,\,4
 \tag{1}\]</span></span></p>
-<p>The index <span class="math inline">\(j = 0\)</span> represents the Kelvin wave, which propagates eastward with the phase speed of <span class="math inline">\(c_0 = 1\)</span> and a sensitivity to forcing of <span class="math inline">\(d_0 = 1\)</span>. The indices <span class="math inline">\(j = 2, 4\)</span> are the Rossby waves with speeds <span class="math inline">\(c_2 = - c_0/3,\,c_4 = -c_0/7\)</span> and forcing sensitivities <span class="math inline">\(d_2 = 1/2,\,d_4 = 1/8\)</span>, respectively. The damping coefficient <span class="math inline">\(\sigma\)</span> is independent of the wave type.</p>
-<p>The only observable variable is the sea-surface height.</p>
+<p>添字 <span class="math inline">\(j = 0\)</span> ケルビン波で東向きに位相速度 <span class="math inline">\(c_0 = 1\)</span> で伝播し、強制に対する感度は <span class="math inline">\(d_0 = 1\)</span> である。 添字 <span class="math inline">\(j = 2, 4\)</span> のロスビー波は位相速度 <span class="math inline">\(c_2 = - c_0/3,\,c_4 = -c_0/7\)</span> で強制に対する感度はそれぞれ <span class="math inline">\(d_2 = 1/2,\,d_4 = 1/8\)</span> である。 減衰係数 <span class="math inline">\(\sigma\)</span> は波の種類に依存しない。</p>
+<p>観測可能な変数は海面高度だけである。</p>
 <p><span id="eq-observation_operator"><span class="math display">\[
 h = q_0 + q_2 - q_4
 \tag{2}\]</span></span></p>
-</section><section id="discretization" class="level2"><h2 class="anchored" data-anchor-id="discretization">Discretization</h2>
-<p>The governing equations (<a href="#eq-governing_equations" class="quarto-xref">1</a>) are discretized with the Lax-Wendroff method <span class="citation" data-cites="Lax-Wendroff:1960">(<a href="#ref-Lax-Wendroff:1960" role="doc-biblioref">Lax and Wendroff 1960</a>)</span>. This scheme is a single step explicit method of <span class="math inline">\(O(\tau^2)\)</span>, where <span class="math inline">\(\tau\)</span> is the time step. The <span class="math inline">\(O(\tau)\)</span> error in time is elimiated in space. Consider the advection equation</p>
+</section><section id="離散化" class="level2"><h2 class="anchored" data-anchor-id="離散化">離散化</h2>
+<p>支配方程式 (<a href="#eq-governing_equations" class="quarto-xref">1</a>) は <span class="citation" data-cites="Lax-Wendroff:1960">Lax and Wendroff (<a href="#ref-Lax-Wendroff:1960" role="doc-biblioref">1960</a>)</span> 法で離散化する。 このスキームは単段階の陽的解法で、誤差は <span class="math inline">\(O(\tau^2)\)</span> である。 ここで、 <span class="math inline">\(\tau\)</span> は時間ステップを表す。 時間方向に <span class="math inline">\(O(\tau)\)</span> の誤差を空間において打ち消す。 次の移流方程式を考える。</p>
 <p><span id="eq-advection"><span class="math display">\[
 \frac{\partial q}{\partial t} + c\frac{\partial q}{\partial x} = 0,
 \tag{3}\]</span></span></p>
-<p>which is discretized as</p>
+<p>その離散形は</p>
 <p><span id="eq-discretized_advection"><span class="math display">\[
 \frac{q_i^{n+1} - q_i^n}{\tau} + c\frac{q_{i+1}^n - q_{i-1}^n}{2\Delta} =
 \frac{c^2\tau}{2}\left(\frac{q_{i+1}^n - 2q_i^n + q_{i-1}^n}{\Delta^2}\right)
 \tag{4}\]</span></span></p>
-<p>where <span class="math inline">\(i\)</span> is the horizontal index and <span class="math inline">\(\Delta\)</span> is the grid interval.</p>
-<p>The right-hand side of (<a href="#eq-discretized_advection" class="quarto-xref">4</a>) is a discretized form of the truncation error:</p>
+<p>となる。ここで <span class="math inline">\(i\)</span> は水平の格子番号で <span class="math inline">\(\Delta\)</span> は格子間隔である。</p>
+<p>式 (<a href="#eq-discretized_advection" class="quarto-xref">4</a>) の右辺は離散化誤差の離散形である。</p>
 <p><span class="math display">\[
 \frac{\tau}{2}\frac{\partial^2 q}{\partial t^2} = \frac{\tau}{2}\frac{\partial}{\partial t}\left(-c\frac{\partial q}{\partial x}\right) = \frac{c^2\tau}{2}\frac{\partial^2 q}{\partial x^2}.
 \]</span></p>
-<p>Using the Lax-Wendroff method, (<a href="#eq-governing_equations" class="quarto-xref">1</a>) is discretized as</p>
+<p>Lax-Wendroff 法を用いると (<a href="#eq-governing_equations" class="quarto-xref">1</a>) は次のように離散化される。</p>
 <p><span id="eq-forward"><span class="math display">\[
 q_{j, i}^n = \frac{1}{1 + \sigma \tau}\left\{
 q_{j, i}^{n-1} - \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
 + \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j,i}^{n-1} + q_{j, i-1}^{n-1}) + \tau d_j f_i^n
 \right\}
 \tag{5}\]</span></span> where <span class="math inline">\(\gamma_j = c_j\tau/\Delta\)</span>.</p>
-</section><section id="lagrangian-method" class="level2"><h2 class="anchored" data-anchor-id="lagrangian-method">Lagrangian method</h2>
-<p>For simplicity, we assume that observations are available directly on the model grid and observation errors are uncorrelated with one another.</p>
-<p>The cost function can be defined as</p>
+</section><section id="ラグランジュの未定乗数法" class="level2"><h2 class="anchored" data-anchor-id="ラグランジュの未定乗数法">ラグランジュの未定乗数法</h2>
+<p>簡単のため、観測はモデル格子上にあるものとし、観測誤差は互いに無相関とする。</p>
+<p>コスト函数を次のように定義する。</p>
 <p><span id="eq-cost_function"><span class="math display">\[
 J = \frac{1}{2} \sum_{i = 0}^{I} \sum_{n = 0}^N [(\eta_i^n - h_i^n)^2 + (\phi_i^n - f_i^n)^2]
 \tag{6}\]</span></span></p>
-<p>where <span class="math inline">\(\eta_i^n, \phi_i^n\)</span> are observations of sea-surface height and wind stress, respectively, while <span class="math inline">\(h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n\)</span> are their model equivalents.</p>
-<p>The Lagrangian function is defined as</p>
+<p>ここで <span class="math inline">\(\eta_i^n, \phi_i^n\)</span> は海面高度と風応力の観測で、 <span class="math inline">\(h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n\)</span> はそのモデル相当量である。</p>
+<p>ラグランジュ函数を次のように定義する。</p>
 <p><span id="eq-lagrange_function"><span class="math display">\[
 L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
 (1 + \sigma\tau)q_{j, i}^n - q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
 - \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j, i}^{n-1} + q_{j, i-1}^{n-1}) - \tau d_j f_i^n]
 \tag{7}\]</span></span></p>
-<p>where <span class="math inline">\(\lambda_{j,i}^n\)</span> is the Lagrange multiplier (and adjoint variable). The minimum of <span class="math inline">\(J\)</span> is found by the point where the gradients of <span class="math inline">\(L\)</span> with respect to the state, multiplier, and forcing are identically zero.</p>
-<p>The terminal and initial conditions of the adjoint variables are</p>
+<p>ここで <span class="math inline">\(\lambda_{j,i}^n\)</span> はラグランジュの未定乗数（随伴変数）である。 <span class="math inline">\(J\)</span> の最小値は <span class="math inline">\(L\)</span> の状態、未定乗数及び強制に対する勾配が同時に0になる点である。</p>
+<p>随伴変数の終端及び初期条件は次のとおりである。</p>
 <p><span id="eq-adjoint-bc"><span class="math display">\[
 \begin{aligned}
 \lambda_{j,i}^{N+1} &amp;= 0 \\
 \lambda_{j,i}^0 &amp;= 0.
 \end{aligned}
 \tag{8}\]</span></span></p>
-<p>The terminal condition indicates that at the future step <span class="math inline">\(n = N+1\)</span>, the adjoint variable is zero. The initial condition is satisfied at the minimizer; it represents the negative gradient used for optimization.</p>
-<p><span class="math inline">\(\partial L/\partial \lambda_{j,i}^n\)</span> recovers the forward model (<a href="#eq-forward" class="quarto-xref">5</a>). <span class="math inline">\(\partial L/\partial q_{j,i}^n\)</span> leads to the adjoint equation</p>
+<p>終端条件は未来の時刻 <span class="math inline">\(n = N+1\)</span> で随伴変数が0であることを表す。 初期条件は最小となる点で満たされ、最適化に使われる負の勾配を表す。</p>
+<p><span class="math inline">\(\partial L/\partial \lambda_{j,i}^n\)</span> から順行モデル (<a href="#eq-forward" class="quarto-xref">5</a>) が復元され、 <span class="math inline">\(\partial L/\partial q_{j,i}^n\)</span> から随伴方程式が得られる。</p>
 <p><span id="eq-adjoint"><span class="math display">\[
 \lambda_{j, i}^n = \frac{1}{1 + \sigma \tau}\left\{
 \lambda_{j, i}^{n+1} - \frac{1}{2}\gamma_j(\lambda_{j, i-1}^{n+1} - \lambda_{j, i+1}^{n+1})
 + \frac{1}{2}\gamma_j^2(\lambda_{j,i-1}^{n+1} - 2\lambda_{j,i}^{n+1} + \lambda_{j, i+1}^{n+1})
 + \varepsilon_j(\eta_i^n - q_{0,i}^n - q_{2,i}^n + q_{4,i}^n)\right\}
 \tag{9}\]</span></span></p>
-<p>where <span class="math inline">\(\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1\)</span>. The last term on the right-hand side is present only at the step where observations are available.</p>
-<div class="callout callout-style-default callout-important callout-titled">
+<p>ここで <span class="math inline">\(\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1\)</span> である。 右辺の最後の項は観測が得られる時刻にのみ存在する。</p>
+<div class="callout callout-style-default callout-important callout-titled" title="重要">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+<span class="screen-reader-only">重要</span>重要
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>The adjoint equations (<a href="#eq-adjoint" class="quarto-xref">9</a>) are derived simply by differentiating <span class="math inline">\(L\)</span> (<a href="#eq-lagrange_function" class="quarto-xref">7</a>) with respect to the state <span class="math inline">\(q_{j,i}^n\)</span>, without requiring the knowledge on adjoint operator.</li>
-<li>The adjoint variables accumulate the misfit (innovation) between observations and the model equivalents, propagating them backward in time to the initial state.</li>
-<li>The adjoint equations (<a href="#eq-adjoint" class="quarto-xref">9</a>) are linear with respect to the adjoint variables.</li>
+<li>随伴方程式 (<a href="#eq-adjoint" class="quarto-xref">9</a>) は <span class="math inline">\(L\)</span> (<a href="#eq-lagrange_function" class="quarto-xref">7</a>) を状態 <span class="math inline">\(q_{j,i}^n\)</span> について微分するだけで得られ、随伴演算子の知識を必要としない。</li>
+<li>随伴変数は観測とモデル相当量とのずれ（イノベーション）を時間逆方向に蓄積する。</li>
+<li>随伴方程式は (<a href="#eq-adjoint" class="quarto-xref">9</a>) 随伴変数について線型である。</li>
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout callout-style-default callout-warning callout-titled" title="注意">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+<span class="screen-reader-only">警告</span>注意
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Whether <span class="math inline">\(\lambda\)</span> represents the gradient or the negative gradient depends on the sign preceding the multiplier, which is a matter of convention.</li>
-<li>Note a minor but critical typo in (10d) of <span class="citation" data-cites="Thacker-Long:1988">Thacker and Long (<a href="#ref-Thacker-Long:1988" role="doc-biblioref">1988</a>)</span>: The sign preceding <span class="math inline">\(\epsilon_j\)</span> should be <span class="math inline">\(-\)</span> rather than <span class="math inline">\(+\)</span>.</li>
+<li>
+<span class="math inline">\(\lambda\)</span> が勾配を表すか、負の勾配を表すかは、未定乗数の前の符号次第で、規約の問題である。</li>
+<li>小さいが致命的なタイプミス <span class="citation" data-cites="Thacker-Long:1988">Thacker and Long (<a href="#ref-Thacker-Long:1988" role="doc-biblioref">1988</a>)</span> の(10d)にあることに注意。 <span class="math inline">\(\epsilon_j\)</span> の前の符号は <span class="math inline">\(-\)</span> ではなく <span class="math inline">\(+\)</span> が正しい。</li>
 </ul>
 </div>
 </div>
-<p>Finally, <span class="math inline">\(\partial L/\partial f_i\)</span> yields</p>
+<p>最後に、 <span class="math inline">\(\partial L/\partial f_i\)</span> は最小点で</p>
 <p><span id="eq-forcing_gradients"><span class="math display">\[
 -\tau\sum_j d_j\lambda_{j,i}^n - (\phi_i^n - f_i^n) = 0
 \tag{10}\]</span></span></p>
-<p>at the minimizer. The left-hand side of (<a href="#eq-forcing_gradients" class="quarto-xref">10</a>) represents the gradient of the cost function with respect to forcing.</p>
-</section><section id="numerical-optimization" class="level2"><h2 class="anchored" data-anchor-id="numerical-optimization">Numerical optimization</h2>
-<p>The gradients are used to find the minimum of <span class="math inline">\(J\)</span>.</p>
+<p>となる。 式 (<a href="#eq-forcing_gradients" class="quarto-xref">10</a>) の左辺はコスト函数の強制に対する勾配を表す。</p>
+</section><section id="数値最適化" class="level2"><h2 class="anchored" data-anchor-id="数値最適化">数値最適化</h2>
+<p>勾配を用いて <span class="math inline">\(J\)</span> の最小値を求める。</p>
 <p><span id="eq-optimization"><span class="math display">\[
 \mathbf{x}_k = \mathbf{x}_{k - 1} + \alpha\mathbf{d}
 \tag{11}\]</span></span></p>
-<p>where <span class="math inline">\(\mathbf{x}\)</span> represents the control vector containing the variables to be optimized, <span class="math inline">\(\mathbf{d}\)</span> is the descent direction, <span class="math inline">\(\alpha\)</span> is the step size and <span class="math inline">\(k\)</span> is the number of iteration.</p>
-<p>The simplest approach is the gradient descent method</p>
+<p>ここで <span class="math inline">\(\mathbf{x}\)</span> は、最適化する変数を格納した制御ベクトル、 <span class="math inline">\(\mathbf{d}\)</span> は降下方向、 <span class="math inline">\(\alpha\)</span> はステップ幅 <span class="math inline">\(k\)</span> は反復回数を表す。</p>
+<p>最もな単純な方法は勾配降下法である。</p>
 <p><span id="eq-gradient_descent"><span class="math display">\[
 \mathbf{x}_k = \mathbf{x}_{k - 1} - \alpha\mathbf{g}
 \tag{12}\]</span></span></p>
-<p>where <span class="math inline">\(\mathbf{g}\)</span> is the gradient vector (i.e., <span class="math inline">\(\mathbf{d} = -\mathbf{g}\)</span>). Iterations are terminated based on convergence criteria such as the norm of the gradient, the cost function value or the relative change in cost from the previous step.</p>
-<p>A more sophisticated approach is the conjugate gradient method, where the descent direction is updated by</p>
+<p>ここで <span class="math inline">\(\mathbf{g}\)</span> は勾配ベクトル（つまり <span class="math inline">\(\mathbf{d} = -\mathbf{g}\)</span> ）である。 反復は、勾配のノルムやコスト函数の値、コストの前のステップからの相対変化などの収束条件に基づいて終了する。</p>
+<p>より洗練された共軛勾配法では、降下方向を次のように更新する。</p>
 <p><span id="eq-conjugate_gradient"><span class="math display">\[
 \mathbf{d}_k = -\mathbf{g}_{k-1} + \beta_k\mathbf{d}_{k-1}.
 \tag{13}\]</span></span></p>
-<p>Several formulae exist to compute <span class="math inline">\(\beta_k\)</span>. Here, the <span class="citation" data-cites="Fletcher-Reeves:1964">Fletcher and Reeves (<a href="#ref-Fletcher-Reeves:1964" role="doc-biblioref">1964</a>)</span> formula is used:</p>
+<p><span class="math inline">\(\beta_k\)</span> の計算方法にはいくつかある。 ここでは、 <span class="citation" data-cites="Fletcher-Reeves:1964">Fletcher and Reeves (<a href="#ref-Fletcher-Reeves:1964" role="doc-biblioref">1964</a>)</span> 公式を使う。</p>
 <p><span id="eq-Fletcher_Reeves"><span class="math display">\[
 \beta_k = \frac{\mathbf{g}_k^\mathrm{T}\mathbf{g}_k}{\mathbf{g}_{k-1}^\mathrm{T}\mathbf{g}_{k-1}}
 \tag{14}\]</span></span></p>
-</section><section id="ensemble-kalman-filter" class="level2"><h2 class="anchored" data-anchor-id="ensemble-kalman-filter">Ensemble Kalman filter</h2>
-<p>The ensemble Kalman filter <span class="citation" data-cites="Evensen:1994">(EnKF, <a href="#ref-Evensen:1994" role="doc-biblioref">Evensen 1994</a>)</span> approximates the forecast error covariance matrix using the sample covariance from an ensemble forecast:</p>
+</section><section id="アンサンブルカルマンフィルタ" class="level2"><h2 class="anchored" data-anchor-id="アンサンブルカルマンフィルタ">アンサンブルカルマンフィルタ</h2>
+<p>アンサンブルカルマンフィルタ <span class="citation" data-cites="Evensen:1994">(EnKF, <a href="#ref-Evensen:1994" role="doc-biblioref">Evensen 1994</a>)</span> は予報誤差共分散行列をアンサンブル予報から求めた標本共分散で近似する。</p>
 <p><span id="eq-bmat"><span class="math display">\[
 \mathbf{B} \approx \frac{1}{K - 1}\delta\mathbf{X}\delta\mathbf{X}^\mathrm{T}
 \tag{15}\]</span></span></p>
-<p>where the <span class="math inline">\(k\)</span>-th column of <span class="math inline">\(\delta\mathbf{X}\)</span> is the ensemble perturbation <span class="math inline">\(\mathbf{x}_k - \bar{\mathbf{x}}\)</span>, <span class="math inline">\(K\)</span> is the ensemble size and</p>
+<p>ここで <span class="math inline">\(\delta\mathbf{X}\)</span> の <span class="math inline">\(k\)</span> 番目の列はアンサンブル摂動 <span class="math inline">\(\mathbf{x}_k - \bar{\mathbf{x}}\)</span> 、 <span class="math inline">\(K\)</span> はアンサンブルの大きさで</p>
 <p><span id="eq-ensemble_mean"><span class="math display">\[
 \bar{\mathbf{x}} = \frac{1}{K}\sum_{k=1}^K \mathbf{x}_k
 \tag{16}\]</span></span></p>
-<p>is the ensemble mean.</p>
-<p>The update equation for the ensemble mean is</p>
+<p>はアンサンブル平均である。</p>
+<p>アンサンブル平均の更新式は</p>
 <p><span id="eq-update_mean"><span class="math display">\[
 \bar{\mathbf{x}}^\mathrm{a} = \bar{\mathbf{x}}^\mathrm{f} + \mathbf{K}(\mathbf{y} - \mathbf{H}\bar{\mathbf{x}}^\mathrm{f})
 \tag{17}\]</span></span></p>
-<p>and for perturbations is</p>
+<p>で摂動に対しては</p>
 <p><span id="eq-update_pert"><span class="math display">\[
 \mathbf{x}^\mathrm{'a} = \mathbf{x}^\mathrm{'f} + \mathbf{K}(\mathbf{y}' - \mathbf{H}\mathbf{x}^\mathrm{'f})
 \tag{18}\]</span></span></p>
-<p>where <span class="math inline">\(\mathbf{H}\)</span> is the linearized observation operator, <span class="math inline">\(\mathbf{K}\)</span> is the Kalman gain matrix</p>
+<p>を用いる。 ここで <span class="math inline">\(\mathbf{H}\)</span> は線型化された観測演算子、 <span class="math inline">\(\mathbf{K}\)</span> はカルマンゲイン行列</p>
 <p><span class="math display">\[
 \mathbf{K} = \mathbf{BH}^\mathrm{T}(\mathbf{HBH}^\mathrm{T} + \mathbf{R})^{-1}
 \]</span></p>
-<p>and <span class="math inline">\(\mathbf{R}\)</span> is the observation error covariance matrix.</p>
-<p>In (<a href="#eq-update_pert" class="quarto-xref">18</a>), <span class="math inline">\(\mathbf{y}'\)</span> is randomly drawn from the probability density distribution of the observation error, correspoinding to the perturbed observations <span class="citation" data-cites="Burgers-etal:1998 Houtekamer-Mitchell:1998">(PO, <a href="#ref-Burgers-etal:1998" role="doc-biblioref">Burgers et al. 1998</a>; <a href="#ref-Houtekamer-Mitchell:1998" role="doc-biblioref">Houtekamer and Mitchell 1998</a>)</span>.</p>
-<div class="callout callout-style-default callout-important callout-titled">
+<p><span class="math inline">\(\mathbf{R}\)</span> は観測誤差共分散行列である。</p>
+<p>式 (<a href="#eq-update_pert" class="quarto-xref">18</a>) で <span class="math inline">\(\mathbf{y}'\)</span> は観測誤差の確率密度分布から乱択し、摂動観測 <span class="citation" data-cites="Burgers-etal:1998 Houtekamer-Mitchell:1998">(PO: perturbed observations, <a href="#ref-Burgers-etal:1998" role="doc-biblioref">Burgers et al. 1998</a>; <a href="#ref-Houtekamer-Mitchell:1998" role="doc-biblioref">Houtekamer and Mitchell 1998</a>)</span> に相当する。</p>
+<div class="callout callout-style-default callout-important callout-titled" title="重要">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+<span class="screen-reader-only">重要</span>重要
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>The EnKF does not require the adjoint equations (<a href="#eq-adjoint" class="quarto-xref">9</a>).</li>
-<li>The forecast error covariance matrix (<a href="#eq-bmat" class="quarto-xref">15</a>) is flow-dependent and can incorporate the ``the error of the day’’.</li>
-<li>The error covariance matrix shrinks by <span class="math inline">\((\mathbf{I} - \mathbf{KH})\)</span>. If it shrinks too much, the true state may no longer lie within the space spanned by the ensemble. To prevent this the error covariance matrix is scaled up by a multiplicative factor (multiplicative inflation).</li>
-<li>The ensemble size is typically much smaller than the state dimension (degrees of freedom), making the error covariance rank-deficient.</li>
-<li>Localization is often required to reduce spurious correlations caused by sampling errors.</li>
-<li>Several deterministic alternatives exist that does not perturb observations, thereby avoiding additional sampling noise</li>
+<li>アンサンブルカルマンフィルタに随伴方程式 (<a href="#eq-adjoint" class="quarto-xref">9</a>) は不要である。</li>
+<li>予報誤差共分散行列 (<a href="#eq-bmat" class="quarto-xref">15</a>) は流れに依存し、日々の誤差 (the error of the day) を考慮することができる。</li>
+<li>誤差共分散は <span class="math inline">\((\mathbf{I} - \mathbf{KH})\)</span> の割合で縮小する。 縮小しすぎると、真の状態がアンサンブルが張る空間に存在しなくなる。 これを防止するために、誤差共分散に乗数を掛けて大きくする（乗法的インフレーション）。</li>
+<li>アンサンブルの大きさは、大抵の場合、状態の次元（自由度）よりも小さいので、誤差共分散行列は階数（ランク）不足である。</li>
+<li>局所化は、標本誤差により生じる偽の相関を減少させるためによく用いられている。</li>
+<li>観測に摂動与えない決定論的な手法が複数存在し、追加の標本誤差を回避している。</li>
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Excercises for beginners">
+<div class="callout callout-style-default callout-note callout-titled" title="初級課題">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Excercises for beginners
+<span class="screen-reader-only">ノート</span>初級課題
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Write the forward model and run it with a prescribed two-cycle forcing migrating with <span class="math inline">\(c_f = 0.5\)</span>.</li>
-<li>Derive the adjoint model and estimate the initial state with the observations at <span class="math inline">\(n = 0,\,16,\,32\)</span>.</li>
-<li>Compare the performance of the gradient descent and conjugate gradient methods.</li>
-<li>Implement a perturbed observation (PO) ensemble Kalman filter (EnKF) to assimilate observations sequentially.</li>
-<li>Add noise to the synthetic observations.</li>
-<li>Vary the observation frequency and locations.</li>
+<li>順行モデルを書き、位相速度 <span class="math inline">\(c_f = 0.5\)</span> で伝播する強制を与えて積分せよ。</li>
+<li>随伴モデルを導出し、時刻 <span class="math inline">\(n = 0,\,16,\,32\)</span> における観測から初期状態を推定せよ。</li>
+<li>勾配降下法と共軛勾配法の性能を比較せよ。</li>
+<li>摂動観測アンサンブルカルマンフィルタを実装し、観測を逐次に同化せよ。</li>
+<li>人工的な観測にノイズを与えよ。</li>
+<li>観測頻度と場所を変えてみよ。</li>
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Excercises for intermediate users">
+<div class="callout callout-style-default callout-note callout-titled" title="中級課題">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Excercises for intermediate users
+<span class="screen-reader-only">ノート</span>中級課題
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Modify the variational assimilation scheme to estimate the forcing at across all time steps.</li>
-<li>Implement (ensemble) Kalman smoother and compare its results with the variational approach.</li>
-<li>Develop a variational or ensemble data assimilation code for a model of your choice (e.g. the Lorenz-96 model or its variants).</li>
+<li>変分法同化スキームを変更して、全ての時刻における強制を推定せよ。</li>
+<li>（アンサンブル）カルマンスムーザを実装し、結果を変分法と比較せよ。</li>
+<li>自分で選んだモデル（例えば Lorenz-96 モデルやその派生）に対して、変分法あるいはアンサンブルデータ同化コードを構築せよ。</li>
 </ul>
 </div>
 </div>
 
 
 
-</section><div id="quarto-appendix"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2>
+</section><div id="quarto-appendix"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">参考文献</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Burgers-etal:1998" class="csl-entry" role="listitem">
 Burgers, G., P. J. van Leeuwen, and G. Evensen, 1998: Analysis scheme in the ensemble <span>Kalman</span> filter. <em>Monthly Weather Review</em>, <strong>126</strong>, 1719–1724, <a href="https://doi.org/10.1175/1520-0493(1998)126<1719:ASITEK>2.0.CO;2">10.1175/1520-0493(1998)126&lt;1719:ASITEK&gt;2.0.CO;2</a>.
@@ -417,12 +418,12 @@ Thacker, W. C., and R. B. Long, 1988: Fitting dynamics to data. <em>J. Geophys. 
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "コピーしました");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "コピーしました");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
@@ -465,7 +466,7 @@ Thacker, W. C., and R. B. Long, 1988: Fitting dynamics to data. <em>J. Geophys. 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tenomoto\.github\.io\/dass2026\/ja");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

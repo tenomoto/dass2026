@@ -1,5 +1,5 @@
 ---
-title: "Handson: equatorial ocean model"
+title: "Hand-son: Equatorial Ocean Model"
 ---
 
 We learn the basics of data assimilation (DA) using an equatorial ocean model [@Thacker-Long:1988].
@@ -8,17 +8,17 @@ We learn the basics of data assimilation (DA) using an equatorial ocean model [@
 
 The domain is one-dimensional in the longitudinal direction ($x$) with a cyclic boundary condition.
 The model consists of three linear waves.
-Each wave propagates with a constant wave speed; the model is linear of form.
+Each wave propagates with a constant phase speed; the model is linear in form.
 
 $$
 \frac{\partial q_j}{\partial t} + c_j\frac{\partial q_j}{\partial x} + \sigma q_j = d_j f,\; j = 0,\,2,\,4
 $$ {#eq-governing_equations}
 
-The index $j = 0$  represents the Kelvin wave, which propagates eastward with the phase speed of $c_0 = 1$ and the sensitivity to forcing of $d_j = 1$.
-The indices $j = 2, 4$ are the Rossby waves with $c_2 = - c_0/3,\,c_4 = -c_0/7$ and $d_2 = 1/2,\,d_4 = 1/8$, respectively.
-The damping coefficient $\sigma$ is independent of the wave types.
+The index $j = 0$ represents the Kelvin wave, which propagates eastward with the phase speed of $c_0 = 1$ and a sensitivity to forcing of $d_0 = 1$.
+The indices $j = 2, 4$ are the Rossby waves with speeds $c_2 = - c_0/3,\,c_4 = -c_0/7$ and forcing sensitivities $d_2 = 1/2,\,d_4 = 1/8$, respectively.
+The damping coefficient $\sigma$ is independent of the wave type.
 
-The only observable is the sea-surface height.
+The only observable variable is the sea-surface height.
 
 $$
 h = q_0 + q_2 - q_4
@@ -26,10 +26,10 @@ $$ {#eq-observation_operator}
 
 ## Discretization
 
-The governing equations (@eq-governing_equations) is discretized with the Lax-Wendroff method [@Lax-Wendroff:1960].
-This scheme is a single step and explicit method of $O(\tau^2)$, where $\tau$ is the time step.
+The governing equations (@eq-governing_equations) are discretized with the Lax-Wendroff method [@Lax-Wendroff:1960].
+This scheme is a single step explicit method of $O(\tau^2)$, where $\tau$ is the time step.
 The $O(\tau)$ error in time is elimiated in space.
-Consider advection equation
+Consider the advection equation
 
 $$
 \frac{\partial q}{\partial t} + c\frac{\partial q}{\partial x} = 0,
@@ -42,9 +42,9 @@ $$
 \frac{c^2\tau}{2}\left(\frac{q_{i+1}^n - 2q_i^n + q_{i-1}^n}{\Delta^2}\right)
 $$ {#eq-discretized_advection}
 
-where $i$ is the horizonal index and $\Delta$ is the grid interval.
+where $i$ is the horizontal index and $\Delta$ is the grid interval.
 
-The right-hand side of (@eq-discretized_advection) is a discretized form of the trunction error
+The right-hand side of (@eq-discretized_advection) is a discretized form of the truncation error:
 
 $$
 \frac{\tau}{2}\frac{\partial^2 q}{\partial t^2} = \frac{\tau}{2}\frac{\partial}{\partial t}\left(-c\frac{\partial q}{\partial x}\right) = \frac{c^2\tau}{2}\frac{\partial^2 q}{\partial x^2}.
@@ -62,7 +62,7 @@ where $\gamma_j = c_j\tau/\Delta$.
 
 ## Lagrangian method
 
-For simplicity, it is assumed that observations are available on the model grid and observations are uncorrelated one another.
+For simplicity, we assume that observations are available directly on the model grid and observation errors are uncorrelated with one another.
 
 The cost function can be defined as
 
@@ -70,21 +70,21 @@ $$
 J = \frac{1}{2} \sum_{i = 0}^{I} \sum_{n = 0}^N [(\eta_i^n - h_i^n)^2 + (\phi_i^n - f_i^n)^2]
 $$ {#eq-cost_function}
 
-where $\eta_i^n, \phi_i^n$ are sea-surface height and wind stress observations and
-$h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n$ are their model equivalents, respectively.
+where $\eta_i^n, \phi_i^n$ are observations of sea-surface height and wind stress, respectively, while
+$h_i^n = q_{0,i}^n + q_{2,i}^n - q_{4,i}^n, f_i^n$ are their model equivalents.
 
 The Lagrangian function is defined as
 
 $$
 L = J + \sum_{j = 0}^{2, 4} \sum_{i = 0}^I \sum_{n=1}^N \lambda_{j, i}^n[
-(1 + \sigma\tau)q_{j, i}^n - q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i}^{n-1})
+(1 + \sigma\tau)q_{j, i}^n - q_{j, i}^{n-1} + \frac{1}{2}\gamma_j(q_{j, i+1}^{n-1} - q_{j, i-1}^{n-1})
 - \frac{1}{2}\gamma_j^2(q_{j,i+1}^{n-1} - 2q_{j, i}^{n-1} + q_{j, i-1}^{n-1}) - \tau d_j f_i^n]
 $$ {#eq-lagrange_function}
 
 where $\lambda_{j,i}^n$ is the Lagrange multiplier (and adjoint variable).
 The minimum of $J$ is found by the point where the gradients of $L$ with respect to the state, multiplier, and forcing are identically zero.
 
-The terminal and initial conditions of the adjoint are
+The terminal and initial conditions of the adjoint variables are
 
 $$
 \begin{aligned}
@@ -93,8 +93,8 @@ $$
 \end{aligned}
 $$ {#eq-adjoint-bc}
 
-The terminal condition indicates at the future step $n = N+1$, the adjoint is naught.
-The initial condition is fulfilled at the minimizer; it is the negative gradient, used for optimization.
+The terminal condition indicates that at the future step $n = N+1$, the adjoint variable is zero.
+The initial condition is satisfied at the minimizer; it represents the negative gradient used for optimization.
 
 $\partial L/\partial \lambda_{j,i}^n$ recovers the forward model (@eq-forward).
 $\partial L/\partial q_{j,i}^n$ leads to the adjoint equation
@@ -107,26 +107,28 @@ $$
 $$ {#eq-adjoint}
 
 where $\varepsilon_0 = \varepsilon_2 = 1, \varepsilon_4 = -1$.
-The last term on the right-hand side exist at the step where the observations are available.
+The last term on the right-hand side is present only at the step where observations are available.
 
 ::: {.callout-important}
 - The adjoint equations (@eq-adjoint) are derived simply by differentiating $L$ (@eq-lagrange_function) with respect to the state $q_{j,i}^n$, without requiring the knowledge on adjoint operator.
-- The adjoint variables accumulates the misfit (innovation) between the data and the model equivalents and propagate backward to the initial time.
-- The adjoint equations (@eq-adjoint) are linear in the adjoint variables.
+- The adjoint variables accumulate the misfit (innovation) between observations and the model equivalents, propagating them backward in time to the initial state.
+- The adjoint equations (@eq-adjoint) are linear with respect to the adjoint variables.
 :::
 
 ::: {.callout-warning}
-- Whether $\lambda$ represents the gradient or the negative gradient depends on the sign preceeding the multiplier, which is a matter of convention.
-- Note a tiny but critical error in (10d) of @Thacker-Long:1988.
-  The sign preceeding $\epsilon_j$ should be $-$ rather than $+$.
+- Whether $\lambda$ represents the gradient or the negative gradient depends on the sign preceding the multiplier, which is a matter of convention.
+- Note a minor but critical typo in (10d) of @Thacker-Long:1988:
+  The sign preceding $\epsilon_j$ should be $-$ rather than $+$.
 :::
 
-Finally, $\partial L/\partial f_i$ gives
+Finally, $\partial L/\partial f_i$ yields
+
 $$
 -\tau\sum_j d_j\lambda_{j,i}^n - (\phi_i^n - f_i^n) = 0
 $$ {#eq-forcing_gradients}
+
 at the minimizer.
-The left-hand side of (@eq-forcing_gradients) represents the gradient with respect to forcing.
+The left-hand side of (@eq-forcing_gradients) represents the gradient of the cost function with respect to forcing.
 
 ## Numerical optimization
 
@@ -139,24 +141,23 @@ $$ {#eq-optimization}
 where $\mathbf{x}$ represents the control vector containing the variables to be optimized,
 $\mathbf{d}$ is the descent direction, $\alpha$ is the step size and $k$ is the number of iteration.
  
-The most na\"ive approach is the gradient descent method
+The simplest approach is the gradient descent method
 
 $$
 \mathbf{x}_k = \mathbf{x}_{k - 1} - \alpha\mathbf{g}
 $$ {#eq-gradient_descent}
 
-$\mathbf{g}$ is the gradient vector, i.e., $\mathbf{d} = -\mathbf{g}$.
-The iteration is terminated by criteria such as the gradient norm, cost or its change from the previous step.
+where $\mathbf{g}$ is the gradient vector (i.e., $\mathbf{d} = -\mathbf{g}$).
+Iterations are terminated based on convergence criteria such as the norm of the gradient, the cost function value or the relative change in cost from the previous step.
 
-One of the more sophisticated approaches is the conjugate gradient method.
-The descent direction, distinct from the gradient, is updated by
+A more sophisticated approach is the conjugate gradient method, where the descent direction is updated by
 
 $$
 \mathbf{d}_k = -\mathbf{g}_{k-1} + \beta_k\mathbf{d}_{k-1}.
 $$ {#eq-conjugate_gradient}
 
-Several formula have been proposed to compute $\beta_k$.
-Here, the following form is used [@Fletcher-Reeves:1964].
+Several formulae exist to compute $\beta_k$.
+Here, the @Fletcher-Reeves:1964 formula is used:
 
 $$
 \beta_k = \frac{\mathbf{g}_k^\mathrm{T}\mathbf{g}_k}{\mathbf{g}_{k-1}^\mathrm{T}\mathbf{g}_{k-1}}
@@ -164,7 +165,7 @@ $$ {#eq-Fletcher_Reeves}
 
 ## Ensemble Kalman filter
 
-The ensemble Kalman filter [EnKF, @Evensen:1994] approximates the forecast error covariance using the sample covariance of an ensemble forecast
+The ensemble Kalman filter [EnKF, @Evensen:1994] approximates the forecast error covariance matrix using the sample covariance from an ensemble forecast:
 
 $$
 \mathbf{B} \approx \frac{1}{K - 1}\delta\mathbf{X}\delta\mathbf{X}^\mathrm{T}
@@ -178,19 +179,19 @@ $$ {#eq-ensemble_mean}
 
 is the ensemble mean.
 
-The update for the ensemble mean is
+The update equation for the ensemble mean is
 
 $$
 \bar{\mathbf{x}}^\mathrm{a} = \bar{\mathbf{x}}^\mathrm{f} + \mathbf{K}(\mathbf{y} - \mathbf{H}\bar{\mathbf{x}}^\mathrm{f})
 $$ {#eq-update_mean}
 
-and that for perturbation is
+and for perturbations is
 
 $$
 \mathbf{x}^\mathrm{'a} = \mathbf{x}^\mathrm{'f} + \mathbf{K}(\mathbf{y}' - \mathbf{H}\mathbf{x}^\mathrm{'f})
 $$ {#eq-update_pert}
 
-where $\mathbf{H}$ is the linearized observation operator, $\mathbf{K}$ is the Kalman gain
+where $\mathbf{H}$ is the linearized observation operator, $\mathbf{K}$ is the Kalman gain matrix
 
 $$
 \mathbf{K} = \mathbf{BH}^\mathrm{T}(\mathbf{HBH}^\mathrm{T} + \mathbf{R})^{-1}
@@ -198,29 +199,29 @@ $$
 
 and $\mathbf{R}$ is the observation error covariance matrix.
 
-In (@eq-update_pert), $\mathbf{y}'$ is randomly drawn from the probability density distribution of the observation error, i.e., the pertubed observations [PO, @Burgers-etal:1998;@Houtekamer-Mitchell:1998].
+In (@eq-update_pert), $\mathbf{y}'$ is randomly drawn from the probability density distribution of the observation error, correspoinding to the perturbed observations [PO, @Burgers-etal:1998;@Houtekamer-Mitchell:1998].
 
 ::: {.callout-important}
-- EnKF does not requre the adjoint equations (@eq-adjoint).
-- The forecast error covariance matrix (@eq-bmat) is flow-dependent and can incorporate the `the error of the day'.
-- The analysis forecast error covariance matrix shrinks by $(\mathbf{I} - \mathbf{KB})$. If it shrinks too much, the true state will not be within the space spanned by the ensemble. Here the analysis forecast error covariance matrix is increased by a multiplicative factor (multiplicative inflation).
-- The ensemble size is much smaller than the degree of freedom of the state, i.e., the forecast error covariance is rank deficient.
-- Localization is often required to reduce psedo correlation due to sampling errors.
-- A number of deteministic alternatives have been proposed that does not perburb observations to avoid introduction of additional sampling errors.
+- The EnKF does not require the adjoint equations (@eq-adjoint).
+- The forecast error covariance matrix (@eq-bmat) is flow-dependent and can incorporate the ``the error of the day''.
+- The error covariance matrix shrinks by $(\mathbf{I} - \mathbf{KH})$. If it shrinks too much, the true state may no longer lie within the space spanned by the ensemble. To prevent this the error covariance matrix is scaled up by a multiplicative factor (multiplicative inflation).
+- The ensemble size is typically much smaller than the state dimension (degrees of freedom), making the error covariance rank-deficient.
+- Localization is often required to reduce spurious correlations caused by sampling errors.
+- Several deterministic alternatives exist that does not perturb observations, thereby avoiding additional sampling noise
 :::
 
-::: {.callout-note title = "Excercises for beginners"}
-- Write the forward model and run the model with a prescribed two-cycle forcing migrating with $c_f = 0.5$.
+::: {.callout-note title="Excercises for beginners"}
+- Write the forward model and run it with a prescribed two-cycle forcing migrating with $c_f = 0.5$.
 - Derive the adjoint model and estimate the initial state with the observations at $n = 0,\,16,\,32$.
-- Compare the gradient descent and conjugate gradient methods.
-- Write an perturbed observation (PO) ensemble Kalman filter (EnKF) to assimilate observation sequentially.
-- Add noise to the observations.
-- Change the obsertion frequency and locations.
+- Compare the performance of the gradient descent and conjugate gradient methods.
+- Implement a perturbed observation (PO) ensemble Kalman filter (EnKF) to assimilate observations sequentially.
+- Add noise to the synthetic observations.
+- Vary the observation frequency and locations.
 :::
 
-::: {.callout-note title = "Excercises for intermediates"}
-- Modify the variational method to estimate the forcing at all steps.
-- Write (ensemble) Kalman smoother and compare with the variational method.
-- Write a variational or ensemble data assimilation code for your favourite model, e.g. the Lorenz-96 model and its variants.
+::: {.callout-note title="Excercises for intermediate users"}
+- Modify the variational assimilation scheme to estimate the forcing at across all time steps.
+- Implement (ensemble) Kalman smoother and compare its results with the variational approach.
+- Develop a variational or ensemble data assimilation code for a model of your choice (e.g. the Lorenz-96 model or its variants).
 :::
 

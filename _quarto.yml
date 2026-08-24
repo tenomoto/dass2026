@@ -8,8 +8,10 @@ website:
     search: true
     left:
       - href: index.qmd
-        text: "ホーム"
       - setup.qmd
+    right:
+      - icon: github
+        href: https://github.com/tenomoto/dass2026
 
 appendix-style: plain
 
@@ -19,8 +21,18 @@ csl: american-meteorological-society.csl
 format:
   html:
     theme: cosmo
-    css: styles.css
     toc: true
 
 crossref:
   eq-prefix: ""
+
+babelquarto:
+  languagelinks: navbar
+  languagecodes:
+  - name: ja
+    text: "日本語"
+  - name: en
+    text: "English"
+  mainlanguage: 'en'
+  languages: ['ja']
+lang: en
