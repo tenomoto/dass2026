@@ -36,7 +36,7 @@ def adjoint(dh, ds = None):
     p0 = np.zeros(imax) # tmax + 1
     p2 = np.zeros(imax)
     p4 = np.zeros(imax)
-    if ds is None:
+    if ds is not None:
         ps = np.zeros([tmax, imax]) 
     for n in range(tmax)[::-1]:
         p0 = eo.adjoint(p0, dh[n, :], sgm, gma0, eps0, tau)
